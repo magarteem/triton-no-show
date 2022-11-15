@@ -29,8 +29,6 @@ export const ReactSelectElement = ({
  ItemRef,
  ...props
 }: ReactSelectElementType) => {
- console.log("====");
- console.log("value = ", value);
  const customStyles = {
   container: (provided: any) => ({
    ...provided,

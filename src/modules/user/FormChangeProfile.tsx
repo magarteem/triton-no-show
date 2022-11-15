@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { BtnInFormSaveCancel } from "../../common/components/navigateButton/BtnInFormSaveCancel";
@@ -34,9 +33,6 @@ export const FormChangeProfile = ({
 }: FormChangeProfileType) => {
  const dispatch = useAppDispatch();
  const navigate = useNavigate();
- // const [defValues, setDefValues] = useState<
- //  ISignUpFormValues | {}
- // >({});
 
  const {
   name,
@@ -48,21 +44,6 @@ export const FormChangeProfile = ({
  } = userDataProfile;
  console.log("userDataProfile = ", userDataProfile);
 
- useEffect(() => {
-  reset({
-   name_field: name,
-   sity,
-   gender,
-   age: new Date(age),
-   tool: skills.tool,
-   genre: skills.genre,
-   work_experience: skills.workExperience,
-   master: skills.master,
-   education: skills.education,
-   private_settings,
-  });
- }, []);
-
  const {
   control,
   handleSubmit,
@@ -70,19 +51,18 @@ export const FormChangeProfile = ({
   formState: { errors },
  } = useForm<ISignUpFormValues>({
   mode: "all",
-  defaultValues: {},
-  //defaultValues: {
-  // name_field: name,
-  // sity,
-  // gender,
-  // age: new Date(age),
-  // tool: skills.tool,
-  // genre: skills.genre,
-  // work_experience: skills.workExperience,
-  // master: skills.master,
-  // education: skills.education,
-  // private_settings,
-  //},
+  defaultValues: {
+   name_field: name,
+   sity,
+   gender,
+   age: new Date(),
+   tool: skills.tool,
+   genre: skills.genre,
+   work_experience: skills.workExperience,
+   master: skills.master,
+   education: skills.education,
+   private_settings,
+  },
  });
 
  const onSubmit = (data: ChangeProfileFormValues) => {

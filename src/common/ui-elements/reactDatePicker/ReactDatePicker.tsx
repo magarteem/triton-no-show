@@ -45,6 +45,8 @@ export const ReactDatePickerElement = ({
   "Ноябрь",
   "Декабрь",
  ];
+
+ console.log("dt = ", value);
  return (
   <div className="wrapperPicker">
    <DatePicker

@@ -26,7 +26,6 @@ export const Input = ({
  onClick,
  ...props
 }: InputType) => {
- console.log(inputValue);
  return (
   <div className={s.wrapperInput}>
    <label>{inputLabel}</label>
