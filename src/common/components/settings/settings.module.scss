@@ -1,0 +1,22 @@
+.settings {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  background-color: rgb(12, 137, 186);
+  padding: 16px;
+
+  .styleBtn {
+    display: flex;
+    justify-content: center;
+    height: 48px;
+    width: 100%;
+    margin-top: 16px;
+
+    button {
+      font-size: 23px;
+    }
+  }
+}

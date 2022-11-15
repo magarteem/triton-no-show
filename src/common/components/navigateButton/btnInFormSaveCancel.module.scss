@@ -1,0 +1,28 @@
+@import "src/styles/variable";
+
+// .sendDataForm {
+//   width: 100%;
+//   display: flex;
+//   justify-content: space-between;
+//   padding: 20px 16px;
+
+//   .btnWrapper {
+//     width: 150px;
+//     height: 52px;
+//   }
+// }
+
+.sendDataForm {
+ display: flex;
+ justify-content: space-between;
+ column-gap: 10px;
+ width: 100%;
+
+ .btnWrapper {
+  display: flex;
+  justify-content: center;
+  height: 52px;
+  width: 100%;
+  // margin-top: 40px;
+ }
+}

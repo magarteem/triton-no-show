@@ -1,0 +1,70 @@
+@import "src/styles/variable";
+
+.wrapperInput {
+ width: 100%;
+ height: 100%;
+ // position: relative;
+
+ label {
+  font-family: "Gilroy_Bold", sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  display: block;
+  color: $white;
+  margin-bottom: 0.5rem;
+ }
+
+ .inpFieldsRelative {
+  position: relative;
+  margin-top: 4px;
+  height: 50px;
+
+  input {
+   width: 100%;
+   padding: 18px 20px 17px;
+   background-color: inherit;
+   border-radius: 10px;
+   font-size: 16px;
+   background-color: #f4f6f2;
+   height: 100%;
+
+   &::placeholder {
+    padding-top: 5px;
+    font-size: 16px;
+   }
+
+   &:hover {
+    background-color: #d1d1d1;
+   }
+
+   &:focus {
+    background-color: #ffffff;
+    border: 1.5px solid #5b9232;
+   }
+
+   &:disabled {
+    background-color: #f6f6f6;
+    color: #d1d1d1;
+   }
+  }
+
+  .error {
+   border: 1px solid $error;
+   font-size: 12px;
+  }
+  .error.errorBackgroundOrange {
+   border: 1px solid $errorBackgroundOrange;
+  }
+
+  span {
+   font-size: 12px;
+   color: $error;
+   position: absolute;
+   bottom: -15px;
+   left: 0;
+  }
+  span.errorBackgroundOrange {
+   color: $errorBackgroundOrange;
+  }
+ }
+}

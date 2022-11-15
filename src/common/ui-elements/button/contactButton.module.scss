@@ -1,0 +1,42 @@
+@import "src/styles/variable";
+
+.contactButton {
+  @include flex_position();
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(270.95deg, #bcf373 0%, #467326 100%);
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 14px;
+  transition: all 0.2s;
+
+  &:hover {
+    background-color: $green;
+  }
+
+  &:active {
+    background-color: rgb(59, 101, 1);
+    color: $white;
+  }
+
+  &:disabled {
+    background-color: #cdcdcc;
+    color: $white;
+  }
+
+  .btnImgText {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    span {
+      font-weight: 700;
+      font-size: 14px;
+      color: #ffffff;
+    }
+
+    img {
+      margin-right: 4px;
+    }
+  }
+}

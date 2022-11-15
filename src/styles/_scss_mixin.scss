@@ -1,0 +1,7 @@
+@mixin flex_position {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+// @include flex_position();

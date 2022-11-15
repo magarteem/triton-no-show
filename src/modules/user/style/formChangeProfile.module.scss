@@ -1,0 +1,45 @@
+.forms {
+ padding: 16px 16px 0;
+
+ //   .styleInput {
+ //     width: 100%;
+ //     margin-top: 20px;
+
+ //     input {
+ //       height: 50px;
+ //     }
+ //   }
+
+ .styleInput {
+  margin-top: 20px;
+  width: 100%;
+  max-width: 650px;
+
+  input {
+   height: 50px;
+  }
+
+  .textarea {
+   min-height: 50px;
+  }
+
+  .notes {
+   display: block;
+   font-size: 12px;
+   color: #828282;
+  }
+ }
+
+ .selectField {
+  margin-top: 20px;
+  width: 100%;
+  max-width: 650px;
+ }
+
+ .btnFormWrapper {
+  width: 100%;
+  margin-top: 20px;
+  padding: 20px 0;
+  max-width: 650px;
+ }
+}

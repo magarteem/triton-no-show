@@ -1,0 +1,34 @@
+@import "src/styles/variable";
+
+form {
+ display: flex;
+ flex-direction: column;
+ align-items: center;
+ width: 100%;
+ z-index: 2;
+ height: 100%;
+
+ .styleInput {
+  width: 100%;
+  margin-top: 20px;
+
+  input {
+   height: 50px;
+  }
+
+  .see {
+   position: absolute;
+   top: 17px;
+   right: 20px;
+   cursor: pointer;
+  }
+ }
+
+ .styleBtn {
+  display: flex;
+  justify-content: center;
+  height: 52px;
+  width: 100%;
+  margin: 40px 0 20px;
+ }
+}

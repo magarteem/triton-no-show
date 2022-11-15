@@ -1,0 +1,45 @@
+@import "src/styles/variable";
+
+.wrapperPicker {
+ position: relative;
+
+ .react-datepicker-popper {
+  padding: 0;
+ }
+
+ .inputDataPicker {
+  width: 100%;
+  padding: 13px 20px;
+  background-color: inherit;
+  border-radius: 10px;
+  font-size: 16px;
+  height: 53px;
+  background-color: #f4f6f2;
+
+  &:hover {
+   background-color: #d1d1d1;
+  }
+
+  &:focus {
+   background-color: #ffffff;
+   border: 1.5px solid #5b9232;
+  }
+
+  &:disabled {
+   background-color: #f6f6f6;
+   color: #d1d1d1;
+  }
+ }
+
+ .inputDataPicker.errorBorder {
+  border: 1px solid $error;
+ }
+
+ .error {
+  position: absolute;
+  top: 52px;
+  left: 0;
+  color: #e95050;
+  font-size: 12px;
+ }
+}

@@ -1,0 +1,28 @@
+@import "src/styles/variable";
+
+.infoAccount {
+ margin-top: 10px;
+ width: 100%;
+ text-align: center;
+
+ .photo {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+
+  .wrapperPhoto {
+   width: 80px;
+   height: 80px;
+   border: 4px solid rgb(255, 255, 255);
+   border-radius: 50%;
+   overflow: hidden;
+   display: flex;
+
+   img {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+   }
+  }
+ }
+}
