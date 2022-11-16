@@ -30,17 +30,14 @@ export const ButtonInstallPwa = () => {
   return null;
  }
  return (
-  <>
-   <h1>Install</h1>
-   <button
-    className={s.pwa}
-    id="setup_button"
-    aria-label="Install app"
-    title="Install app"
-    onClick={onClick}
-   >
-    Установить как приложение
-   </button>
-  </>
+  <button
+   className={s.pwa}
+   id="setup_button"
+   aria-label="Install app"
+   title="Install app"
+   onClick={onClick}
+  >
+   Установить как приложение
+  </button>
  );
 };
