@@ -18,7 +18,7 @@ import { RecoveryPasswordSecondSteps } from "../../common/components/signIn/reco
 import { WelcomeWindow } from "../../pages/WelcomeWindow";
 import { OtherUserProfile } from "../../pages/OtherUserProfile";
 import { ProfileInfo } from "../../pages/ProfileInfo";
-import { Settings } from "../../common/components/settings/Settings";
+import { Settings } from "../../pages/Settings";
 import { User } from "../../pages/User";
 import { ChangeProfile } from "../../pages/ChangeProfile";
 
