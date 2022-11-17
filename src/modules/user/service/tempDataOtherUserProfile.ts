@@ -12,7 +12,7 @@ export const tempDataOtherUserProfile: InitialStateUserType[] =
    name: "Юлия Андреевна",
    email: "i-am-mail_test@mail.ru",
    sity: { value: "magadan", label: "Магадан" },
-   age: "Thu Aug 11 2010 00:00:00 GMT+0300 (Израиль, летнее время)",
+   age: new Date(1290163404000),
    img_upload: "",
    gender: { value: "female", label: "Женский" },
    type_account: {
@@ -80,7 +80,7 @@ export const tempDataOtherUserProfile: InitialStateUserType[] =
    name: "Вова Петров",
    email: "vova_test@mail.ru",
    sity: { value: "lobnya", label: "Лобня" },
-   age: "Thu Aug 11 1947 00:00:00 GMT+0300 (Израиль, летнее время)",
+   age: new Date(26736204000),
    img_upload: "",
    gender: { value: "male", label: "Мужской" },
    type_account: { value: "musician", label: "Музыкант" },
@@ -144,7 +144,7 @@ export const tempDataOtherUserProfile: InitialStateUserType[] =
    name: "Юлия Андреевна",
    email: "ulia_test@mail.ru",
    sity: { value: "lyubertsy", label: "Люберцы" },
-   age: "Thu Aug 11 1980 00:00:00 GMT+0300 (Израиль, летнее время)",
+   age: new Date(342441804000),
    img_upload: "",
    gender: { value: "female", label: "Женский" },
    type_account: {
@@ -227,7 +227,7 @@ export const tempDataOtherUserProfile: InitialStateUserType[] =
    name: "Мария Афанасьевна",
    email: "masha_test@mail.ru",
    sity: { value: "makhachkala", label: "Махачкала" },
-   age: "Thu Aug 11 1990 00:00:00 GMT+0300 (Израиль, летнее время)",
+   age: new Date(720960204000),
    img_upload: "",
    gender: { value: "female", label: "Женский" },
    type_account: {

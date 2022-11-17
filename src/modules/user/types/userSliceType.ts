@@ -25,7 +25,7 @@ export interface InitialStateUserType {
  name: string;
  email: string;
  sity: OptionsTypeTool | null;
- age: string;
+ age: Date | number;
  img_upload: string;
  gender: OptionsTypeTool | null;
  type_account: OptionsTypeTool;

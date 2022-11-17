@@ -1,7 +1,7 @@
 import s from "./nameProfile.module.scss";
 
 interface NameProfileType {
- age: string;
+ age: Date | number;
  name: string;
  sity: string;
 }
@@ -17,7 +17,7 @@ export const NameProfile = ({
  name,
  sity,
 }: NameProfileType) => {
- const ageFu = (age: string) =>
+ const ageFu = (age: Date | number) =>
   new Date().getFullYear() - new Date(age).getFullYear();
 
  return (

@@ -42,7 +42,7 @@ export const FormChangeProfile = ({
   skills,
   private_settings,
  } = userDataProfile;
- console.log("userDataProfile = ", userDataProfile);
+ console.log("userDataProfile = ", age);
 
  const {
   control,
@@ -55,7 +55,7 @@ export const FormChangeProfile = ({
    name_field: name,
    sity,
    gender,
-   age: new Date(),
+   age: new Date(age).getTime(),
    tool: skills.tool,
    genre: skills.genre,
    work_experience: skills.workExperience,
@@ -64,8 +64,9 @@ export const FormChangeProfile = ({
    private_settings,
   },
  });
-
+ console.log(age);
  const onSubmit = (data: ChangeProfileFormValues) => {
+  console.log(data);
   dispatch(changeProfileThunk(data));
   navigate(-1);
  };

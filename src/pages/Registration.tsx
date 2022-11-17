@@ -32,7 +32,7 @@ export const Registration = () => {
    img_upload: "",
    sity: null,
    gender: null,
-   age: "",
+   age: new Date(),
    tool: [],
    genre: [],
    work_experience: "",

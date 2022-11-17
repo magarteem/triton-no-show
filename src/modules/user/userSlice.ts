@@ -17,7 +17,7 @@ const initialState: InitialStateUserType = {
  name: "Юлия Андреевна",
  email: "vova_test@mail.ru",
  sity: { value: "magadan", label: "Магадан" },
- age: "8.11.2000",
+ age: 952078480000,
  img_upload: "",
  gender: { value: "male", label: "Мужской" },
  type_account: {
