@@ -1,59 +1,59 @@
-import { ReactNode } from "react";
+import { ChangeEvent, ReactNode } from "react";
+import cn from "classnames";
 import s from "./input.module.scss";
 
-interface InputType {
- inputLabel?: string;
+interface InputTypeNew {
  type?: string;
  errors?: any;
  errorBackgroundOrange?: any;
  inputValue?: string;
  children?: ReactNode;
  placeholder: string;
- onChange: any;
+ onChange: (e: ChangeEvent<HTMLInputElement>) => void;
  ItemRef?: any;
- onClick?: any;
+ onClick?: () => void;
+ disabled?: boolean;
 }
 export const Input = ({
  children,
- inputLabel,
  type = "text",
  errors,
  errorBackgroundOrange,
  inputValue,
  placeholder,
- onChange,
  ItemRef,
+ onChange,
  onClick,
+ disabled = false,
  ...props
-}: InputType) => {
+}: InputTypeNew) => {
  return (
   <div className={s.wrapperInput}>
-   <label>{inputLabel}</label>
-
-   <div className={s.inpFieldsRelative}>
-    <input
-     className={`${errors && s.error} ${
-      errorBackgroundOrange && s.errorBackgroundOrange
-     }`}
-     type={type}
-     value={inputValue}
-     placeholder={placeholder}
-     onChange={onChange}
-     onClick={onClick}
-     ref={ItemRef}
-     {...props}
-    />
-    {children}
-    {errors && (
-     <span
-      className={`${
-       errorBackgroundOrange && s.errorBackgroundOrange
-      }`}
-     >
-      {errors}
-     </span>
-    )}
-   </div>
+   <input
+    className={cn({
+     [s.error]: errors,
+     [s.errorBackgroundOrange]: errorBackgroundOrange,
+    })}
+    autoComplete="off"
+    type={type}
+    value={inputValue}
+    placeholder={placeholder}
+    onChange={onChange}
+    onClick={onClick}
+    ref={ItemRef}
+    disabled={disabled}
+    {...props}
+   />
+   {children}
+   {errors && (
+    <span
+     className={cn({
+      [s.errorBackgroundOrange]: errorBackgroundOrange,
+     })}
+    >
+     {errors}
+    </span>
+   )}
   </div>
  );
 };

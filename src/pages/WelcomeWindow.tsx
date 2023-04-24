@@ -3,24 +3,24 @@ import { WrapperFullScreen } from "../common/layout/wrapperFullScreen/WrapperFul
 import s from "./styles/welcomeWindow.module.scss";
 
 interface PreloadStartPagesType {
-  setPreloaderPagesFu: () => void;
+ setPreloaderPagesFu: () => void;
 }
 
 export const WelcomeWindow = ({
-  setPreloaderPagesFu,
+ setPreloaderPagesFu,
 }: PreloadStartPagesType) => {
-  return (
-    <WrapperFullScreen>
-      <div className={s.welcomeWindow}>
-        <div className={s.logoAnimated}>
-          <img src={tritoneWelcome} alt={tritoneWelcome} />
-        </div>
+ return (
+  <WrapperFullScreen>
+   <div className={s.welcomeWindow}>
+    <div className={s.logoAnimated}>
+     <img src={tritoneWelcome} alt={tritoneWelcome} />
+    </div>
 
-        <div className={s.start}>
-          <p>вступай – вдохновляйся - делись</p>
-          <button onClick={setPreloaderPagesFu}>Начать</button>
-        </div>
-      </div>
-    </WrapperFullScreen>
-  );
+    <div className={s.start}>
+     <p>музыкальный сервис</p>
+     <button onClick={setPreloaderPagesFu}>Начать</button>
+    </div>
+   </div>
+  </WrapperFullScreen>
+ );
 };

@@ -1,4 +1,4 @@
-import React, { MouseEvent } from "react";
+import { MouseEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import s from "./button.module.scss";
 
@@ -7,15 +7,9 @@ interface ButtonBackType {
  isValidButtonBack?: boolean;
 }
 
-export const ButtonBack = ({
- textCancelButton,
- isValidButtonBack,
- ...props
-}: ButtonBackType) => {
+export const ButtonBack = ({ textCancelButton, isValidButtonBack, ...props }: ButtonBackType) => {
  const navigate = useNavigate();
- const returnStepRegister = (
-  event: MouseEvent<HTMLButtonElement>
- ) => {
+ const returnStepRegister = (event: MouseEvent<HTMLButtonElement>) => {
   event.preventDefault();
   navigate(-1);
  };

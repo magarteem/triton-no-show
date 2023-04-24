@@ -1,297 +1,175 @@
-import arrowReturnBlack from "../../assets/icons/arrowReturnBlack.webp";
-import {
- Controller,
- useFormContext,
-} from "react-hook-form";
-import { UploadPhoto } from "../../common/components/signIn/uploadPhoto/UploadPhoto";
-import { InputLabel } from "../../common/ui-elements/Input/InputLabel";
-import { ReactSelectElement } from "../../common/ui-elements/react-select/ReactSelectElement";
-import {
- // ageNumber,
- genderBD,
- genreBD,
- groupeOptions,
- profilePrivacySettings,
- sityBD,
- skillBD,
-} from "./service/BD";
-import { TextAreaElement } from "../../common/ui-elements/textarea/TextAreaElement";
-import { CustomSelectCheckboxTools } from "../../common/components/signIn/CustomSelectCheckbox/CustomSelectCheckboxTools";
-import { Input } from "../../common/ui-elements/Input/Input";
-import { BtnInFormSaveCancel } from "../../common/components/navigateButton/BtnInFormSaveCancel";
-import { ArrowBtnStepsBack } from "../../common/components/navigateButton/ArrowBtnStepsBack";
+import { useFormContext } from "react-hook-form";
+import { FormLayout } from "../../common/layout/formLayout/FormLayout";
+import { BtnInGroupeSaveCancelMui } from "../../common/components/navigateButton/BtnInGroupeSaveCancelMui";
+import { teamTypeADS } from "../vacancy/service/createVacancyBD";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { RouteNames } from "../../core/router/RouteNames";
+import { ControllersCityAsync } from "../../common/hookFormControllers/ControllersCityAsync";
+import { EnumTypeAccount } from "../../types/PROFILE/enum/EnumTypeAccount";
+import { ControllerGenreAsync } from "../../common/hookFormControllers/ControllerGenreAsync";
+import { ControllerUploadPortfolio } from "../../common/hookFormControllers/controllerUploadPortfolio/ControllerUploadPortfolio";
+import { ControllerUploadAvatar } from "../../common/hookFormControllers/controllerUploadAvatar/ControllerUploadAvatar";
+import { ControllerTypeCollective } from "../../common/hookFormControllers/ControllerTypeCollective";
+import { ControllersInstitutionTypeAsyncNew } from "../../common/hookFormControllers/ControllersInstitutionTypeAsyncNew";
+import { ControllerGender } from "../../common/hookFormControllers/ControllerGender";
+import { ControllerToolsAsync } from "../../common/hookFormControllers/ControllerToolsAsync";
+import { ControllerMaster } from "../../common/hookFormControllers/ControllerMaster";
+import { ControllerWorkExperience } from "../../common/hookFormControllers/ControllerWorkExperience";
+import { ControllerEducation } from "../../common/hookFormControllers/ControllerEducation";
+import { ControllerPrivateSettings } from "../../common/hookFormControllers/ControllerPrivateSettings";
+import { ControllerPhone } from "../../common/hookFormControllers/ControllerPhone";
+import { ControllerWebSite } from "../../common/hookFormControllers/ControllerWebSite";
+import { ControllerEmail } from "../../common/hookFormControllers/ControllerEmail";
+import { ControllerRoomArea } from "../../common/hookFormControllers/ControllerRoomArea";
+import { ControllerTextArea } from "../../common/hookFormControllers/ControllerTextArea";
+import { ControllerTextField } from "../../common/hookFormControllers/ControllerTextField";
+import { ControllersMetroTest } from "../../common/hookFormControllers/ControllersMetroTest";
+import { ControllerAgeRmcPicker } from "../../common/hookFormControllers/ControllerAgeRmcPicker";
+import { ControllerOpeningHoursRmcPicker } from "../../common/hookFormControllers/ControllerOpeningHoursRmcPicker";
 import s from "./style/threeStepFormRegister.module.scss";
-import { CustomSelectCheckboxGenre } from "../../common/components/signIn/CustomSelectCheckbox/CustomSelectCheckboxGenre";
-import { ReactDatePickerElement } from "../../common/ui-elements/reactDatePicker/ReactDatePicker";
 
 export const ThreeStepFormRegister = () => {
+ const navigate = useNavigate();
+
  const {
-  register,
+  watch,
   control,
-  formState: { errors },
+  formState: { isValid },
+  setValue,
  } = useFormContext();
 
+ const watchFieldType = watch("type_account")?.value;
+ const watchMisician = watchFieldType === EnumTypeAccount.MUSICIAN;
+ const watchTeam = watchFieldType === EnumTypeAccount.TEAM;
+ const watchInstitution = watchFieldType === EnumTypeAccount.INSTITUTION;
+ const watchSoundProduser = watchFieldType === EnumTypeAccount.SOUND_PRODUCER;
+
+ useEffect(() => {
+  !!!watchFieldType && navigate(`${RouteNames.REGISTER}/${RouteNames.REG_TYPE_ACCOUNT}`);
+ }, []);
+
  return (
-  <div className={s.threeStepFormRegister}>
-   <div className={s.title}>
-    <ArrowBtnStepsBack cancelImgIcon={arrowReturnBlack} />
-    <h1>Создание анкеты</h1>
-   </div>
-
+  <FormLayout textLabel="Создание анкеты">
    <div className={s.main}>
-    <div className={s.styleInput}>
-     <Controller
-      name="name_field"
+    {watchTeam && (
+     <ControllerTypeCollective
       control={control}
-      rules={{
-       required: "Обязательное поле",
-       minLength: {
-        value: 3,
-        message: "Не менее 3х символов",
-       },
-      }}
-      render={({ field: { onChange, ref, ...field } }) => (
-       <>
-        <InputLabel titleSelect="Имя" required />
-        <Input
-         ItemRef={ref}
-         placeholder="Ваше имя"
-         onChange={onChange}
-         errors={
-          errors.name_field && errors.name_field.message
-         }
-         {...field}
-        />
-       </>
-      )}
+      name="type_collective"
+      placeholder="Вид коллектива"
+      options={teamTypeADS}
      />
-    </div>
+    )}
 
-    <div className={s.selectField}>
-     <InputLabel titleSelect="Фотография" required />
-     <Controller
-      name="img_upload"
-      control={control}
-      // rules={{
-      //   required: "Обязательное поле",
-      // }}
-      render={({ field: { onChange, ...field } }) => (
-       <UploadPhoto register={register} />
-      )}
-     />
-    </div>
-
-    <div className={s.selectField}>
-     <InputLabel titleSelect="Город" required />
-     <Controller
-      name="sity"
-      control={control}
-      rules={{
-       required: "Обязательное поле",
-      }}
-      render={({
-       field: { onChange, value, ref, ...field },
-       fieldState: { error },
-      }) => (
-       <ReactSelectElement
-        ItemRef={ref}
-        value={value}
-        placeholder="Выбрать"
-        options={sityBD}
-        onChange={onChange}
-        errors={errors.sity}
-        {...field}
-       />
-      )}
-     />
-    </div>
-
-    <div className={s.selectField}>
-     <InputLabel titleSelect="Пол" required />
-     <Controller
-      name="gender"
-      control={control}
-      rules={{
-       required: "Обязательное поле",
-      }}
-      render={({ field: { onChange, ref, ...field } }) => (
-       <ReactSelectElement
-        ItemRef={ref}
-        placeholder="Выбрать"
-        options={genderBD}
-        onChange={onChange}
-        errors={errors.gender}
-        {...field}
-       />
-      )}
-     />
-    </div>
-
-    <div className={s.selectField}>
-     <InputLabel titleSelect="Возраст" required />
-     <Controller
-      name="age"
-      control={control}
-      rules={{
-       required: "Обязательное поле",
-      }}
-      render={({
-       field: { onChange, value, ref, ...field },
-      }) => (
-       // <ReactSelectElement
-       //  placeholder="Выбрать"
-       //  options={ageNumber}
-       //  onChange={onChange}
-       //  errors={errors.age}
-       //  {...field}
-       // />
-       <ReactDatePickerElement
-        ItemRef={ref}
-        placeholder="Дата рождения"
-        value={value}
-        onChange={onChange}
-        errors={errors.age}
-        {...field}
-       />
-      )}
-     />
-    </div>
-
-    <div className={s.selectField}>
-     <InputLabel
-      titleSelect="Инструмент (род деятельности)"
-      required
-     />
-     <Controller
-      name="tool"
-      control={control}
-      rules={{
-       required: "Обязательное поле",
-      }}
-      render={({ field: { onChange, ref, ...field } }) => (
-       <CustomSelectCheckboxTools
-        ItemRef={ref}
-        placeholder="Выбрать"
-        options={groupeOptions}
-        onChange={onChange}
-        errors={errors.tool}
-        {...field}
-       />
-      )}
-     />
-    </div>
-
-    <div className={s.selectField}>
-     <InputLabel titleSelect="Жанр" required />
-     <Controller
-      name="genre"
-      control={control}
-      rules={{
-       required: "Обязательное поле",
-      }}
-      render={({ field: { onChange, ref, ...field } }) => (
-       <CustomSelectCheckboxGenre
-        ItemRef={ref}
-        placeholder="Выбрать"
-        options={genreBD}
-        onChange={onChange}
-        errors={errors.genre}
-        {...field}
-       />
-      )}
-     />
-    </div>
-
-    <div className={s.styleInput}>
-     <InputLabel titleSelect="Опыт работы/выступлений" />
-     <Controller
-      name="work_experience"
-      control={control}
-      render={({ field: { onChange, ref, ...field } }) => (
-       <div className={s.textarea}>
-        <TextAreaElement
-         ItemRef={ref}
-         onChange={onChange}
-         placeholderValue="Указать"
-         {...field}
-        />
-        <span className={s.notes}>Опишите ваш опыт</span>
-       </div>
-      )}
-     />
-    </div>
-
-    <div className={s.selectField}>
-     <InputLabel titleSelect="Мастерство" />
-     <Controller
-      name="master"
-      control={control}
-      render={({ field: { onChange, ref, ...field } }) => (
-       <ReactSelectElement
-        ItemRef={ref}
-        placeholder="Выбрать"
-        options={skillBD}
-        onChange={onChange}
-        {...field}
-       />
-      )}
-     />
-    </div>
-
-    <div className={s.styleInput}>
-     <InputLabel titleSelect="Образование" />
-     <Controller
-      name="education"
-      control={control}
-      render={({ field: { onChange, ref, ...field } }) => (
-       <div className={s.textarea}>
-        <TextAreaElement
-         ItemRef={ref}
-         onChange={onChange}
-         placeholderValue="Указать"
-         {...field}
-        />
-       </div>
-      )}
-     />
-    </div>
-
-    <div className={s.selectField}>
-     <InputLabel titleSelect="Настройки приватности анкеты" />
-     <Controller
-      name="private_settings"
-      control={control}
-      rules={{
-       required: "Обязательное поле",
-      }}
-      render={({ field: { onChange, ref, ...field } }) => (
-       <ReactSelectElement
-        ItemRef={ref}
-        placeholder="Выбрать"
-        options={profilePrivacySettings}
-        errors={errors.private_settings}
-        onChange={onChange}
-        {...field}
-       />
-      )}
-     />
-    </div>
-   </div>
-
-   {/* <div className={s.sendDataForm}>
-        <div className={s.btnWrapper}>
-          <ButtonBack textButton="Назад" onClick={returnStepRegister} />
-        </div>
-        <div className={s.btnWrapper}>
-          <InButton textButton="Создать анкету" />
-        </div>
-      </div> */}
-   <div className={s.btnFormWrapper}>
-    <BtnInFormSaveCancel
-     textCancelButton="Назад"
-     textButton="Создать анкету"
+    <ControllerTextField
+     control={control}
+     name="name_field"
+     required={true}
+     placeholder={watchMisician ? "Ваше имя" : "Название"}
     />
+
+    {watchInstitution && (
+     <ControllersInstitutionTypeAsyncNew
+      name="institutionType"
+      control={control}
+      placeholder="Тип заведения"
+      required={true}
+     />
+    )}
+
+    <ControllerUploadAvatar control={control} name="img_upload" />
+
+    <ControllersCityAsync name="city" placeholder="Город" control={control} setValue={setValue} />
+    {!watchMisician && !watchTeam && !watchSoundProduser && !!watch("city")?.metros?.length && (
+     <ControllersMetroTest
+      name="metroId"
+      placeholder="Станция метро"
+      control={control}
+      options={watch("city")?.metros}
+     />
+    )}
+
+    {!watchMisician && !watchTeam && !watchSoundProduser && (
+     <ControllerTextField control={control} name="address" required={true} placeholder={"Адрес"} />
+    )}
+
+    {watchMisician && (
+     <>
+      <ControllerGender control={control} name="gender" required={false} />
+      <ControllerAgeRmcPicker control={control} name="age" />
+     </>
+    )}
+
+    {(watchMisician || watchTeam) && (
+     <>
+      <ControllerToolsAsync
+       control={control}
+       placeholder={!watchTeam ? "Инструмент (род деятельности)" : "Состав"}
+       name="tool"
+       required={watchTeam ? false : true}
+      />
+
+      <ControllerGenreAsync control={control} name="genre" />
+     </>
+    )}
+
+    {watchMisician && <ControllerMaster control={control} name="master" />}
+
+    {(watchMisician || watchTeam) && (
+     <ControllerWorkExperience
+      control={control}
+      name="work_experience"
+      helperText="Опишите требуемый опыт"
+     />
+    )}
+
+    {watchMisician && <ControllerEducation control={control} name="education" />}
+
+    {(watchMisician || watchTeam) && (
+     <ControllerPrivateSettings control={control} name="private_settings" />
+    )}
+
+    <div className={s.requirements}>
+     <h2>Портфолио</h2>
+    </div>
+
+    <ControllerUploadPortfolio control={control} name="portfolio_photo" />
+
+    {(watchMisician || watchTeam) && (
+     <ControllerTextArea control={control} placeholder="О себе" name="inspiration" />
+    )}
+
+    <div className={s.requirements}>
+     <h2>Контакты</h2>
+    </div>
+
+    <ControllerPhone control={control} name="phone" />
+    <ControllerEmail control={control} name="email_contact" />
+    <ControllerWebSite control={control} name="web_site" />
+
+    {!watchMisician && !watchTeam && (
+     <>
+      <div className={s.requirements}>
+       <h2>Описание</h2>
+      </div>
+
+      {!watchSoundProduser && (
+       <ControllerOpeningHoursRmcPicker control={control} watch={watch} required={false} />
+      )}
+      {watchInstitution && <ControllerRoomArea control={control} name="area" />}
+      {/*<InputFormEstablishmentDescription control={control} name="establishment_description" />*/}
+      <ControllerTextArea
+       control={control}
+       placeholder="Опишите ваше заведение"
+       name="inspiration"
+      />
+     </>
+    )}
    </div>
-  </div>
+
+   <div className={s.btnFormWrapper}>
+    <BtnInGroupeSaveCancelMui textCancelButton="Назад" textButton="Создать анкету" />
+   </div>
+  </FormLayout>
  );
 };

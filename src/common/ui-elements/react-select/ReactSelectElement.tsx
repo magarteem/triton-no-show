@@ -1,60 +1,47 @@
-import Select from "react-select";
-import {
- //AgeNumberType,
- GroupOptionsType,
- OptionSelectType,
-} from "../../../modules/authorization/types/type";
+import Select, { StylesConfig } from "react-select";
 import "./reactSelectElement.scss";
+import cn from "classnames";
 
+interface IndividualTempType {
+ value: string;
+ label: string;
+}
 interface ReactSelectElementType {
  placeholder: string;
  value?: any;
- options: OptionSelectType[] | GroupOptionsType[];
+ options: IndividualTempType[];
  onChange: () => void;
- menuIsOpen?: boolean;
+ customStyles?: StylesConfig;
  isMulti?: boolean;
  errors?: any;
  ItemRef: any;
 }
 
-//export const ReactSelectElement = forwardRef<any, any>(
 export const ReactSelectElement = ({
  placeholder,
  value,
  options,
  isMulti = false,
  onChange,
- menuIsOpen,
+ customStyles,
  errors,
  ItemRef,
  ...props
 }: ReactSelectElementType) => {
- const customStyles = {
-  container: (provided: any) => ({
-   ...provided,
-   border: `1.5px solid #E95050`,
-  }),
-  control: (provided: any) => ({
-   ...provided,
-   border: `3.5px solid #80ff00`,
-  }),
- };
-
  return (
   <div className="wrapperSelect">
    <Select
-    className={`custom_style_container_typeAccount_reg ${
-     errors && "styleError"
-    }`}
+    className={cn(
+     `custom_style_container_typeAccount_reg`,
+     { styleError: errors }
+    )}
     classNamePrefix="custom_style_list_typeAccount_reg"
     placeholder={placeholder}
     isSearchable={false}
-    //onChange={(e: any) => onChange(e)}
     onChange={onChange}
     options={options}
     isMulti={isMulti}
-    menuIsOpen={menuIsOpen}
-    styles={errors && customStyles}
+    styles={customStyles}
     value={value}
     ref={ItemRef}
     {...props}

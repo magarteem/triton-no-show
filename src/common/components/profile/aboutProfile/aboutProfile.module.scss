@@ -2,16 +2,58 @@
 
 .main {
  flex: 1 0 auto;
- margin: 16px 16px 16px;
- padding-bottom: 50px;
+ margin: 0 16px 16px;
+ padding-bottom: 80px;
 
- & > div:not(:last-child):not(:first-child) {
-  border-bottom: 1px solid #ebeceb;
+ & > div:not(:first-child):not(.noBorder) {
+  border-top: 1px solid #ebeceb;
  }
 
- .btnUserContact {
-  @include flex_position();
-  width: 166px;
-  height: 35px;
+ h2 {
+  font-weight: 700;
+  font-size: 18px;
+  color: #212121;
+ }
+
+ .linkPublicationsMusician {
+  display: flex;
+  align-items: center;
+  height: 64px;
+  padding: 12px 0;
+
+  a {
+   display: flex;
+   align-items: center;
+   height: 40px;
+   font-weight: 600;
+   font-size: 14px;
+   color: #2b6c00;
+  }
+ }
+
+ .styleAbout {
+  font-size: 16px;
+  line-height: 24px;
+  color: #43483e;
+
+  .titleSpan {
+   cursor: pointer;
+   white-space: nowrap;
+   padding-right: 8px;
+   font-weight: 600;
+   color: #1a1c18;
+  }
+
+  .underline {
+   text-decoration: underline;
+  }
+  .siteColor {
+   color: #2b6c00;
+  }
+ }
+
+ .styleAbout.custonPadding {
+  display: block;
+  margin-bottom: 12px;
  }
 }

@@ -1,17 +1,12 @@
 @import "src/styles/variable";
 
 .commonLoginLayout {
+ @include flex_direction_column_align_center_position();
+ justify-content: space-between;
  position: relative;
  width: 100%;
-
  min-height: 100%;
- // height: 100%;
  overflow: hidden;
-
- display: flex;
- flex-direction: column;
- justify-content: space-between;
- align-items: center;
  flex: 1 0 auto;
  padding: 66px 16px 0;
  background-image: $backgroundFonts;
@@ -30,10 +25,9 @@
   width: 100%;
   background: url(../../../assets/icons/logoTriton.svg);
   background-repeat: no-repeat;
-  background-size: 1096px 983px;
-  background-position: -151px -21px;
-
   animation: trans 1s forwards;
+  background-size: 153% 100%;
+  background-position: -39px -35px;
 
   @keyframes trans {
    0% {
@@ -47,9 +41,7 @@
  }
 
  .fieldLogin {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  @include flex_direction_column_align_center_position();
   width: 100%;
   margin-top: 66px;
  }

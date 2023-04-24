@@ -1,78 +1,47 @@
-@import "src/styles//variable";
+@import "src/styles/variable";
 
 @font-face {
- font-family: "SFProTextRegular";
- src: local("SFProTextRegular"),
-  url(../assets/fonts/SFProTextRegular.woff) format("woff");
- font-display: fallback;
-}
-
-@font-face {
- font-family: "Rubik";
- src: local("Rubik"),
-  url(../assets/fonts/Rubik.woff) format("woff");
- font-display: fallback;
-}
-
-@font-face {
- font-family: "Raleway";
- src: local("Raleway"),
-  url(../assets/fonts/Raleway.woff) format("woff");
- font-display: fallback;
+ font-family: system;
+ font-style: normal;
+ font-weight: 300;
+ src: local(".SFNSText-Light"), local(".HelveticaNeueDeskInterface-Light"), local(".LucidaGrandeUI"),
+  local("Ubuntu Light"), local("Segoe UI Light"), local("Roboto-Light"), local("DroidSans"),
+  local("Tahoma");
 }
 
 @font-face {
  font-family: "Mulish_Bold";
  src: local("Mulish_Bold"),
-  url(../assets/fonts/Mulish_Bold.woff) format("woff");
+  url(../assets/fonts/mulish/Mulish-VariableFont_wght.ttf) format("truetype");
  font-display: fallback;
 }
 
 @font-face {
- font-family: "SF_UI_Text";
- src: local("SF_UI_Text"),
-  url(../assets/fonts/SF_UI_Text.woff) format("woff");
- font-display: fallback;
-}
-@font-face {
  font-family: "Mulish_Regular";
- src: local("Mulish_Regular"),
-  url(../assets/fonts/Mulish_Regular.woff2) format("woff2");
+ src: local("Mulish_Regular"), url(../assets/fonts/Mulish_Regular.woff2) format("woff2");
  font-display: fallback;
 }
+
 @font-face {
  font-family: "Gilroy_Bold";
- src: local("Gilroy_Bold"),
-  url(../assets/fonts/Gilroy_Bold.woff2) format("woff2");
+ src: local("Gilroy_Bold"), url(../assets/fonts/Gilroy_Bold.woff2) format("woff2");
  font-display: fallback;
 }
 
 html,
 body {
+ // word-break: break-all;
+ //overscroll-behavior: contain;
  height: 100%;
- font-family: "Mulish_Regular", sans-serif;
+ font-family: $font_Mulish_normal, system, sans-serif;
  font-size: 16px;
  font-weight: 400;
- overflow-x: hidden;
+ // overflow-x: hidden;
+ background-color: #fdfdf5;
 
  .App {
+  @include flex_direction_column_align_center_position();
   position: relative;
   height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background-color: $white;
-
-  @media (max-width: $mediaMaxWidth1260px) {
-  }
-
-  @media (max-width: $mediaMaxWidth480px) {
-  }
-
-  @media (max-width: $mediaMaxWidth375px) {
-  }
-
-  @media (max-width: $mediaMaxWidth320px) {
-  }
  }
 }

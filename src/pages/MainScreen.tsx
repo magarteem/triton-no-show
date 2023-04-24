@@ -1,17 +1,20 @@
+import { useEffect } from "react";
 import { Outlet } from "react-router-dom";
-import { NavigateButton } from "../common/components/navigateButton/NavigateButton";
-import { NavigateButtonWidthAddBtn } from "../common/components/navigateButton/NavigateButtonWidthAddBtn";
+import { useAppDispatch } from "../core/redux/app/hooks";
+import { getMyProfileApiThunk } from "../modules/user/getMyProfileApiThunk";
+import { resetState } from "../modules/user/userSlice";
 import s from "./styles/mainScreenPage.module.scss";
 
 export const MainScreen = () => {
-  return (
-    <div className={s.mainScreen}>
-      <Outlet />
+ const dispatch = useAppDispatch();
+ useEffect(() => {
+  dispatch(resetState());
+  dispatch(getMyProfileApiThunk());
+ }, [dispatch]);
 
-      {/* <section className={s.footer}> */}
-      {/* <NavigateButtonWidthAddBtn /> */}
-      {/* <NavigateButton /> */}
-      {/* </section> */}
-    </div>
-  );
+ return (
+  <div className={s.mainScreen}>
+   <Outlet />
+  </div>
+ );
 };

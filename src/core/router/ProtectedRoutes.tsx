@@ -1,5 +1,5 @@
-import { Navigate, Outlet } from 'react-router-dom';
-import { RouteNames } from '../../common/variables/RouteNames';
+import { Navigate, Outlet } from "react-router-dom";
+import { RouteNames } from "./RouteNames";
 
 interface ProtectedRouteType {
   auth: boolean;

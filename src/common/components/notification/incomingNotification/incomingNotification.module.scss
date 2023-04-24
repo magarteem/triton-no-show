@@ -1,0 +1,56 @@
+@import "src/styles/variable";
+
+.addGapStyle {
+ display: flex;
+ flex-direction: column;
+ gap: 16px;
+ overflow: hidden;
+
+ .reStyleImportant {
+  div {
+   padding: 0;
+
+   h2 {
+    display: none;
+   }
+  }
+ }
+
+ .publicationDate {
+  padding-top: 8px;
+  font-size: 12px;
+  color: #43483e;
+ }
+}
+
+.hiddenAnimationLeft {
+ display: flex;
+ flex-direction: column;
+ row-gap: 8px;
+ animation: loaderL 0.3s;
+}
+
+.hiddenAnimationRight {
+ display: flex;
+ flex-direction: column;
+ row-gap: 8px;
+ animation: loaderR 0.3s;
+}
+
+@keyframes loaderR {
+ 0% {
+  transform: translate(300px, 0);
+ }
+ 100% {
+  transform: translate(0);
+ }
+}
+
+@keyframes loaderL {
+ 0% {
+  transform: translate(-300px, 0);
+ }
+ 100% {
+  transform: translate(0);
+ }
+}

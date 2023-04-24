@@ -2,6 +2,7 @@
  font-weight: 500;
  border-radius: 10px;
 }
+
 .custom_style_list_typeAccount_reg {
  &__placeholder {
   font-weight: 500;
@@ -35,8 +36,13 @@
   background: #ffffff;
  }
  .custom_style_container_typeAccount_reg.styleError
+  &__control {
+  border: 1.5px solid #e95050;
+  background: #ffffff;
+ }
+ .custom_style_container_typeAccount_reg.styleError
   &__control--is-focused {
-  border: none;
+  border: 1.5px solid #5b9232;
   background: #ffffff;
  }
 
@@ -61,7 +67,7 @@
 
  &__menu-list &__option {
   font-weight: 700;
-  height: 37px;
+  min-height: 37px;
   padding-left: 16px;
  }
 }

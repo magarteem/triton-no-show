@@ -1,18 +1,20 @@
 import { useState } from "react";
 import eye_open from "../../assets/icons/eye_open.webp";
 import eye_close from "../../assets/icons/eye_close.webp";
-import {
- Controller,
- useFormContext,
-} from "react-hook-form";
+import { Controller, useFormContext } from "react-hook-form";
 import { InButton } from "../../common/ui-elements/button/InButton";
-import { Input } from "../../common/ui-elements/Input/Input";
-import { useNavigate } from "react-router-dom";
-import { RouteNames } from "../../common/variables/RouteNames";
+import { useNavigate, useOutletContext } from "react-router-dom";
+import { RouteNames } from "../../core/router/RouteNames";
 import { RegistrationQuestionLink } from "../../common/components/signIn/registrationQuestion/RegistrationQuestionLink";
-import s from "./style/firstFormRegister.module.scss";
+import { Input } from "../../common/ui-elements/Input/Input";
+import { useAppDispatch } from "../../core/redux/app/hooks";
+import { authThunkRegister } from "./authThunkRegister";
+import { LoginResponseType } from "../../types/SSO/loginResponseType";
+import s from "./style/firstStepFormRegister.module.scss";
 
 export const FirstStepFormRegister = () => {
+ const [responseLogin, loading, error]: [LoginResponseType, boolean, boolean] = useOutletContext();
+ const dispatch = useAppDispatch();
  const navigate = useNavigate();
 
  const {
@@ -22,46 +24,41 @@ export const FirstStepFormRegister = () => {
   formState: { errors },
  } = useFormContext();
 
- const nextStepRegister = async (dataField: string[]) => {
-  const result = await trigger(dataField);
+ const nextStepRegister = async (data: string[]) => {
+  const regData = {
+   email: watch(data[0]),
+   password: watch(data[1]),
+  };
+
+  const result = await trigger(data);
   if (!result) return;
-  navigate("/register/reg-type-account");
+
+  if (responseLogin?.email !== watch(data[0])) {
+   dispatch(authThunkRegister(regData)).then(() => navigate(RouteNames.REG_TYPE_ACCOUNT));
+  } else {
+   !error && navigate(RouteNames.REG_TYPE_ACCOUNT);
+  }
  };
 
  const [eye, setEye] = useState(false);
  const toggleEye = () => setEye((prev) => !prev);
 
- const watchHandler = (
-  watches: string,
-  eye: boolean,
-  toggle: () => void
- ) => {
-  return (
-   watches.length > 0 &&
-   (eye ? (
-    <img
-     onClick={toggle}
-     className={s.see}
-     src={eye_open}
-     alt={eye_open}
-    />
-   ) : (
-    <img
-     onClick={toggle}
-     className={s.see}
-     src={eye_close}
-     alt={eye_close}
-    />
-   ))
+ const watchHandler = (watches: string, eye: boolean, toggle: () => void) =>
+  watches.length > 0 && (
+   <img
+    onClick={toggle}
+    className={s.see}
+    src={eye ? eye_open : eye_close}
+    alt={eye ? eye_open : eye_close}
+   />
   );
- };
 
  return (
-  //<CommonLoginLayout>
-
   <div className={s.wrapperFirstFormRegister}>
    <div>
     <div className={s.styleInput}>
+     <h2 className={s.title}>Email</h2>
+
      <Controller
       name="email"
       control={control}
@@ -76,7 +73,6 @@ export const FirstStepFormRegister = () => {
        <Input
         inputValue={value}
         type="text"
-        inputLabel="Email"
         placeholder="Выберите Email"
         errors={errors.email && errors.email.message}
         errorBackgroundOrange={errors.email}
@@ -87,6 +83,7 @@ export const FirstStepFormRegister = () => {
     </div>
 
     <div className={s.styleInput}>
+     <h2 className={s.title}>Пароль</h2>
      <Controller
       name="password"
       control={control}
@@ -102,10 +99,10 @@ export const FirstStepFormRegister = () => {
         <Input
          inputValue={value}
          type={eye ? "text" : "password"}
-         inputLabel="Пароль"
          placeholder="Выберите пароль"
          errors={errors.password && errors.password.message}
          errorBackgroundOrange={errors.password}
+         disabled={responseLogin?.email === watch("email")}
          onChange={onChange}
         >
          {watchHandler(watch("password"), eye, toggleEye)}
@@ -117,10 +114,9 @@ export const FirstStepFormRegister = () => {
 
     <div className={s.styleBtn}>
      <InButton
-      textButton="Продолжить"
-      onClick={() =>
-       nextStepRegister(["email", "password"])
-      }
+      textButton={loading ? "Отправка..." : "Продолжить"}
+      onClick={() => nextStepRegister(["email", "password"])}
+      type={"button"}
      />
     </div>
    </div>
@@ -131,6 +127,5 @@ export const FirstStepFormRegister = () => {
     questionText="Уже есть аккаунт?"
    />
   </div>
-  //</CommonLoginLayout>
  );
 };

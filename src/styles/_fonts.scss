@@ -1,7 +1,14 @@
-$font_SFProTextRegular: "SFProTextRegular";
-$font_Rubik: "Rubik";
-$font_Raleway: "Raleway";
-$font_Mulish_Bold: "Mulish_Bold";
-$font_SF_UI_Text: "SF_UI_Text";
-$font_Mulish_Regular: "Mulish_Regular", sans-serif;
-$font_Gilroy_Bold: "Gilroy_Bold";
+$font_Mulish_normal: "Mulish-Medium";
+$font_Mulish_regular: "Mulish_Regular";
+
+@font-face {
+ font-family: "Mulish-Medium";
+ src: local("Mulish-VariableFont_wght"),
+  url(../assets/fonts/mulish/Mulish-VariableFont_wght.ttf) format("truetype");
+ font-display: fallback;
+}
+@font-face {
+ font-family: "Mulish_Regular";
+ src: local("Mulish_Regular"), url(../assets/fonts/mulish/Mulish-Regular.ttf) format("truetype");
+ font-display: fallback;
+}

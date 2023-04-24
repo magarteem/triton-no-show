@@ -1,30 +1,40 @@
-import backGroundImg from "../assets/images/backgroundProfileHeader.webp";
-import arrowReturnWhite from "../assets/icons/arrowReturnWhite.webp";
-import { NavigateButtonWidthAddBtn } from "../common/components/navigateButton/NavigateButtonWidthAddBtn";
 import { AboutProfile } from "../common/components/profile/aboutProfile/AboutProfile";
 import { HeaderProfile } from "../common/components/profile/cardsProfile/HeaderProfile";
 import { HeaderWrapper } from "../common/layout/header/HeaderWrapper";
-import { useAppSelector } from "../core/redux/app/hooks";
+import { PopUpNavigateGradient } from "../common/components/navigateButton/PopUpNavigateGradient";
+import { InitialStateUserType, ProfileDataApiDataType } from "../modules/user/types/userSliceType";
+import { useOutletContext } from "react-router-dom";
+import { PreLoader } from "../common/components/preLoader/PreLoader";
+
+interface ProfileInfoType {
+ isLoading: boolean;
+ profileData: InitialStateUserType;
+ profileDataApiData: ProfileDataApiDataType;
+}
 
 export const ProfileInfo = () => {
- const userDataProfile = useAppSelector(
-  (state) => state.userSliceReducer
- );
+ const { profileData, profileDataApiData, isLoading }: ProfileInfoType = useOutletContext();
 
  return (
   <>
-   <HeaderWrapper srcPhoto={backGroundImg}>
-    <HeaderProfile
-     cancelImgIcon={arrowReturnWhite}
-     textLabel={userDataProfile.email}
-     change={true}
-     settings={true}
-    />
-   </HeaderWrapper>
+   {!isLoading ? (
+    <>
+     <HeaderWrapper srcPhoto={profileData.avatar?.uri}>
+      <HeaderProfile
+       change={true}
+       settings={true}
+       avatar={profileData.avatar?.uri}
+       profileDataApiData={profileDataApiData}
+       textLabel={profileData.type_account.name}
+      />
+     </HeaderWrapper>
 
-   <AboutProfile userDataProfile={userDataProfile} />
-
-   <NavigateButtonWidthAddBtn />
+     <AboutProfile userDataProfile={profileData} />
+    </>
+   ) : (
+    <PreLoader />
+   )}
+   <PopUpNavigateGradient />
   </>
  );
 };

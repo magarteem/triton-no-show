@@ -1,333 +1,296 @@
-import { Controller, useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
-import { BtnInFormSaveCancel } from "../../common/components/navigateButton/BtnInFormSaveCancel";
-import { CustomSelectCheckboxGenre } from "../../common/components/signIn/CustomSelectCheckbox/CustomSelectCheckboxGenre";
-import { CustomSelectCheckboxTools } from "../../common/components/signIn/CustomSelectCheckbox/CustomSelectCheckboxTools";
-import { Input } from "../../common/ui-elements/Input/Input";
-import { InputLabel } from "../../common/ui-elements/Input/InputLabel";
-import { ReactSelectElement } from "../../common/ui-elements/react-select/ReactSelectElement";
-import { ReactDatePickerElement } from "../../common/ui-elements/reactDatePicker/ReactDatePicker";
-import { TextAreaElement } from "../../common/ui-elements/textarea/TextAreaElement";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 import { useAppDispatch } from "../../core/redux/app/hooks";
-import {
- genderBD,
- genreBD,
- groupeOptions,
- profilePrivacySettings,
- sityBD,
- skillBD,
-} from "../authorization/service/BD";
-import { ISignUpFormValues } from "../authorization/types/type";
+import { ISignUpFormValues } from "../authorization/types/authType";
 import { changeProfileThunk } from "./changeProfileThunk";
-import s from "./style/formChangeProfile.module.scss";
 import {
  ChangeProfileFormValues,
  InitialStateUserType,
+ ProfileDataApiDataType,
 } from "./types/userSliceType";
+import { useNavigate } from "react-router-dom";
+import { BtnInGroupeSaveCancelMui } from "../../common/components/navigateButton/BtnInGroupeSaveCancelMui";
+import { ControllersCityAsync } from "../../common/hookFormControllers/ControllersCityAsync";
+import { ControllerGenreAsync } from "../../common/hookFormControllers/ControllerGenreAsync";
+import { ControllerGender } from "../../common/hookFormControllers/ControllerGender";
+import { putUpdateMyFormAccountData } from "./helpers/putUpdateMyFormAccountData";
+import { updateDataMyFormTypeAccountThunk } from "./updateDataMyFormTypeAccountThunk";
+import { ControllerTypeCollective } from "../../common/hookFormControllers/ControllerTypeCollective";
+import { teamTypeADS } from "../vacancy/service/createVacancyBD";
+import { getJsonParseLocalStorage } from "../../helpers/getJsonParseLocalStorage";
+import { EnumTypeAccount } from "../../types/PROFILE/enum/EnumTypeAccount";
+import { ControllerUploadPortfolio } from "../../common/hookFormControllers/controllerUploadPortfolio/ControllerUploadPortfolio";
+import { TitleTagH } from "../../common/components/profile/titleTagH/TitleTagH";
+import { ControllerPhone } from "../../common/hookFormControllers/ControllerPhone";
+import { ControllersInstitutionTypeAsyncNew } from "../../common/hookFormControllers/ControllersInstitutionTypeAsyncNew";
+import { ControllerTextField } from "../../common/hookFormControllers/ControllerTextField";
+import { ControllerToolsAsync } from "../../common/hookFormControllers/ControllerToolsAsync";
+import { ControllerMaster } from "../../common/hookFormControllers/ControllerMaster";
+import { ControllerWorkExperience } from "../../common/hookFormControllers/ControllerWorkExperience";
+import { ControllerEducation } from "../../common/hookFormControllers/ControllerEducation";
+import { ControllerPrivateSettings } from "../../common/hookFormControllers/ControllerPrivateSettings";
+import { ControllerWebSite } from "../../common/hookFormControllers/ControllerWebSite";
+import { ControllerEmail } from "../../common/hookFormControllers/ControllerEmail";
+import { ControllerRoomArea } from "../../common/hookFormControllers/ControllerRoomArea";
+import { ControllerTextArea } from "../../common/hookFormControllers/ControllerTextArea";
+import { ControllersMetroTest } from "../../common/hookFormControllers/ControllersMetroTest";
+import s from "./style/formChangeProfile.module.scss";
+import { useSendPortfolioImgMutation } from "./getGetMyProfileQuery";
+import {
+ SnackbarGlobal,
+ StateSnackbarType,
+} from "../../common/mui-element/snackbar/SnackbarGlobal";
+import { ControllerOpeningHoursRmcPicker } from "../../common/hookFormControllers/ControllerOpeningHoursRmcPicker";
+import { ControllerAgeRmcPicker } from "../../common/hookFormControllers/ControllerAgeRmcPicker";
 
 interface FormChangeProfileType {
  userDataProfile: InitialStateUserType;
+ userDataProfileApi?: ProfileDataApiDataType[] | any;
 }
-export const FormChangeProfile = ({
- userDataProfile,
-}: FormChangeProfileType) => {
+export const FormChangeProfile = ({ userDataProfile }: FormChangeProfileType) => {
  const dispatch = useAppDispatch();
+ const [setData] = useSendPortfolioImgMutation();
+
+ const [openSnackbar, setOpenSnackbar] = useState<StateSnackbarType | null>(null);
+
  const navigate = useNavigate();
+ const typeAccount = getJsonParseLocalStorage();
+
+ const watchFieldName = JSON.parse(getJsonParseLocalStorage()).nameForms;
 
  const {
   name,
-  sity,
+  city,
   age,
   gender,
   skills,
   private_settings,
+  phone,
+  email,
+  webSite,
+  type_collective,
+  portfolio_photo,
+  schedule,
+  address,
+  metroId,
+  institutionType,
+  area,
  } = userDataProfile;
- console.log("userDataProfile = ", age);
 
- const {
-  control,
-  handleSubmit,
-  reset,
-  formState: { errors },
- } = useForm<ISignUpFormValues>({
-  mode: "all",
+ let start: Date | null = new Date();
+ let end: Date | null = new Date();
+
+ // schedule &&
+ //  schedule?.Friday &&
+ //  start.setHours(+schedule.Friday[0].start.slice(0, 2), +schedule.Friday[0].start.slice(3, 5));
+ // schedule &&
+ //  schedule?.Friday &&
+ //  end.setHours(+schedule.Friday[0].end.slice(0, 2), +schedule.Friday[0].end.slice(3, 5));
+
+ if (schedule && schedule?.Friday) {
+  start.setHours(+schedule.Friday[0].start.slice(0, 2), +schedule.Friday[0].start.slice(3, 5));
+  end.setHours(+schedule.Friday[0].end.slice(0, 2), +schedule.Friday[0].end.slice(3, 5));
+ } else {
+  start = null;
+  end = null;
+ }
+
+ const { control, handleSubmit, watch, setValue } = useForm<ISignUpFormValues>({
+  mode: "onBlur",
   defaultValues: {
    name_field: name,
-   sity,
+   city,
    gender,
-   age: new Date(age).getTime(),
+   age: age && new Date(age),
+
    tool: skills.tool,
    genre: skills.genre,
    work_experience: skills.workExperience,
    master: skills.master,
    education: skills.education,
+   inspiration: skills.inspiration,
    private_settings,
+   phone,
+   email_contact: email,
+   web_site: webSite,
+   type_collective,
+   portfolio_photo,
+   address,
+   metroId,
+   schedule,
+   institutionType,
+   area: area !== 0 ? area : null,
+   from_opening_hours: start,
+   to_opening_hours: end,
   },
  });
- console.log(age);
+
  const onSubmit = (data: ChangeProfileFormValues) => {
-  console.log(data);
-  dispatch(changeProfileThunk(data));
-  navigate(-1);
+  let bodyDataSend = putUpdateMyFormAccountData(data, watchFieldName);
+  const portfolio_photo = watch("portfolio_photo");
+
+  const disp = () =>
+   dispatch(
+    updateDataMyFormTypeAccountThunk({
+     typeAccount,
+     bodyDataSend: bodyDataSend,
+    })
+   ).then(() => navigate(-1));
+
+  if (!!portfolio_photo) {
+   setData({
+    //@ts-ignore
+    formDataImg: portfolio_photo,
+    profileId: JSON.parse(getJsonParseLocalStorage()).id,
+   })
+    .unwrap()
+    .then(() => disp())
+    .catch(() =>
+     setOpenSnackbar({ open: true, text: "Тяжёлые фото портфолио", severity: "error" })
+    );
+  } else {
+   disp();
+  }
+  //
+  //dispatch(changeProfileThunk(data))
+  //dispatch(
+  // updateDataMyFormTypeAccountThunk({
+  //  typeAccount,
+  //  bodyDataSend,
+  // })
+  //)
+  //  .then(() => dispatch(changeProfileThunk(data)))
+  // .then(() => navigate(-1));
  };
 
+ const watchMisician = watchFieldName === EnumTypeAccount.MUSICIAN;
+ const watchTeam = watchFieldName === EnumTypeAccount.TEAM;
+ const watchInstitution = watchFieldName === EnumTypeAccount.INSTITUTION;
+ const watchSoundProduser = watchFieldName === EnumTypeAccount.SOUND_PRODUCER;
+
  return (
-  <form
-   onSubmit={handleSubmit(onSubmit)}
-   className={s.forms}
-  >
-   {/*  */}
-   <div className={s.styleInput}>
-    <Controller
-     name="name_field"
+  <form noValidate onSubmit={handleSubmit(onSubmit)} className={s.formChangeProfile}>
+   {watchTeam && (
+    <ControllerTypeCollective
      control={control}
-     rules={{
-      required: "Обязательное поле",
-      minLength: {
-       value: 3,
-       message: "Не менее 3х символов",
-      },
-     }}
-     render={({
-      field: { onChange, value, ref, ...field },
-     }) => (
-      <>
-       <InputLabel titleSelect="Имя" required />
-       <Input
-        inputValue={value}
-        placeholder="Александр Ковальчук "
-        onChange={onChange}
-        errors={
-         errors.name_field && errors.name_field.message
-        }
-        {...field}
-       />
-      </>
-     )}
+     name="type_collective"
+     placeholder="Вид коллектива"
+     options={teamTypeADS}
     />
-   </div>
+   )}
 
-   <div className={s.selectField}>
-    <InputLabel titleSelect="Город" required />
-    <Controller
-     name="sity"
+   <ControllerTextField
+    control={control}
+    name="name_field"
+    required={true}
+    placeholder={!watchMisician ? "Название" : "Имя"}
+   />
+
+   {watchInstitution && (
+    <ControllersInstitutionTypeAsyncNew
+     name="institutionType"
      control={control}
-     rules={{
-      required: "Обязательное поле",
-     }}
-     render={({
-      field: { onChange, value, ref, ...field },
-      fieldState: { error },
-     }) => (
-      <ReactSelectElement
-       value={value}
-       ItemRef={ref}
-       placeholder="Выбрать"
-       options={sityBD}
-       onChange={onChange}
-       errors={errors.sity}
-       {...field}
+     placeholder="Тип заведения"
+     required={true}
+    />
+   )}
+
+   <ControllersCityAsync name="city" placeholder="Город" control={control} setValue={setValue} />
+   {!watchMisician &&
+    !watchTeam &&
+    !watchSoundProduser &&
+    (!!watch("city")?.metros?.length || metroId?.id) && (
+     <>
+      <ControllersMetroTest
+       required={false}
+       name="metroId"
+       cityValue={city}
+       placeholder="Станция метро"
+       control={control}
+       options={watch("city")?.metros}
       />
-     )}
-    />
-   </div>
+     </>
+    )}
 
-   <div className={s.selectField}>
-    <InputLabel titleSelect="Пол" required />
-    <Controller
-     name="gender"
-     control={control}
-     rules={{
-      required: "Обязательное поле",
-     }}
-     render={({
-      field: { onChange, value, ref, ...field },
-     }) => (
-      <ReactSelectElement
-       ItemRef={ref}
-       value={value}
-       placeholder="Выбрать"
-       options={genderBD}
-       onChange={onChange}
-       errors={errors.gender}
-       {...field}
+   {watchMisician && (
+    <>
+     <ControllerGender control={control} name="gender" required={false} />
+     <ControllerAgeRmcPicker control={control} name="age" />
+    </>
+   )}
+
+   {!watchMisician && !watchTeam && !watchSoundProduser ? (
+    <ControllerTextField control={control} name="address" required={true} placeholder={"Адрес"} />
+   ) : (
+    !watchSoundProduser && (
+     <>
+      <ControllerToolsAsync
+       control={control}
+       placeholder={watchTeam ? "Состав" : "Инструмент (род деятельности)"}
+       name="tool"
+       required={watchTeam ? false : true}
       />
-     )}
-    />
-   </div>
 
-   <div className={s.selectField}>
-    <InputLabel titleSelect="Возраст" required />
-    <Controller
-     name="age"
+      <ControllerGenreAsync control={control} name="genre" />
+     </>
+    )
+   )}
+
+   {watchMisician && <ControllerMaster control={control} name="master" />}
+
+   {(watchMisician || watchTeam) && (
+    <ControllerWorkExperience
      control={control}
-     rules={{
-      required: "Обязательное поле",
-     }}
-     render={({
-      field: { onChange, value, ref, ...field },
-     }) => (
-      <ReactDatePickerElement
-       ItemRef={ref}
-       placeholder="Дата рождения"
-       value={value}
-       onChange={onChange}
-       errors={errors.age}
-       {...field}
-      />
-     )}
-    />
-   </div>
-
-   <div className={s.selectField}>
-    <InputLabel
-     titleSelect="Инструмент (род деятельности)"
-     required
-    />
-    <Controller
-     name="tool"
-     control={control}
-     rules={{
-      required: "Обязательное поле",
-     }}
-     render={({
-      field: { onChange, ref, value, ...field },
-     }) => (
-      <CustomSelectCheckboxTools
-       ItemRef={ref}
-       value={value}
-       placeholder="Выбрать"
-       options={groupeOptions}
-       onChange={onChange}
-       errors={errors.tool}
-       {...field}
-      />
-     )}
-    />
-   </div>
-
-   <div className={s.selectField}>
-    <InputLabel titleSelect="Жанр" required />
-    <Controller
-     name="genre"
-     control={control}
-     rules={{
-      required: "Обязательное поле",
-     }}
-     render={({
-      field: { onChange, value, ref, ...field },
-     }) => (
-      <CustomSelectCheckboxGenre
-       ItemRef={ref}
-       value={value}
-       placeholder="Выбрать"
-       options={genreBD}
-       onChange={onChange}
-       errors={errors.genre}
-       {...field}
-      />
-      //<ReactSelectElement
-      // placeholder="Выбрать"
-      // options={genreBD}
-      // onChange={onChange}
-      // isMulti
-      // errors={errors.genre}
-      // {...field}
-      ///>
-     )}
-    />
-   </div>
-
-   <div className={s.styleInput}>
-    <InputLabel titleSelect="Опыт работы/выступлений" />
-    <Controller
      name="work_experience"
-     control={control}
-     render={({
-      field: { onChange, value, ref, ...field },
-     }) => (
-      <div className={s.textarea}>
-       <TextAreaElement
-        ItemRef={ref}
-        value={value}
-        onChange={onChange}
-        placeholderValue="Указать"
-        {...field}
-       />
-       <span className={s.notes}>Опишите ваш опыт</span>
-      </div>
-     )}
+     helperText="Опишите ваш опыт"
     />
-   </div>
+   )}
 
-   <div className={s.selectField}>
-    <InputLabel titleSelect="Мастерство" />
-    <Controller
-     name="master"
-     control={control}
-     render={({
-      field: { onChange, value, ref, ...field },
-     }) => (
-      <ReactSelectElement
-       ItemRef={ref}
-       value={value}
-       placeholder="Выбрать"
-       options={skillBD}
-       onChange={onChange}
-       {...field}
-      />
-     )}
-    />
-   </div>
+   {watchMisician && <ControllerEducation control={control} name="education" />}
 
-   <div className={s.styleInput}>
-    <InputLabel titleSelect="Образование" />
-    <Controller
-     name="education"
-     control={control}
-     render={({
-      field: { onChange, value, ref, ...field },
-     }) => (
-      <div className={s.textarea}>
-       <TextAreaElement
-        ItemRef={ref}
-        value={value}
-        onChange={onChange}
-        placeholderValue="Указать"
-        {...field}
-       />
-      </div>
-     )}
-    />
-   </div>
+   {(watchMisician || watchTeam) && (
+    <ControllerPrivateSettings control={control} name="private_settings" />
+   )}
 
-   <div className={s.selectField}>
-    <InputLabel titleSelect="Настройки приватности анкеты" />
-    <Controller
-     name="private_settings"
-     control={control}
-     rules={{
-      required: "Обязательное поле",
-     }}
-     render={({ field: { onChange, ref, ...field } }) => (
-      <ReactSelectElement
-       ItemRef={ref}
-       placeholder="Выбрать"
-       options={profilePrivacySettings}
-       errors={errors.private_settings}
-       onChange={onChange}
-       {...field}
-      />
+   <TitleTagH titleH="Портфолио" />
+   {(watchMisician || watchTeam) && (
+    <ControllerTextArea control={control} placeholder="О себе" name="inspiration" />
+   )}
+   <ControllerUploadPortfolio control={control} name="portfolio_photo" />
+
+   <TitleTagH titleH="Контакты" />
+   <ControllerPhone control={control} name="phone" />
+   <ControllerEmail control={control} name="email_contact" />
+   <ControllerWebSite control={control} name="web_site" />
+
+   {!watchMisician && !watchTeam && (
+    <>
+     <TitleTagH titleH="Описание" />
+     {!watchSoundProduser && (
+      <ControllerOpeningHoursRmcPicker control={control} watch={watch} required={false} />
      )}
-    />
-   </div>
+     {watchInstitution && <ControllerRoomArea control={control} name="area" required={false} />}
+
+     <ControllerTextArea
+      control={control}
+      placeholder="Опишите ваше заведение"
+      name="inspiration"
+     />
+    </>
+   )}
 
    <div className={s.btnFormWrapper}>
-    <BtnInFormSaveCancel
-     textCancelButton="Отмена"
-     textButton="Cохранить"
-    />
+    <BtnInGroupeSaveCancelMui textCancelButton="Отмена" textButton="Сохранить" />
    </div>
+
+   {openSnackbar && (
+    <SnackbarGlobal
+     text={openSnackbar.text}
+     open={openSnackbar.open}
+     setOpen={setOpenSnackbar}
+     severity={openSnackbar.severity}
+    />
+   )}
   </form>
  );
 };

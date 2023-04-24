@@ -1,10 +1,8 @@
 @import "src/styles/variable";
 
 .headerProfile {
+ @include flex_direction_column_align_center_position();
  position: absolute;
- display: flex;
- flex-direction: column;
- align-items: center;
  left: 0;
  top: 0;
  margin-top: 6px;
@@ -32,7 +30,7 @@
   .titleSettings {
    display: flex;
    align-items: center;
-   column-gap: 20px;
+   // column-gap: 20px;
    height: 100%;
   }
 

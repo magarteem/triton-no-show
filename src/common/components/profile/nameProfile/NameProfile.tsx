@@ -1,9 +1,14 @@
+import { calculateAge } from "../../../../helpers/calculateAge";
+import { MetroGlobalType } from "../../../../types/PROFILE/metroGlobalType";
 import s from "./nameProfile.module.scss";
 
 interface NameProfileType {
- age: Date | number;
+ age: number;
  name: string;
- sity: string;
+ city: string | undefined;
+ merto: MetroGlobalType | null;
+ address: string;
+ type_collective: string | undefined;
 }
 
 const formatter = new Intl.NumberFormat("ru", {
@@ -13,17 +18,37 @@ const formatter = new Intl.NumberFormat("ru", {
 });
 
 export const NameProfile = ({
- age,
+ age = 0,
  name,
- sity,
+ city,
+ merto,
+ address,
+ type_collective,
 }: NameProfileType) => {
- const ageFu = (age: Date | number) =>
-  new Date().getFullYear() - new Date(age).getFullYear();
-
  return (
   <div className={s.nameProfile}>
    <h2>{name}</h2>
-   <span>{`${formatter.format(ageFu(age))}, ${sity}`}</span>
+   <span className={s.infoMyAccount}>
+    {`${age > 0 ? `${formatter.format(+calculateAge(age))}, ` : ""}`}
+    {type_collective && `${type_collective}, `}
+
+    {city && `${city}`}
+
+    {merto && (
+     <>
+      {`${merto && ", "}`}
+      <span className={s.dotIndicator}></span>
+      {`${merto.title}`}
+     </>
+    )}
+
+    {address && (
+     <>
+      {`${address && ", "}`}
+      {`${address}`}
+     </>
+    )}
+   </span>
   </div>
  );
 };

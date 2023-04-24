@@ -1,3 +1,5 @@
+@import "src/styles/variable";
+
 .swiper {
   margin: 24px 0;
 
@@ -5,10 +7,10 @@
     margin-right: 20px;
   }
 
-  &>div {
+  & > div {
     padding: 0 10px;
 
-    &>div {
+    & > div {
       display: flex;
       justify-content: space-between;
     }
@@ -29,10 +31,8 @@
     }
 
     .link {
-      display: flex;
-      flex-direction: column;
+      @include flex_direction_column_align_center_position();
       justify-content: space-between;
-      align-items: center;
       width: 100%;
       height: 100px;
       border-radius: 10px;

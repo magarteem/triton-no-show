@@ -22,3 +22,9 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 .vercel
+
+# Visual Studio Code
+.settings/launch.json
+.vs
+.vscode
+.history

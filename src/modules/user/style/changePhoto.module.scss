@@ -1,6 +1,7 @@
+@import "src/styles/variable";
+
 .uploadPhoto {
- display: flex;
- justify-content: center;
+ @include flex_horizont_position();
  align-items: self-start;
  height: 100%;
 
