@@ -89,10 +89,8 @@ export const styleSxGenre = {
   display: "flex !important",
   alignItems: "center !important",
   border: "1px solid #66784E",
-  background:
-   "linear-gradient(0deg, rgba(43, 108, 0, 0.08), rgba(43, 108, 0, 0.08)), #FDFDF5;",
-  boxShadow:
-   "0px 1px 2px rgba(0, 0, 0, 0.3), 0px 1px 3px 1px rgba(0, 0, 0, 0.15)",
+  background: "linear-gradient(0deg, rgba(43, 108, 0, 0.08), rgba(43, 108, 0, 0.08)), #FDFDF5;",
+  boxShadow: "0px 1px 2px rgba(0, 0, 0, 0.3), 0px 1px 3px 1px rgba(0, 0, 0, 0.15)",
   borderRadius: " 30px",
   color: "#1A1C18",
   fontSize: "14px",
@@ -112,10 +110,6 @@ export const styleSxGenre = {
   },
   "& .MuiChip-label": {
    padding: "3px 8px !important",
-
-   // "@media (max-width: 400px)": {
-   //  padding: "13px 8px !important",
-   // },
   },
  },
 

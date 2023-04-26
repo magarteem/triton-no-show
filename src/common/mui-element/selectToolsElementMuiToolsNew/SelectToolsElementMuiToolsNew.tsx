@@ -1,9 +1,7 @@
 import arrowSelect from "../../../assets/icons/arrowSelect.webp";
-import { ReactComponent as ClearIcon } from "../../../assets/icons/clearIcon.svg";
 import hourIcons from "../../../assets/icons/hourIcons.svg";
 import {
  Checkbox,
- Chip,
  FormControl,
  FormHelperText,
  InputLabel,
@@ -42,7 +40,7 @@ export const SelectToolsElementMuiToolsNew = ({
  required = false,
  ...props
 }: SelectToolsElementMuiToolsNewType) => {
- const [classesHiddenCount, setClassesHiddenCount] = useState(0);
+ const [classesHiddenCount, setClassesHiddenCount] = useState<number | null>(0);
  const [personName, setPersonName] = useState<string[]>(value.map((x: any) => x.name));
 
  const handleChange = (event: SelectChangeEvent<typeof personName>) => {
@@ -77,13 +75,23 @@ export const SelectToolsElementMuiToolsNew = ({
   !!!value.length && !!personName.length && setPersonName([]);
  }, [value]);
 
+ const touchCheck = (e: any, index: number) => {
+  console.log("onClick touchCheck index", index);
+  classesHiddenCount !== index ? setClassesHiddenCount(index) : setClassesHiddenCount(null);
+  e.preventDefault();
+ };
+ const touchCheckTouch = (e: any, index: number) => {
+  console.log("onTouchEnd touchCheckTouch index", index);
+  classesHiddenCount !== index ? setClassesHiddenCount(index) : setClassesHiddenCount(null);
+  e.preventDefault();
+ };
+
  return (
   <FormControl fullWidth sx={styleSxTool.formcontrol} error={errors}>
    <InputLabel required={required} id="demo-multiple-checkbox-label" sx={styleSxTool.inputLabel}>
     {placeholder}
    </InputLabel>
    <Select
-    //open
     fullWidth
     labelId="demo-multiple-checkbox-label"
     id="demo-multiple-checkbox"
@@ -111,7 +119,6 @@ export const SelectToolsElementMuiToolsNew = ({
     }}
     {...props}
    >
-    {/*  */}
     {options.map((x: InstrumentGlobalType, index: number) => {
      let t = 0;
 
@@ -136,28 +143,29 @@ export const SelectToolsElementMuiToolsNew = ({
       if (t === 0) {
        t++;
 
-       const touchCheck = (e: any, index: number) => {
-        setClassesHiddenCount(index);
-        //e.stopPropagation();
-        e.preventDefault();
-       };
        return (
-        <div
-         className={s.openMenu}
-         onTouchStart={(e) => touchCheck(e, index)}
-         onTouchEnd={(e) => touchCheck(e, index)}
-         onClick={(e) => touchCheck(e, index)}
+        <span
+         onClick={() => {
+          classesHiddenCount !== index ? setClassesHiddenCount(index) : setClassesHiddenCount(null);
+         }}
+         onTouchEnd={(e) => touchCheckTouch(e, index)}
         >
-         <img
-          className={cn({
-           [s.iconArrow]: index !== classesHiddenCount,
-          })}
-          src={arrowSelect}
-          alt="arrow"
-          style={{ marginRight: "10px" }}
-         />
-         <ListItemText sx={styleSxTool.listItem} primary={x.name} />
-        </div>
+         <div
+          className={s.openMenu}
+          // onClick={(e) => touchCheck(e, index)}
+          //onTouchEnd={(e) => touchCheckTouch(e, index)}
+         >
+          <img
+           className={cn({
+            [s.iconArrow]: index !== classesHiddenCount,
+           })}
+           src={arrowSelect}
+           alt="arrow"
+           style={{ marginRight: "10px" }}
+          />
+          <ListItemText sx={styleSxTool.listItem} primary={x.name} />
+         </div>
+        </span>
        );
       } else {
        return (

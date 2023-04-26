@@ -1,4 +1,4 @@
-import { useLocation, useNavigate, useOutletContext, useParams } from "react-router-dom";
+import { useNavigate, useOutletContext, useParams } from "react-router-dom";
 import moreButtonCircle from "../assets/icons/more-button-circle.svg";
 import arrow_back from "../assets/icons/arrow_back.svg";
 import shareIcons from "../assets/icons/shareIcons.svg";
@@ -16,8 +16,6 @@ import { useDeleteNewsMutation } from "../modules/timeLine/getNewsListQuery";
 import { selectTypeNews } from "../modules/timeLine/service/optionСategoryBD";
 import { PreLoader } from "../common/components/preLoader/PreLoader";
 import s from "./styles/newsPagesOne.module.scss";
-import { useEffect } from "react";
-import { GroupeToolsAndGenreChips } from "../common/components/ads/groupeToolsAndGenreChips/GroupeToolsAndGenreChips";
 
 export const NewsPagesOne = () => {
  const [deleteNews] = useDeleteNewsMutation();
@@ -32,11 +30,6 @@ export const NewsPagesOne = () => {
 
  const navigate = useNavigate();
  const { id_news } = useParams();
-
- // const { pathname } = useLocation();
- // useEffect(() => {
- //  window.scrollTo(0, 0);
- // }, [pathname]);
 
  const dataOneNews = data?.find((x) => `${x.id}` === id_news);
 
@@ -107,9 +100,9 @@ export const NewsPagesOne = () => {
       <span className={s.theme}>{selectTypeNews[dataOneNews.type]}</span>
 
       {objectSkills?.map((x: any) => {
-       if (x.icon) {
+       if (!!x.icon) {
         return <ChipsToolItem itemLabel={x} key={x.id} />;
-       } else {
+       } else if (!!x.color) {
         return <ChipsGenreItem itemLabel={x} key={x.id} />;
        }
       })}
@@ -119,9 +112,3 @@ export const NewsPagesOne = () => {
   </StylesFullScreen>
  );
 };
-
-//{
-// label: "Редактировать",
-// link: `${RouteNames.CHANGE_THIS_NEWS}/${dataOneNews.id}`,
-// action: () => {},
-//},

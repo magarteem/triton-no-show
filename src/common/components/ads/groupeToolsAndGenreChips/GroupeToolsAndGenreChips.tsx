@@ -48,9 +48,9 @@ export const GroupeToolsAndGenreChips = memo(({ tools, genre }: GroupeToolsAndGe
  return (
   <ChipsLayout refLink={ref}>
    {data.map((x: any) => {
-    if (x.icon) {
+    if (!!x.icon) {
      return <ChipsToolItem itemLabel={x} key={x.id} />;
-    } else {
+    } else if (x.color) {
      return <ChipsGenreItem itemLabel={x} key={x.id} />;
     }
    })}

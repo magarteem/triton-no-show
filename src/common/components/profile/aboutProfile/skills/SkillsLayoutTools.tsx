@@ -1,5 +1,6 @@
 import { memo, useEffect, useRef, useState } from "react";
 import { ToolsSliceType } from "../../../../../modules/user/types/userSliceType";
+import hourIcons from "../../../../../assets/icons/hourIcons.svg";
 import exportIconsSVG from "../../../../../assets/icons/iconsTools/exportIconsSVG";
 import { calcSizeElementBeforeRender } from "../../../../../helpers/calcSizeElementBeforeRender";
 import cn from "classnames";
@@ -51,7 +52,7 @@ export const SkillsLayoutTools = memo(
      <div ref={ref} className={s.skills_item}>
       {data.map((item, index) => (
        <div className={s.item} key={item.name}>
-        <img alt="icon" src={exportIconsSVG[item.icon]} />
+        <img alt="icon" src={exportIconsSVG[item.icon] ?? hourIcons} />
         {item.name}
        </div>
       ))}

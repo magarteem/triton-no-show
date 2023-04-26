@@ -4,15 +4,9 @@ interface ChipsGenreItemType {
  itemLabel: any;
 }
 
-export const ChipsGenreItem = ({
- itemLabel,
-}: ChipsGenreItemType) => {
+export const ChipsGenreItem = ({ itemLabel }: ChipsGenreItemType) => {
  return (
-  <div
-   style={{ backgroundColor: itemLabel.color }}
-   className={s.item}
-   key={itemLabel.name}
-  >
+  <div style={{ backgroundColor: itemLabel.color }} className={s.item} key={itemLabel.name}>
    {itemLabel.name}
   </div>
  );
