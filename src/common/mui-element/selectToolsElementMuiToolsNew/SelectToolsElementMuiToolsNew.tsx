@@ -19,6 +19,7 @@ import { styleSxTool } from "./styleSxTool";
 import { InstrumentGlobalType } from "../../../types/PROFILE/InstrumentGlobalType";
 import exportIconsSVG from "../../../assets/icons/iconsTools/exportIconsSVG";
 import { ChipsElement } from "./ChipsElement";
+import { Test } from "./Test";
 
 interface SelectToolsElementMuiToolsNewType {
  placeholder: string;
@@ -75,16 +76,16 @@ export const SelectToolsElementMuiToolsNew = ({
   !!!value.length && !!personName.length && setPersonName([]);
  }, [value]);
 
- const touchCheck = (e: any, index: number) => {
-  console.log("onClick touchCheck index", index);
-  classesHiddenCount !== index ? setClassesHiddenCount(index) : setClassesHiddenCount(null);
-  e.preventDefault();
- };
- const touchCheckTouch = (e: any, index: number) => {
-  console.log("onTouchEnd touchCheckTouch index", index);
-  classesHiddenCount !== index ? setClassesHiddenCount(index) : setClassesHiddenCount(null);
-  e.preventDefault();
- };
+ // const touchCheck = (e: any, index: number) => {
+ //  console.log("onClick touchCheck index", index);
+ //  classesHiddenCount !== index ? setClassesHiddenCount(index) : setClassesHiddenCount(null);
+ //  e.preventDefault();
+ // };
+ // const touchCheckTouch = (e: any, index: number) => {
+ //  console.log("onTouchEnd touchCheckTouch index", index);
+ //  classesHiddenCount !== index ? setClassesHiddenCount(index) : setClassesHiddenCount(null);
+ //  e.preventDefault();
+ // };
 
  return (
   <FormControl fullWidth sx={styleSxTool.formcontrol} error={errors}>
@@ -142,31 +143,32 @@ export const SelectToolsElementMuiToolsNew = ({
 
       if (t === 0) {
        t++;
-
        return (
-        <span
-         onClick={() => {
-          classesHiddenCount !== index ? setClassesHiddenCount(index) : setClassesHiddenCount(null);
-         }}
-         onTouchEnd={(e) => touchCheckTouch(e, index)}
-        >
-         <div
-          className={s.openMenu}
-          // onClick={(e) => touchCheck(e, index)}
-          //onTouchEnd={(e) => touchCheckTouch(e, index)}
-         >
-          <img
-           className={cn({
-            [s.iconArrow]: index !== classesHiddenCount,
-           })}
-           src={arrowSelect}
-           alt="arrow"
-           style={{ marginRight: "10px" }}
-          />
-          <ListItemText sx={styleSxTool.listItem} primary={x.name} />
-         </div>
-        </span>
+        <Test
+         classesHiddenCount={classesHiddenCount}
+         index={index}
+         setClassesHiddenCount={setClassesHiddenCount}
+         x={x}
+         key={t}
+        />
        );
+       // return (
+       //  <div
+       //   className={s.openMenu}
+       //   onClick={(e) => touchCheck(e, index)}
+       //   onTouchEnd={(e) => touchCheckTouch(e, index)}
+       //  >
+       //   <img
+       //    className={cn({
+       //     [s.iconArrow]: index !== classesHiddenCount,
+       //    })}
+       //    src={arrowSelect}
+       //    alt="arrow"
+       //    style={{ marginRight: "10px" }}
+       //   />
+       //   <ListItemText sx={styleSxTool.listItem} primary={x.name} />
+       //  </div>
+       // );
       } else {
        return (
         <MenuItem
