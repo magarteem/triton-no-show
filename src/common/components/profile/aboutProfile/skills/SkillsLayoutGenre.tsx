@@ -1,8 +1,8 @@
 import cn from "classnames";
 import { memo, useEffect, useRef, useState } from "react";
 import { GenreSliceType } from "../../../../../modules/user/types/userSliceType";
-import s from "./skillsLayoutGenre.module.scss";
 import { calcSizeElementBeforeRender } from "../../../../../helpers/calcSizeElementBeforeRender";
+import s from "./skillsLayoutGenre.module.scss";
 
 interface SkillsLayoutType {
  skillsDataItem: GenreSliceType[];
@@ -14,11 +14,12 @@ export const SkillsLayoutGenre = memo(
   const ref = useRef<HTMLDivElement | null>(null);
   const [showMore, setShowMore] = useState(false);
   const [data, setData] = useState<GenreSliceType[]>([]);
-  const [maxShowChips, setMaxShowChips] = useState(0);
+  const [maxShowChips, setMaxShowChips] = useState<GenreSliceType[]>([]);
 
-  const toggle = (num: number) => {
+  const toggle = (e: any, num: GenreSliceType[]) => {
+   e.preventDefault();
    setShowMore((prev) => !prev);
-   showMore ? setMaxShowChips(num) : setMaxShowChips(skillsDataItem.length);
+   showMore ? setMaxShowChips(num) : setMaxShowChips(skillsDataItem);
   };
 
   const num = () => {
@@ -30,7 +31,7 @@ export const SkillsLayoutGenre = memo(
      m.push(e);
     }
    });
-   return m.length;
+   return m;
   };
 
   useEffect(() => {
@@ -39,7 +40,7 @@ export const SkillsLayoutGenre = memo(
   }, [skillsDataItem]);
 
   useEffect(() => {
-   setData(skillsDataItem.slice(0, maxShowChips));
+   setData(skillsDataItem.slice(0, maxShowChips.length));
   }, [maxShowChips]);
 
   return (
@@ -54,14 +55,14 @@ export const SkillsLayoutGenre = memo(
        </div>
       ))}
 
-      {!showMore && skillsDataItem?.length > maxShowChips && (
-       <div onClick={() => toggle(skillsDataItem.length)} className={cn(s.item, s.itemHidden)}>
-        Ещё {skillsDataItem.length - maxShowChips}
+      {!showMore && skillsDataItem.length > maxShowChips.length && (
+       <div onClick={(e) => toggle(e, skillsDataItem)} className={cn(s.item, s.itemHidden)}>
+        Ещё {skillsDataItem.length - maxShowChips.length}
        </div>
       )}
 
       {showMore && data.length === skillsDataItem.length && (
-       <div onClick={() => toggle(num())} className={cn(s.item, s.itemHidden)}>
+       <div onClick={(e) => toggle(e, num())} className={cn(s.item, s.itemHidden)}>
         Скрыть
        </div>
       )}

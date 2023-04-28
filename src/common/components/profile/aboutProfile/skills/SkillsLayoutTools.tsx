@@ -16,11 +16,12 @@ export const SkillsLayoutTools = memo(
   const ref = useRef<HTMLDivElement | null>(null);
   const [showMore, setShowMore] = useState(false);
   const [data, setData] = useState<ToolsSliceType[]>([]);
-  const [maxShowChips, setMaxShowChips] = useState(0);
+  const [maxShowChips, setMaxShowChips] = useState<ToolsSliceType[]>([]);
 
-  const toggle = (num: number) => {
+  const toggle = (e: any, num: ToolsSliceType[]) => {
+   e.preventDefault();
    setShowMore((prev) => !prev);
-   showMore ? setMaxShowChips(num) : setMaxShowChips(skillsDataItem.length);
+   showMore ? setMaxShowChips(num) : setMaxShowChips(skillsDataItem);
   };
 
   const num = () => {
@@ -32,7 +33,7 @@ export const SkillsLayoutTools = memo(
      m.push(e);
     }
    });
-   return m.length;
+   return m;
   };
 
   useEffect(() => {
@@ -41,7 +42,7 @@ export const SkillsLayoutTools = memo(
   }, [skillsDataItem]);
 
   useEffect(() => {
-   setData(skillsDataItem.slice(0, maxShowChips));
+   setData(skillsDataItem.slice(0, maxShowChips.length));
   }, [maxShowChips]);
 
   return (
@@ -57,14 +58,14 @@ export const SkillsLayoutTools = memo(
        </div>
       ))}
 
-      {!showMore && skillsDataItem?.length > maxShowChips && (
-       <div onClick={() => toggle(skillsDataItem.length)} className={cn(s.item, s.itemHidden)}>
-        Ещё {skillsDataItem?.length - maxShowChips}
+      {!showMore && skillsDataItem.length > maxShowChips.length && (
+       <div onClick={(e) => toggle(e, skillsDataItem)} className={cn(s.item, s.itemHidden)}>
+        Ещё {skillsDataItem?.length - maxShowChips.length}
        </div>
       )}
 
       {showMore && data.length === skillsDataItem.length && (
-       <div onClick={() => toggle(num())} className={cn(s.item, s.itemHidden)}>
+       <div onClick={(e) => toggle(e, num())} className={cn(s.item, s.itemHidden)}>
         Скрыть
        </div>
       )}

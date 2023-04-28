@@ -22,10 +22,11 @@ import s from "./styles/incomingNotificationPageOne.module.scss";
 import { WaitingActionButton } from "../common/components/notification/waitinActionButton/WaitingActionButton";
 import { ContactsElement } from "../common/components/ads/adsPageOne/ContactsElement";
 
+const undefined = "Undefined";
+
 export const OutgoingNotificationPageOne = () => {
  const { id_inComingNotification } = useParams();
  let location = useLocation().pathname;
-
  const { data: dataOneVacancysNew, isLoading: isLoadingVacancy } = useOneVacancyPostQuery(
   id_inComingNotification || "",
   {
@@ -40,6 +41,9 @@ export const OutgoingNotificationPageOne = () => {
  );
 
  const dataOneNews = dataOneVacancysNew ?? dataOneAdsNew;
+ const musician = dataOneNews && dataOneNews.musicianAnnouncementDocument;
+ const sound = dataOneNews && dataOneNews.soundProducerAnnouncementDocument;
+
  if (isLoadingVacancy || isLoadingAds || !dataOneNews) return <PreLoader />;
 
  return (
@@ -58,17 +62,21 @@ export const OutgoingNotificationPageOne = () => {
        <HeaderPageOneAds data={dataOneNews} />
        <div className={s.about}>{dataOneNews.description}</div>
 
-       {dataOneNews.musicianAnnouncementDocument && (
+       {musician && (
         <>
-         <div className={s.styleAbout}>
-          <span className={s.titleSpan}>Пол:</span>
-          {translationGender[dataOneNews.musicianAnnouncementDocument.gender]}
-         </div>
+         {musician.gender && musician.gender !== undefined && (
+          <div className={s.styleAbout}>
+           <span className={s.titleSpan}>Пол:</span>
+           {translationGender[musician.gender]}
+          </div>
+         )}
 
-         <div className={s.styleAbout}>
-          <span className={s.titleSpan}>Возраст:</span>
-          {` ${dataOneNews.musicianAnnouncementDocument.ageRange.start} - ${dataOneNews.musicianAnnouncementDocument.ageRange.finish}`}
-         </div>
+         {musician.ageRange && (
+          <div className={s.styleAbout}>
+           <span className={s.titleSpan}>Возраст:</span>
+           {` ${musician.ageRange.start} - ${musician.ageRange.finish}`}
+          </div>
+         )}
         </>
        )}
 
@@ -79,14 +87,11 @@ export const OutgoingNotificationPageOne = () => {
         </div>
        )}
 
-       {(dataOneNews.musicianAnnouncementDocument ||
-        dataOneNews.soundProducerAnnouncementDocument) && (
+       {((musician && musician.skills[0] !== undefined) || sound) && (
         <div className={s.styleAbout}>
          <span className={s.titleSpan}>Мастерство:</span>
-         {dataOneNews.musicianAnnouncementDocument &&
-          skillGenerator[dataOneNews.musicianAnnouncementDocument.skills]?.name}
-         {dataOneNews.soundProducerAnnouncementDocument &&
-          skillGenerator[dataOneNews.soundProducerAnnouncementDocument.skills]?.name}
+         {musician && skillGenerator[musician.skills]?.name}
+         {sound && skillGenerator[sound.skills]?.name}
         </div>
        )}
 

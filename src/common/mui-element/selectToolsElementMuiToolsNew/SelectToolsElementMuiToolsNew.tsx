@@ -1,4 +1,3 @@
-import arrowSelect from "../../../assets/icons/arrowSelect.webp";
 import hourIcons from "../../../assets/icons/hourIcons.svg";
 import {
  Checkbox,
@@ -11,15 +10,18 @@ import {
  Select,
  SelectChangeEvent,
 } from "@mui/material";
-import s from "../optionCustom.module.scss";
+import "./styleTools.css";
 import cn from "classnames";
 import { Stack } from "@mui/system";
 import { useEffect, useState } from "react";
 import { styleSxTool } from "./styleSxTool";
-import { InstrumentGlobalType } from "../../../types/PROFILE/InstrumentGlobalType";
+import {
+ InstrumentGlobalType,
+ ToolsGroupeItemType,
+} from "../../../types/PROFILE/InstrumentGlobalType";
 import exportIconsSVG from "../../../assets/icons/iconsTools/exportIconsSVG";
 import { ChipsElement } from "./ChipsElement";
-import { Test } from "./Test";
+import { GroupeElement } from "./GroupeElement";
 
 interface SelectToolsElementMuiToolsNewType {
  placeholder: string;
@@ -51,7 +53,7 @@ export const SelectToolsElementMuiToolsNew = ({
   setPersonName(typeof value === "string" ? value.split(",") : value);
  };
 
- const handleDelete = (e: any, value: any) => {
+ const handleDelete = (value: any) => {
   setPersonName(personName.filter((x) => x !== value));
  };
 
@@ -75,17 +77,6 @@ export const SelectToolsElementMuiToolsNew = ({
  useEffect(() => {
   !!!value.length && !!personName.length && setPersonName([]);
  }, [value]);
-
- // const touchCheck = (e: any, index: number) => {
- //  console.log("onClick touchCheck index", index);
- //  classesHiddenCount !== index ? setClassesHiddenCount(index) : setClassesHiddenCount(null);
- //  e.preventDefault();
- // };
- // const touchCheckTouch = (e: any, index: number) => {
- //  console.log("onTouchEnd touchCheckTouch index", index);
- //  classesHiddenCount !== index ? setClassesHiddenCount(index) : setClassesHiddenCount(null);
- //  e.preventDefault();
- // };
 
  return (
   <FormControl fullWidth sx={styleSxTool.formcontrol} error={errors}>
@@ -127,7 +118,7 @@ export const SelectToolsElementMuiToolsNew = ({
       return (
        <MenuItem sx={styleSxTool.menuItem} key={x.name} value={x.name}>
         <Checkbox sx={styleSxTool.checkbox} checked={personName.indexOf(x.name) > -1} />
-        {x.icon && <img alt="icon" src={exportIconsSVG[x.icon]} />}
+        <img alt="icon" src={x.icon ? exportIconsSVG[x.icon] : hourIcons} />
         <ListItemText primary={x.name} />
        </MenuItem>
       );
@@ -135,55 +126,44 @@ export const SelectToolsElementMuiToolsNew = ({
 
      let r = [...x.subInstruments];
      x.subInstruments[0] && r.unshift(x.subInstruments[0]);
-     return r.map((p: any) => {
-      let iconTools = options.map((op: any) => {
-       const temp = op.subInstruments.find((x: any) => x.name === p.name);
-       return temp;
-      });
+
+     return r.map((p: ToolsGroupeItemType) => {
+      //let iconTools = options.map((op: any) => {
+      //  const temp = op.subInstruments.find((x: any) => x.name === p.name);
+      //  console.log(temp);
+      //  return temp;
+      //});
 
       if (t === 0) {
        t++;
+
        return (
-        <Test
-         classesHiddenCount={classesHiddenCount}
-         index={index}
-         setClassesHiddenCount={setClassesHiddenCount}
-         x={x}
+        <GroupeElement
          key={t}
+         x={x}
+         index={index}
+         classesHiddenCount={classesHiddenCount}
+         setClassesHiddenCount={setClassesHiddenCount}
         />
        );
-       // return (
-       //  <div
-       //   className={s.openMenu}
-       //   onClick={(e) => touchCheck(e, index)}
-       //   onTouchEnd={(e) => touchCheckTouch(e, index)}
-       //  >
-       //   <img
-       //    className={cn({
-       //     [s.iconArrow]: index !== classesHiddenCount,
-       //    })}
-       //    src={arrowSelect}
-       //    alt="arrow"
-       //    style={{ marginRight: "10px" }}
-       //   />
-       //   <ListItemText sx={styleSxTool.listItem} primary={x.name} />
-       //  </div>
-       // );
       } else {
        return (
         <MenuItem
          className={cn({
-          [s.optionCustom]: index !== classesHiddenCount,
+          optionCustom: index !== classesHiddenCount,
          })}
          sx={styleSxTool.menuItem}
          key={p.name}
          value={p.name}
         >
          <Checkbox sx={styleSxTool.checkbox} checked={personName.indexOf(p.name) > -1} />
-         <img
-          alt="icon"
-          src={exportIconsSVG[iconTools.filter((y) => y !== undefined)[0].icon] ?? hourIcons}
-         />
+         <img alt="icon" src={exportIconsSVG[p.icon] ?? hourIcons} />
+         {/*<img
+                    alt="icon"
+                    src={
+                      exportIconsSVG[iconTools.filter((y) => y !== undefined)[0].icon] ?? hourIcons
+                    }
+                  />*/}
          <ListItemText primary={p.name} />
         </MenuItem>
        );

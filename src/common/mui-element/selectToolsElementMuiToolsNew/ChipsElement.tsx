@@ -9,24 +9,25 @@ import {
 } from "../../../types/PROFILE/InstrumentGlobalType";
 
 interface ChipsElementType {
- handleDelete: (e: any, value: any) => any;
+ handleDelete: (value: any) => any;
  values: any;
  options: InstrumentGlobalType[];
 }
 
 export const ChipsElement = ({ handleDelete, values, options }: ChipsElementType) => {
- const iconTools = (): ToolsGroupeItemType | null => {
-  let y = null;
+ const iconTools = (): string => {
+  let y: InstrumentGlobalType | ToolsGroupeItemType | null = null;
   options.find((op: InstrumentGlobalType) => {
    if (op.subInstruments.length === 0 && op.name === values && op.icon) y = op;
    else {
-    return op.subInstruments.find((x: any) => {
+    return op.subInstruments.find((x: ToolsGroupeItemType) => {
      if (x.name === values) y = x;
     });
    }
   });
 
-  return y;
+  //@ts-ignore
+  return exportIconsSVG[y?.icon] ?? hourIcons;
  };
 
  return (
@@ -40,13 +41,10 @@ export const ChipsElement = ({ handleDelete, values, options }: ChipsElementType
      <ClearIcon />
     </span>
    }
-   onDelete={(e) => handleDelete(e, values)}
+   onDelete={() => handleDelete(values)}
    key={values}
    label={values}
-   avatar={
-    //@ts-ignore
-    <img alt="icon" src={exportIconsSVG[iconTools().icon] ?? hourIcons} />
-   }
+   avatar={<img alt="icon" src={iconTools()} />}
    sx={styleSxTool.chip}
   />
  );

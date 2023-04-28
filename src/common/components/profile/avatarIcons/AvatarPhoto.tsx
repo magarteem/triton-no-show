@@ -1,5 +1,5 @@
 import { Swiper, SwiperSlide } from "swiper/react";
-import { useEffect, useState, useLayoutEffect } from "react";
+import { useEffect, useState } from "react";
 import { ReactComponent as AddAccountImgIcon } from "../../../../assets/icons/clearIcon.svg";
 import { EffectCoverflow } from "swiper";
 import noAvatar from "../../../../assets/icons/noAvatar.svg";
@@ -14,10 +14,10 @@ import { MusicianTypeResponse } from "../../../../modules/user/types/putReqestUp
 import { toggleForm } from "../../../../modules/user/userSlice";
 import { Link, useLocation } from "react-router-dom";
 import { RouteNames } from "../../../../core/router/RouteNames";
+import { OpenThisAvatar } from "./OpenThisAvatar";
 import "swiper/scss";
 import "swiper/css/effect-coverflow";
 import s from "./avatarPhoto.module.scss";
-import { OpenThisAvatar } from "./OpenThisAvatar";
 
 interface AvatarIconsType {
  avatarPhoto?: string;

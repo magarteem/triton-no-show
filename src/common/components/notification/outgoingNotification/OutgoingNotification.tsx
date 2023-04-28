@@ -7,7 +7,6 @@ import { reSelectData } from "../../../../modules/notification/helpers/reSelect"
 import { WaitingActionButton } from "../waitinActionButton/WaitingActionButton";
 import { InButton } from "../../../ui-elements/button/InButton";
 import s from "../incomingNotification/incomingNotification.module.scss";
-import cn from "classnames";
 
 export const OutgoingNotification = () => {
  const [dataOutgoing, isLoadingOutgoing, , isLoadingIncoming]: [

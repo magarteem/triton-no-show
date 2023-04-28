@@ -132,11 +132,13 @@ export const styleSxTool = {
 
  MenuProps: {
   "& .MuiPaper-root": {
+   height: "75vh",
    padding: "10px 16px !important",
   },
 
   ".MuiList-root li": {
-   height: "37px !important",
+   transition: "all 0.2s",
+   height: "37px",
    padding: "0 14px",
    minHeight: "auto !important",
 

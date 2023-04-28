@@ -1,18 +1,24 @@
-import React from "react";
+//import React from "react";
 import { styleSxTool } from "../selectToolsElementMui/styleSxTool";
 import arrowSelect from "../../../assets/icons/arrowSelect.webp";
-import s from "../optionCustom.module.scss";
-import cn from "classnames";
 import { ListItemText } from "@mui/material";
+import cn from "classnames";
+import s from "../optionCustom.module.scss";
+import { GenreGlobalType } from "../../../types/PROFILE/genreGlobalType";
 
-interface TestType {
- classesHiddenCount: any;
- setClassesHiddenCount: any;
- index: any;
- x: any;
+interface GroupeElementType {
+ x: GenreGlobalType;
+ index: number;
+ classesHiddenCount: number | null;
+ setClassesHiddenCount: (index: number | null) => void;
 }
 
-export const Test = ({ classesHiddenCount, index, setClassesHiddenCount, x }: TestType) => {
+export const GroupeElement = ({
+ classesHiddenCount,
+ index,
+ setClassesHiddenCount,
+ x,
+}: GroupeElementType) => {
  const touchCheck = (e: any, index: number) => {
   console.log("onClick touchCheck index", index);
   classesHiddenCount !== index ? setClassesHiddenCount(index) : setClassesHiddenCount(null);

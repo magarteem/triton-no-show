@@ -1,13 +1,13 @@
-import { useState } from "react";
-import TextFieldElementMui from "../../mui-element/textFieldElementMui/textField/TextFieldElementMui";
 import { FilterModalLayout } from "../../layout/filterModalLayout/FilterModalLayout";
+import { calculateAge } from "../../../helpers/calculateAge";
+import { IconButton } from "@mui/material";
+import { useState } from "react";
+import { minDate } from "./utils";
 import dayjs from "dayjs";
 import DatePicker from "rmc-date-picker/lib/DatePicker";
-import { maxDate, minDate, now } from "./utils";
-import { IconButton } from "@mui/material";
+import TextFieldElementMui from "../../mui-element/textFieldElementMui/textField/TextFieldElementMui";
 import "./styles.css";
 import s from "./rmcPicker.module.scss";
-import { calculateAge } from "../../../helpers/calculateAge";
 
 interface RmcDatePickerType {
  placeholder: string;
@@ -88,7 +88,7 @@ export const RmcDatePicker = ({
      defaultDate={date}
      mode={mode}
      minuteStep={5}
-     maxDate={maxDate}
+     maxDate={mode === "date" ? new Date() : false}
      minDate={min ? min : minDate}
      onDateChange={onDateChange}
     />

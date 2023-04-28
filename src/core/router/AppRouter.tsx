@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 import { FirstToStepsLayout } from "../../common/layout/firstToStepsLayout/FirstToStepsLayout";
 import { RouteNames } from "./RouteNames";
@@ -36,7 +36,6 @@ import { AdsTabs } from "../../common/components/ads/tabsComponentAds/adsTabs/Ad
 import { QuestionnaireTabs } from "../../common/components/ads/tabsComponentAds/questionnaireTabs/QuestionnaireTabs";
 import { News } from "../../pages/News";
 import { AddNewNews } from "../../pages/AddNewNews";
-//import { ChangeThisNews } from "../../pages/ChangeThisNews";
 import { OtherUserРosts } from "../../pages/OtherUserРosts";
 import { OtherUserVacancyTabs } from "../../common/components/profile/otherUserProfile/otherUserVacancyTabs/OtherUserVacancyTabs";
 import { OtherUserNewsTabs } from "../../common/components/profile/otherUserProfile/otherUserNewsTabs/OtherUserNewsTabs";
@@ -48,6 +47,7 @@ import { AddTypeAccountStepUpdateData } from "../../modules/user/AddTypeAccountS
 import { AdsPageOneAnnouncement } from "../../pages/AdsPageOneAnnouncement";
 import { AdsPageOneVacancy } from "../../pages/AdsPageOneVacancy";
 import { OtherUserQuestionnaireTabs } from "../../common/components/profile/otherUserProfile/otherUserQuestionnaireTabs/OtherUserQuestionnaireTabs";
+//import { ChangeThisNews } from "../../pages/ChangeThisNews";
 
 //const Ads = React.lazy(() =>
 // import(
@@ -91,7 +91,6 @@ export const AppRouter = () => {
      <Route path="news" element={<Home />}>
       <Route element={<News />}>
        <Route index element={<NewsAll />} />
-       {/*<Route index element={<NewsAllApi />} />*/}
        <Route path={RouteNames.ADD_NEW_NEWS} element={<AddNewNews />} />
        {/*<Route path={`${RouteNames.CHANGE_THIS_NEWS}/:change_id_news`} element={<ChangeThisNews />} />*/}
        <Route path={`${RouteNames.NEWS}/:id_news`} element={<NewsPagesOne />} />
@@ -104,7 +103,6 @@ export const AppRouter = () => {
        <Route path={RouteNames.ADS_LIST} element={<AdsTabs />} />
        <Route path={RouteNames.ADS_QUESTIONNAIRE_LIST} element={<QuestionnaireTabs />} />
       </Route>
-      {/*<Route path={`${RouteNames.ADS}/:id_ads`} element={<AdsPageOne />} />*/}
       <Route path={`${RouteNames.ADS}/:id_ads`} element={<AdsPageOneVacancy />} />
       <Route
        path={`${RouteNames.ADS}/${RouteNames.ADS_LIST}/:id_ads`}
@@ -197,11 +195,6 @@ export const AppRouter = () => {
       <Route path={RouteNames.RESET_PASSWORD} element={<RecoveryPasswordSecondSteps />} />
      </Route>
     </Route>
-    // <Route path={RouteNames.RECOVERY_PASSWORD} element={<RecoveryPassword />}>
-    //  <Route index element={<RecoveryPasswordFirstSteps />} />
-    //  <Route path={RouteNames.RECOVERY_CREATE_PASSWORD} element={<RecoveryPasswordSecondSteps />} />
-    // </Route>
-    //</Route>
    )}
 
    <Route path="*" element={<NotFound />} />

@@ -1,8 +1,9 @@
 .optionCustom {
- height: 0 !important;
- display: none !important;
- overflow: hidden !important;
- padding: 0 !important;
+ // height: 0 !important;
+ // // display: none !important;
+ // overflow: hidden !important;
+ // padding: 0 !important;
+ // opacity: 0;
 }
 
 .iconArrow {
@@ -10,6 +11,7 @@
 }
 
 .openMenu {
+ transition: all 2s;
  display: flex;
  align-items: center;
  cursor: pointer;

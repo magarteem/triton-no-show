@@ -14,18 +14,14 @@ export const styleSxGenre = {
  },
 
  menuProps: {
-  //height: "300px !important",
   "& .MuiPaper-root": {
-   // top: "0",
-   // top: "250px !important",
-   // top: "150px !important",
-   // bottom: "10px !important",
-   maxHeight: "75vh",
+   padding: "10px 16px !important",
+   height: "75vh",
   },
 
   ".MuiList-root li": {
+   transition: "all 0.2s",
    height: "37px !important",
-
    padding: "0 14px",
    minHeight: "auto !important",
 
@@ -41,6 +37,9 @@ export const styleSxGenre = {
     color: "#242424 ",
     fontFamily: `Mulish_Regular, sans-serif !important`,
    },
+  },
+  ".MuiList-root li.optionCustom_optionCustom__SJuw4 ": {
+   height: "0 !important",
   },
  },
 

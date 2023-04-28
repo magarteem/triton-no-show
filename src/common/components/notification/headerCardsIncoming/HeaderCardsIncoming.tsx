@@ -17,8 +17,8 @@ interface HeaderCardsType {
 export const HeaderCardsIncoming = ({ menu = true, x }: HeaderCardsType) => {
  return (
   <div className={s.headerCardsIncoming}>
-   {/*<Link to={`${RouteNames.OTHER_PROFILE_USER}/${x.triggerForm.formId}`} className={s.author}>*/}
-   <Link
+   <Link to={`${RouteNames.OTHER_PROFILE_USER}/${x.triggerForm.formId}`} className={s.author}>
+    {/*<Link
     to={
      x.type !== "Contact"
       ? `${
@@ -29,7 +29,7 @@ export const HeaderCardsIncoming = ({ menu = true, x }: HeaderCardsType) => {
       : `${RouteNames.OTHER_PROFILE_USER}/${x.triggerForm.formId}`
     }
     className={s.author}
-   >
+   >*/}
     <div className={s.avatar}>
      <Avatar alt="avatar" src={x.triggerForm?.avatar ? x.triggerForm.avatar.uri : noAvatar} />
     </div>

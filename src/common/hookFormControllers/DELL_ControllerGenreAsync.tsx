@@ -1,8 +1,8 @@
 import { Controller } from "react-hook-form";
 import { useGetGenreDataQuery } from "../../api/getDataForForm/getCityQuery";
 import { GenreGlobalType } from "../../types/PROFILE/genreGlobalType";
+import { SelectGenreElementMui } from "../mui-element/selectGenreElementMui/SelectGenreElementMui";
 import s from "./formFields.module.scss";
-import { SelectGenreElementMuiNew } from "../mui-element/selectGenreElementMuiNew/SelectGenreElementMuiNew";
 
 const reselect = (data: GenreGlobalType[]): GenreGlobalType[] => {
  const dataResult = data.map((x: GenreGlobalType) => {
@@ -17,17 +17,17 @@ const reselect = (data: GenreGlobalType[]): GenreGlobalType[] => {
  return dataResult;
 };
 
-export interface ControllerGenreAsyncNewType {
+export interface ControllerGenreAsyncType {
  control: any;
  name: string;
  required?: boolean;
 }
 
-export const ControllerGenreAsyncNew = ({
+export const ControllerGenreAsync = ({
  control,
  name,
  required = true,
-}: ControllerGenreAsyncNewType) => {
+}: ControllerGenreAsyncType) => {
  const { data } = useGetGenreDataQuery();
 
  if (!data) return null;
@@ -41,7 +41,7 @@ export const ControllerGenreAsyncNew = ({
      required: required ? "Обязательное поле" : false,
     }}
     render={({ field: { onChange, value, ref, ...field }, formState: { errors } }) => (
-     <SelectGenreElementMuiNew
+     <SelectGenreElementMui
       ItemRef={ref}
       value={value}
       placeholder="Жанр"
