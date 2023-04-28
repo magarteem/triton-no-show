@@ -21,7 +21,7 @@ export const styleSxGenre = {
 
   ".MuiList-root li": {
    transition: "all 0.2s",
-   height: "37px !important",
+   height: "37px",
    padding: "0 14px",
    minHeight: "auto !important",
 
@@ -37,9 +37,6 @@ export const styleSxGenre = {
     color: "#242424 ",
     fontFamily: `Mulish_Regular, sans-serif !important`,
    },
-  },
-  ".MuiList-root li.optionCustom_optionCustom__SJuw4 ": {
-   height: "0 !important",
   },
  },
 
