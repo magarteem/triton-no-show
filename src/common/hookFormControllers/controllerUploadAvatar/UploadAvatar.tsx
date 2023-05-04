@@ -31,7 +31,7 @@ export const UploadAvatar = ({ onChange, value, ...props }: UploadAvatarType) =>
   if (e.target.files && e.target.files[0].size / 1024 / 1024 <= 1) {
    e.target.files && setOnChangeImgTest(e.target.files[0]);
 
-   formDataImg.append("file", e.target.files[0]);
+   formDataImg.append("file", e.target.files[0], e.target.files[0].name.replace(/ /g, ""));
    onChange(formDataImg);
   } else {
    setOpenSnackbar({

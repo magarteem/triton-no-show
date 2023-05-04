@@ -31,7 +31,6 @@ export const CreateNewAds = () => {
 
  const methodVacancy = useForm<FormsCreatedVacancyType>({
   mode: "onBlur",
-
   defaultValues: {
    required: null,
    whoAreLooking: null,
@@ -86,8 +85,6 @@ export const CreateNewAds = () => {
  });
 
  const onSubmitAds = (data: FormsCreatedVacancyType) => {
-  console.log(' watch("fromAge"), >>> ', methodVacancy.watch("fromAge"));
-  console.log("onSubmitAds = ", data);
   setNewAds(selectParamsForCreateAds(data, parseJson.id)).unwrap();
   navigate(-1);
  };

@@ -64,8 +64,7 @@ const userSlice = createSlice({
     changeProfileThunk.fulfilled.type,
     (state: InitialStateType, actions: PayloadAction<ChangeProfileFormValues>) => {
      state.isLoading = false;
-     console.log("------- changeProfileThunk ---------");
-     console.log(actions.payload);
+
      // return {
      //  ...state,
      //  ...actions,
@@ -106,6 +105,7 @@ const userSlice = createSlice({
    .addCase(
     changeProfileThunk.rejected.type,
     (state: InitialStateType, actions: PayloadAction<string>) => {
+     console.log("------- changeProfileThunk DELL ---------");
      state.isLoading = false;
     }
    )
@@ -150,14 +150,13 @@ const userSlice = createSlice({
     getMyProfileApiThunk.fulfilled.type,
     (state: InitialStateType, actions: PayloadAction<MyTypeFormsAccountProfileType[]>) => {
      state.isLoading = false;
-     // state.profileDataApiData = resetProfileDataApiData;
 
      const oneAccount = actions.payload.length < 2;
      let checkData = true;
      const emptyOrder = !Object.keys(TypeAccountType).length;
 
      const logicState = (itemObj: any, EnumTypeAccount: string) => {
-      setJsonLocalStorage(itemObj.id, EnumTypeAccount);
+      //setJsonLocalStorage(itemObj.id, EnumTypeAccount);
       if (emptyOrder) {
        setJsonLocalStorage(itemObj.id, EnumTypeAccount);
        state.profileData = actionGetDataThisActiveForms(itemObj, TypeAccountType);

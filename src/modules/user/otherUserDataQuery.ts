@@ -1,11 +1,11 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/dist/query/react";
 import queryString from "query-string";
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/dist/query/react";
 import { doneParseLocalStorage } from "../../helpers/getJsonParseLocalStorage";
 import { ResponseAdsType } from "../ads/types/responseAdsType";
 import { ResponseNewsType } from "../timeLine/types/responseNewsType";
 import { MusicianTypeResponse } from "./types/putReqestUpdateMyForm";
 import { AllFormsType } from "./types/responseSearchAllForms";
-import { ProfileDataApiDataType } from "./types/userSliceType";
+import { rulesQueryInfiniteScroll } from "../../helpers/rulesQueryInfiniteScroll";
 
 export const otherUserDataQuery = createApi({
  reducerPath: "otherUserDataQuery",
@@ -35,20 +35,7 @@ export const otherUserDataQuery = createApi({
    },
 
    forceRefetch({ currentArg, previousArg, endpointState }) {
-    const notDoubleFetch = endpointState?.data as ResponseNewsType;
-    const rulesQuery = () => {
-     if (
-      notDoubleFetch &&
-      //* notDoubleFetch.pageCount > notDoubleFetch.currentPage + 1 &&
-      currentArg &&
-      previousArg &&
-      currentArg?.page > previousArg?.page
-     ) {
-      return true;
-     }
-    };
-
-    return currentArg?.page !== previousArg?.page && (rulesQuery() || false);
+    return rulesQueryInfiniteScroll(previousArg, currentArg, endpointState);
    },
 
    serializeQueryArgs: ({ endpointName, queryArgs }) => {
@@ -56,8 +43,8 @@ export const otherUserDataQuery = createApi({
    },
 
    merge: (currentCache, newItems) => {
-    //* currentCache.pageCount = newItems.pageCount;
     currentCache.currentPage = newItems.currentPage;
+    currentCache.isNextPage = newItems.isNextPage;
     currentCache.results.push(...newItems.results);
    },
   }),
@@ -76,20 +63,8 @@ export const otherUserDataQuery = createApi({
     };
    },
 
-   forceRefetch({ currentArg, previousArg, state, endpointState }) {
-    const notDoubleFetch = endpointState?.data as ResponseAdsType;
-    const rulesQuery = () => {
-     if (
-      notDoubleFetch &&
-      notDoubleFetch.pageCount > notDoubleFetch.currentPage + 1 &&
-      currentArg &&
-      previousArg &&
-      currentArg?.page > previousArg?.page
-     ) {
-      return true;
-     }
-    };
-    return currentArg?.page !== previousArg?.page && (rulesQuery() || false);
+   forceRefetch({ currentArg, previousArg, endpointState }) {
+    return rulesQueryInfiniteScroll(previousArg, currentArg, endpointState);
    },
 
    serializeQueryArgs: ({ endpointName, queryArgs }) => {
@@ -97,8 +72,8 @@ export const otherUserDataQuery = createApi({
    },
 
    merge: (currentCache, newItems) => {
-    currentCache.pageCount = newItems.pageCount;
     currentCache.currentPage = newItems.currentPage;
+    currentCache.isNextPage = newItems.isNextPage;
     currentCache.results.push(...newItems.results);
    },
   }),
@@ -117,20 +92,8 @@ export const otherUserDataQuery = createApi({
     };
    },
 
-   forceRefetch({ currentArg, previousArg, state, endpointState }) {
-    const notDoubleFetch = endpointState?.data as ResponseAdsType;
-    const rulesQuery = () => {
-     if (
-      notDoubleFetch &&
-      notDoubleFetch.pageCount > notDoubleFetch.currentPage + 1 &&
-      currentArg &&
-      previousArg &&
-      currentArg?.page > previousArg?.page
-     ) {
-      return true;
-     }
-    };
-    return currentArg?.page !== previousArg?.page && (rulesQuery() || false);
+   forceRefetch({ currentArg, previousArg, endpointState }) {
+    return rulesQueryInfiniteScroll(previousArg, currentArg, endpointState);
    },
 
    serializeQueryArgs: ({ endpointName, queryArgs }) => {
@@ -138,14 +101,13 @@ export const otherUserDataQuery = createApi({
    },
 
    merge: (currentCache, newItems) => {
-    currentCache.pageCount = newItems.pageCount;
     currentCache.currentPage = newItems.currentPage;
+    currentCache.isNextPage = newItems.isNextPage;
     currentCache.results.push(...newItems.results);
    },
   }),
 
   //! HIS ACCOUNT ???
-
   getByUser: build.query<AllFormsType[] | any, string>({
    query: (get_by_user_Id) => {
     return {
@@ -173,48 +135,6 @@ export const otherUserDataQuery = createApi({
      };
      return allFormsReStructure;
     });
-   },
-  }),
-
-  otherUserAccount: build.query<ResponseAdsType, { page: number; formId: string }>({
-   query: ({ page, formId }) => {
-    const params = {
-     page: page,
-     pageSize: 5,
-     formId: formId,
-    };
-
-    console.log("===");
-
-    return {
-     url: `form/search?${queryString.stringify(params)}`,
-    };
-   },
-
-   forceRefetch({ currentArg, previousArg, state, endpointState }) {
-    const notDoubleFetch = endpointState?.data as ResponseAdsType;
-    const rulesQuery = () => {
-     if (
-      notDoubleFetch &&
-      notDoubleFetch.pageCount > notDoubleFetch.currentPage + 1 &&
-      currentArg &&
-      previousArg &&
-      currentArg?.page > previousArg?.page
-     ) {
-      return true;
-     }
-    };
-    return currentArg?.page !== previousArg?.page && (rulesQuery() || false);
-   },
-
-   serializeQueryArgs: ({ endpointName, queryArgs }) => {
-    return endpointName;
-   },
-
-   merge: (currentCache, newItems) => {
-    currentCache.pageCount = newItems.pageCount;
-    currentCache.currentPage = newItems.currentPage;
-    currentCache.results.push(...newItems.results);
    },
   }),
  }),

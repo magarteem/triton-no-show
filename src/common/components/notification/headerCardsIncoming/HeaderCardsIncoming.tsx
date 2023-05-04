@@ -42,7 +42,7 @@ export const HeaderCardsIncoming = ({ menu = true, x }: HeaderCardsType) => {
      </span>
      <p className={s.triggetInfo}>
       на
-      <span>{` ${x.type === "Contact" ? "Запросит контакты" : x.announcement?.title}`}</span>
+      <span>{` ${x.type === "Contact" ? "Запрашивает контакты" : x.announcement?.title}`}</span>
       {`, от ${dateDeclension(new Date(x.triggerForm.createdDate).getTime(), "D MMMM")}`}
      </p>
     </div>

@@ -2,6 +2,7 @@ import clearIcon from "../../assets/icons/clearIcon.svg";
 import { ReactComponent as AddImageIcons } from "../../assets/icons/addImageIcons.svg";
 import { Controller, useForm } from "react-hook-form";
 import { TextField } from "@mui/material";
+import { CircularProgress } from "@mui/material";
 import { optionСategoryBD } from "./service/optionСategoryBD";
 import { useNavigate } from "react-router-dom";
 import { ButtonSubmitMui } from "../../common/mui-element/ButtonSubmitMui";
@@ -19,6 +20,7 @@ import { ControllersCityAsyncCustom } from "./formFieldsSpecificStyle/сityСust
 import { SnackbarWarning } from "../../common/mui-element/snackbar/SnackbarWarning";
 import cn from "classnames";
 import s from "./style/addNewNewsForm.module.scss";
+import { styleSxTextArea } from "./style/styleSxTextField";
 
 interface TimeLinePostType {
  photo: Blob | null;
@@ -34,7 +36,7 @@ export const AddNewNewsForm = () => {
  const [onChangeImgTest, setOnChangeImgTest] = useState<Blob | null>(null);
  const [open, setOpen] = useState(false);
 
- const [setNewNews] = useSendNewNewsMutation();
+ const [setNewNews, { isLoading }] = useSendNewNewsMutation();
 
  const {
   watch,
@@ -78,8 +80,9 @@ export const AddNewNewsForm = () => {
 
   onChangeImgTest && formData.append("File", onChangeImgTest);
 
-  setNewNews({ formData }).unwrap();
-  navigate(-1);
+  setNewNews({ formData })
+   .unwrap()
+   .then(() => navigate(-1));
  };
 
  const clearPhoto = () => {
@@ -109,7 +112,7 @@ export const AddNewNewsForm = () => {
         <TextField
          inputRef={inputRef}
          multiline
-         sx={styleTextAreaSX}
+         sx={styleSxTextArea}
          fullWidth
          autoComplete="off"
          placeholder="Чем вы хотите поделиться?"
@@ -189,42 +192,22 @@ export const AddNewNewsForm = () => {
        )}
       />
      </div>
-     <div className={s.btnWrapper}>
-      <ButtonSubmitMui textButton="Создать новость" isValidInButton={!isValid} />
-     </div>
+
+     {isLoading ? (
+      <div className={s.btnWrapper}>
+       <ButtonSubmitMui
+        startIcon={<CircularProgress size={25} style={{ marginRight: "10px" }} color="warning" />}
+        textButton="Подождите"
+        isValidInButton={true}
+       />
+      </div>
+     ) : (
+      <div className={s.btnWrapper}>
+       <ButtonSubmitMui textButton="Создать новость" isValidInButton={!isValid} />
+      </div>
+     )}
     </div>
    </section>
   </form>
  );
-};
-
-export const styleTextAreaSX = {
- width: "100% !important",
- fontSize: "16px",
- fontFamily: `Mulish_Regular, sans-serif !important`,
- padding: "0",
-
- fieldset: {
-  display: "none",
- },
-
- "& .MuiInputBase-root": {
-  height: "auto",
-  borderRadius: "8px",
-  padding: "0 14px",
-  color: "#43483E",
-  fontFamily: `Mulish_Regular, sans-serif !important`,
-
-  "&:focus": {
-   height: "auto",
-  },
-
-  "& .MuiInputBase-input": {
-   "&::-webkit-input-placeholder": {
-    fontWeight: 500,
-    color: "#242424",
-    opacity: 1,
-   },
-  },
- },
 };

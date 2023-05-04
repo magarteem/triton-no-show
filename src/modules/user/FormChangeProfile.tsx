@@ -1,12 +1,11 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useAppDispatch } from "../../core/redux/app/hooks";
 import { ISignUpFormValues } from "../authorization/types/authType";
-import { changeProfileThunk } from "./changeProfileThunk";
 import {
- ChangeProfileFormValues,
- InitialStateUserType,
- ProfileDataApiDataType,
+  ChangeProfileFormValues,
+  InitialStateUserType,
+  ProfileDataApiDataType,
 } from "./types/userSliceType";
 import { useNavigate } from "react-router-dom";
 import { BtnInGroupeSaveCancelMui } from "../../common/components/navigateButton/BtnInGroupeSaveCancelMui";
@@ -37,260 +36,260 @@ import { ControllersMetroTest } from "../../common/hookFormControllers/Controlle
 import s from "./style/formChangeProfile.module.scss";
 import { useSendPortfolioImgMutation } from "./getGetMyProfileQuery";
 import {
- SnackbarGlobal,
- StateSnackbarType,
+  SnackbarGlobal,
+  StateSnackbarType,
 } from "../../common/mui-element/snackbar/SnackbarGlobal";
 import { ControllerOpeningHoursRmcPicker } from "../../common/hookFormControllers/ControllerOpeningHoursRmcPicker";
 import { ControllerAgeRmcPicker } from "../../common/hookFormControllers/ControllerAgeRmcPicker";
 
 interface FormChangeProfileType {
- userDataProfile: InitialStateUserType;
- userDataProfileApi?: ProfileDataApiDataType[] | any;
+  userDataProfile: InitialStateUserType;
+  userDataProfileApi?: ProfileDataApiDataType[] | any;
 }
 export const FormChangeProfile = ({ userDataProfile }: FormChangeProfileType) => {
- const dispatch = useAppDispatch();
- const [setData] = useSendPortfolioImgMutation();
+  const dispatch = useAppDispatch();
+  const [setData] = useSendPortfolioImgMutation();
 
- const [openSnackbar, setOpenSnackbar] = useState<StateSnackbarType | null>(null);
+  const [openSnackbar, setOpenSnackbar] = useState<StateSnackbarType | null>(null);
 
- const navigate = useNavigate();
- const typeAccount = getJsonParseLocalStorage();
+  const navigate = useNavigate();
+  const typeAccount = getJsonParseLocalStorage();
 
- const watchFieldName = JSON.parse(getJsonParseLocalStorage()).nameForms;
+  const watchFieldName = JSON.parse(getJsonParseLocalStorage()).nameForms;
 
- const {
-  name,
-  city,
-  age,
-  gender,
-  skills,
-  private_settings,
-  phone,
-  email,
-  webSite,
-  type_collective,
-  portfolio_photo,
-  schedule,
-  address,
-  metroId,
-  institutionType,
-  area,
- } = userDataProfile;
+  const {
+    name,
+    city,
+    age,
+    gender,
+    skills,
+    private_settings,
+    phone,
+    email,
+    webSite,
+    type_collective,
+    portfolio_photo,
+    schedule,
+    address,
+    metroId,
+    institutionType,
+    area,
+  } = userDataProfile;
 
- let start: Date | null = new Date();
- let end: Date | null = new Date();
+  let start: Date | null = new Date();
+  let end: Date | null = new Date();
 
- // schedule &&
- //  schedule?.Friday &&
- //  start.setHours(+schedule.Friday[0].start.slice(0, 2), +schedule.Friday[0].start.slice(3, 5));
- // schedule &&
- //  schedule?.Friday &&
- //  end.setHours(+schedule.Friday[0].end.slice(0, 2), +schedule.Friday[0].end.slice(3, 5));
-
- if (schedule && schedule?.Friday) {
-  start.setHours(+schedule.Friday[0].start.slice(0, 2), +schedule.Friday[0].start.slice(3, 5));
-  end.setHours(+schedule.Friday[0].end.slice(0, 2), +schedule.Friday[0].end.slice(3, 5));
- } else {
-  start = null;
-  end = null;
- }
-
- const { control, handleSubmit, watch, setValue } = useForm<ISignUpFormValues>({
-  mode: "onBlur",
-  defaultValues: {
-   name_field: name,
-   city,
-   gender,
-   age: age && new Date(age),
-
-   tool: skills.tool,
-   genre: skills.genre,
-   work_experience: skills.workExperience,
-   master: skills.master,
-   education: skills.education,
-   inspiration: skills.inspiration,
-   private_settings,
-   phone,
-   email_contact: email,
-   web_site: webSite,
-   type_collective,
-   portfolio_photo,
-   address,
-   metroId,
-   schedule,
-   institutionType,
-   area: area !== 0 ? area : null,
-   from_opening_hours: start,
-   to_opening_hours: end,
-  },
- });
-
- const onSubmit = (data: ChangeProfileFormValues) => {
-  let bodyDataSend = putUpdateMyFormAccountData(data, watchFieldName);
-  const portfolio_photo = watch("portfolio_photo");
-
-  const disp = () =>
-   dispatch(
-    updateDataMyFormTypeAccountThunk({
-     typeAccount,
-     bodyDataSend: bodyDataSend,
-    })
-   ).then(() => navigate(-1));
-
-  if (!!portfolio_photo) {
-   setData({
-    //@ts-ignore
-    formDataImg: portfolio_photo,
-    profileId: JSON.parse(getJsonParseLocalStorage()).id,
-   })
-    .unwrap()
-    .then(() => disp())
-    .catch(() =>
-     setOpenSnackbar({ open: true, text: "Тяжёлые фото портфолио", severity: "error" })
-    );
+  if (schedule && schedule?.Friday) {
+    start.setHours(+schedule.Friday[0].start.slice(0, 2), +schedule.Friday[0].start.slice(3, 5));
+    end.setHours(+schedule.Friday[0].end.slice(0, 2), +schedule.Friday[0].end.slice(3, 5));
   } else {
-   disp();
+    start = null;
+    end = null;
   }
-  //
-  //dispatch(changeProfileThunk(data))
-  //dispatch(
-  // updateDataMyFormTypeAccountThunk({
-  //  typeAccount,
-  //  bodyDataSend,
-  // })
-  //)
-  //  .then(() => dispatch(changeProfileThunk(data)))
-  // .then(() => navigate(-1));
- };
 
- const watchMisician = watchFieldName === EnumTypeAccount.MUSICIAN;
- const watchTeam = watchFieldName === EnumTypeAccount.TEAM;
- const watchInstitution = watchFieldName === EnumTypeAccount.INSTITUTION;
- const watchSoundProduser = watchFieldName === EnumTypeAccount.SOUND_PRODUCER;
+  const { control, handleSubmit, watch, setValue } = useForm<ISignUpFormValues>({
+    mode: "onBlur",
+    defaultValues: {
+      name_field: name,
+      city,
+      gender,
+      age: age && new Date(age),
 
- return (
-  <form noValidate onSubmit={handleSubmit(onSubmit)} className={s.formChangeProfile}>
-   {watchTeam && (
-    <ControllerTypeCollective
-     control={control}
-     name="type_collective"
-     placeholder="Вид коллектива"
-     options={teamTypeADS}
-    />
-   )}
+      tool: skills.tool,
+      genre: skills.genre,
+      work_experience: skills.workExperience,
+      master: skills.master,
+      education: skills.education,
+      inspiration: skills.inspiration,
+      private_settings,
+      phone,
+      email_contact: email,
+      web_site: webSite,
+      type_collective,
+      portfolio_photo,
+      address,
+      metroId,
+      schedule,
+      institutionType,
+      area: area !== 0 ? area : null,
+      from_opening_hours: start,
+      to_opening_hours: end,
+    },
+  });
 
-   <ControllerTextField
-    control={control}
-    name="name_field"
-    required={true}
-    placeholder={!watchMisician ? "Название" : "Имя"}
-   />
+  const onSubmit = (data: ChangeProfileFormValues) => {
+    let bodyDataSend = putUpdateMyFormAccountData(data, watchFieldName);
+    const portfolio_photo = watch("portfolio_photo");
 
-   {watchInstitution && (
-    <ControllersInstitutionTypeAsyncNew
-     name="institutionType"
-     control={control}
-     placeholder="Тип заведения"
-     required={true}
-    />
-   )}
+    const disp = () =>
+      dispatch(
+        updateDataMyFormTypeAccountThunk({
+          typeAccount,
+          bodyDataSend: bodyDataSend,
+        })
+      ).then(() => navigate(-1));
 
-   <ControllersCityAsync name="city" placeholder="Город" control={control} setValue={setValue} />
-   {!watchMisician &&
-    !watchTeam &&
-    !watchSoundProduser &&
-    (!!watch("city")?.metros?.length || metroId?.id) && (
-     <>
-      <ControllersMetroTest
-       required={false}
-       name="metroId"
-       cityValue={city}
-       placeholder="Станция метро"
-       control={control}
-       options={watch("city")?.metros}
+    if (!!portfolio_photo) {
+      setData({
+        //@ts-ignore
+        formDataImg: portfolio_photo,
+        profileId: JSON.parse(getJsonParseLocalStorage()).id,
+      })
+        .unwrap()
+        .then(() => disp())
+        .catch(() =>
+          setOpenSnackbar({ open: true, text: "Тяжёлые фото портфолио", severity: "error" })
+        );
+    } else {
+      disp();
+    }
+    //
+    //dispatch(changeProfileThunk(data))
+    //dispatch(
+    // updateDataMyFormTypeAccountThunk({
+    //  typeAccount,
+    //  bodyDataSend,
+    // })
+    //)
+    //  .then(() => dispatch(changeProfileThunk(data)))
+    // .then(() => navigate(-1));
+  };
+
+  const watchMisician = watchFieldName === EnumTypeAccount.MUSICIAN;
+  const watchTeam = watchFieldName === EnumTypeAccount.TEAM;
+  const watchInstitution = watchFieldName === EnumTypeAccount.INSTITUTION;
+  const watchSoundProduser = watchFieldName === EnumTypeAccount.SOUND_PRODUCER;
+
+  return (
+    <form noValidate onSubmit={handleSubmit(onSubmit)} className={s.formChangeProfile}>
+      {watchTeam && (
+        <ControllerTypeCollective
+          control={control}
+          name="type_collective"
+          placeholder="Вид коллектива"
+          options={teamTypeADS}
+        />
+      )}
+
+      <ControllerTextField
+        control={control}
+        name="name_field"
+        required={true}
+        placeholder={!watchMisician ? "Название" : "Имя"}
       />
-     </>
-    )}
 
-   {watchMisician && (
-    <>
-     <ControllerGender control={control} name="gender" required={false} />
-     <ControllerAgeRmcPicker control={control} name="age" />
-    </>
-   )}
+      {watchInstitution && (
+        <ControllersInstitutionTypeAsyncNew
+          name="institutionType"
+          control={control}
+          placeholder="Тип заведения"
+          required={true}
+        />
+      )}
 
-   {!watchMisician && !watchTeam && !watchSoundProduser ? (
-    <ControllerTextField control={control} name="address" required={true} placeholder={"Адрес"} />
-   ) : (
-    !watchSoundProduser && (
-     <>
-      <ControllerToolsAsync
-       control={control}
-       placeholder={watchTeam ? "Состав" : "Инструмент (род деятельности)"}
-       name="tool"
-       required={watchTeam ? false : true}
-      />
+      <ControllersCityAsync name="city" placeholder="Город" control={control} setValue={setValue} />
+      {!watchMisician &&
+        !watchTeam &&
+        !watchSoundProduser &&
+        (!!watch("city")?.metros?.length || metroId?.id) && (
+          <>
+            <ControllersMetroTest
+              required={false}
+              name="metroId"
+              cityValue={city}
+              placeholder="Станция метро"
+              control={control}
+              options={watch("city")?.metros}
+            />
+          </>
+        )}
 
-      <ControllerGenreAsync control={control} name="genre" />
-     </>
-    )
-   )}
+      {watchMisician && (
+        <>
+          <ControllerGender control={control} name="gender" required={false} />
+          <ControllerAgeRmcPicker control={control} name="age" />
+        </>
+      )}
 
-   {watchMisician && <ControllerMaster control={control} name="master" />}
+      {!watchMisician && !watchTeam && !watchSoundProduser ? (
+        <ControllerTextField
+          control={control}
+          name="address"
+          required={true}
+          placeholder={"Адрес"}
+        />
+      ) : (
+        !watchSoundProduser && (
+          <>
+            <ControllerToolsAsync
+              control={control}
+              placeholder={watchTeam ? "Состав" : "Инструмент (род деятельности)"}
+              name="tool"
+              required={watchTeam ? false : true}
+            />
 
-   {(watchMisician || watchTeam) && (
-    <ControllerWorkExperience
-     control={control}
-     name="work_experience"
-     helperText="Опишите ваш опыт"
-    />
-   )}
+            <ControllerGenreAsync control={control} name="genre" />
+          </>
+        )
+      )}
 
-   {watchMisician && <ControllerEducation control={control} name="education" />}
+      {watchMisician && <ControllerMaster control={control} name="master" />}
 
-   {(watchMisician || watchTeam) && (
-    <ControllerPrivateSettings control={control} name="private_settings" />
-   )}
+      {(watchMisician || watchTeam) && (
+        <ControllerWorkExperience
+          control={control}
+          name="work_experience"
+          helperText="Опишите ваш опыт"
+        />
+      )}
 
-   <TitleTagH titleH="Портфолио" />
-   {(watchMisician || watchTeam) && (
-    <ControllerTextArea control={control} placeholder="О себе" name="inspiration" />
-   )}
-   <ControllerUploadPortfolio control={control} name="portfolio_photo" />
+      {watchMisician && <ControllerEducation control={control} name="education" />}
 
-   <TitleTagH titleH="Контакты" />
-   <ControllerPhone control={control} name="phone" />
-   <ControllerEmail control={control} name="email_contact" />
-   <ControllerWebSite control={control} name="web_site" />
+      {(watchMisician || watchTeam) && (
+        <ControllerPrivateSettings control={control} name="private_settings" />
+      )}
 
-   {!watchMisician && !watchTeam && (
-    <>
-     <TitleTagH titleH="Описание" />
-     {!watchSoundProduser && (
-      <ControllerOpeningHoursRmcPicker control={control} watch={watch} required={false} />
-     )}
-     {watchInstitution && <ControllerRoomArea control={control} name="area" required={false} />}
+      <TitleTagH titleH="Портфолио" />
+      {(watchMisician || watchTeam) && (
+        <ControllerTextArea control={control} placeholder="О себе" name="inspiration" />
+      )}
+      <ControllerUploadPortfolio control={control} name="portfolio_photo" />
 
-     <ControllerTextArea
-      control={control}
-      placeholder="Опишите ваше заведение"
-      name="inspiration"
-     />
-    </>
-   )}
+      <TitleTagH titleH="Контакты" />
+      <ControllerPhone control={control} name="phone" />
+      <ControllerEmail control={control} name="email_contact" />
+      <ControllerWebSite control={control} name="web_site" />
 
-   <div className={s.btnFormWrapper}>
-    <BtnInGroupeSaveCancelMui textCancelButton="Отмена" textButton="Сохранить" />
-   </div>
+      {!watchMisician && !watchTeam && (
+        <>
+          <TitleTagH titleH="Описание" />
+          {!watchSoundProduser && (
+            <ControllerOpeningHoursRmcPicker control={control} watch={watch} required={false} />
+          )}
+          {watchInstitution && (
+            <ControllerRoomArea control={control} name="area" required={false} />
+          )}
 
-   {openSnackbar && (
-    <SnackbarGlobal
-     text={openSnackbar.text}
-     open={openSnackbar.open}
-     setOpen={setOpenSnackbar}
-     severity={openSnackbar.severity}
-    />
-   )}
-  </form>
- );
+          <ControllerTextArea
+            control={control}
+            placeholder="Опишите ваше заведение"
+            name="inspiration"
+          />
+        </>
+      )}
+
+      <div className={s.btnFormWrapper}>
+        <BtnInGroupeSaveCancelMui textCancelButton="Отмена" textButton="Сохранить" />
+      </div>
+
+      {openSnackbar && (
+        <SnackbarGlobal
+          text={openSnackbar.text}
+          open={openSnackbar.open}
+          setOpen={setOpenSnackbar}
+          severity={openSnackbar.severity}
+        />
+      )}
+    </form>
+  );
 };

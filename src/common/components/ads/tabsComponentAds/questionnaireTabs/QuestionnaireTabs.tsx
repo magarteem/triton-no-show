@@ -7,49 +7,37 @@ import { QuestionnaireCards } from "../../questionnaireCards/QuestionnaireCards"
 import s from "./questionnaireTabs.module.scss";
 
 export const QuestionnaireTabs = () => {
- const [
-  ,
-  ,
-  ,
-  ,
-  setPageFu,
-  refetchFu,
-  ,
-  ,
-  ,
-  ,
-  allFormsAccount,
-  isLoadingAccount,
-  isFetchingAccount,
- ]: [
-  undefined,
-  undefined,
-  undefined,
-  undefined,
-  () => void,
-  () => void,
-  undefined,
-  undefined,
-  undefined,
-  undefined,
-  ResponseSearchAllFormsType,
-  boolean,
-  boolean
- ] = useOutletContext();
+  const [, , setPageFu, refetchFu, , , , , allFormsAccount, isLoadingAccount, isFetchingAccount]: [
+    undefined,
+    undefined,
+    () => void,
+    () => void,
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+    ResponseSearchAllFormsType,
+    boolean,
+    boolean
+  ] = useOutletContext();
 
- if (isLoadingAccount) return <PreLoader />;
+  if (isLoadingAccount) return <PreLoader />;
 
- return (
-  <RibbonLayout setPageFu={setPageFu} isFetching={isFetchingAccount}>
-   <h2 className={s.recommendations}>Рекомендации</h2>
-   <div className={s.mainQuestionnaire}>
-    {allFormsAccount?.results.length > 0 &&
-     allFormsAccount?.results.map((x) => <QuestionnaireCards key={x.formId} x={x} />)}
+  return (
+    <RibbonLayout setPageFu={setPageFu} isFetching={isFetchingAccount}>
+      <h2 className={s.recommendations}>Рекомендации</h2>
+      <div className={s.mainQuestionnaire}>
+        {allFormsAccount?.results.length > 0 &&
+          allFormsAccount?.results.map((x) => <QuestionnaireCards key={x.formId} x={x} />)}
 
-    {allFormsAccount?.results.length === 0 && !isFetchingAccount && (
-     <InButton textButton="Ничего не найдено. Назад" isValidInButton={false} onClick={refetchFu} />
-    )}
-   </div>
-  </RibbonLayout>
- );
+        {allFormsAccount?.results.length === 0 && !isFetchingAccount && (
+          <InButton
+            textButton="Ничего не найдено. Назад"
+            isValidInButton={false}
+            onClick={refetchFu}
+          />
+        )}
+      </div>
+    </RibbonLayout>
+  );
 };

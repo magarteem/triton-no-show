@@ -12,10 +12,20 @@ import { FilterModalLayout } from "../common/layout/filterModalLayout/FilterModa
 import { FilterFormsTimeLine } from "../modules/timeLine/FilterFormsTimeLine";
 import { NewsResultType, ResponseNewsType } from "../modules/timeLine/types/responseNewsType";
 import { PreLoader } from "../common/components/preLoader/PreLoader";
-import { FilterParamsRequestType } from "../modules/timeLine/types/FilterFormsTimeLineFieldsType";
+import {
+ FilterFormsTimeLineFieldsType,
+ FilterParamsRequestType,
+} from "../modules/timeLine/types/FilterFormsTimeLineFieldsType";
 import { useAppSelector } from "../core/redux/app/hooks";
 import { InButton } from "../common/ui-elements/button/InButton";
-import { useInView } from "react-intersection-observer";
+
+const defaultFilter = {
+ search_text: "",
+ type_category: null,
+ city: null,
+ tools: [],
+ genre: [],
+};
 
 const add = {
  img: addIcons,
@@ -40,9 +50,11 @@ export const NewsAll = () => {
   string[]
  ] = useOutletContext();
 
+ const [filerstate, setFilerstate] = useState<FilterFormsTimeLineFieldsType>(defaultFilter);
  const [open, setOpen] = useState(false);
  const handleClickOpen = () => setOpen(true);
  const handleClose = () => setOpen(false);
+ const setFilterStateFu = (data: FilterFormsTimeLineFieldsType) => setFilerstate(data);
 
  useEffect(() => {
   const elem = document.body;
@@ -109,7 +121,12 @@ export const NewsAll = () => {
      modalOpen={open}
      handleClose={handleClose}
     >
-     <FilterFormsTimeLine handleClose={handleClose} />
+     <FilterFormsTimeLine
+      handleClose={handleClose}
+      filerstate={filerstate}
+      defaultFilter={defaultFilter}
+      setFilterStateFu={setFilterStateFu}
+     />
     </FilterModalLayout>
    )}
 

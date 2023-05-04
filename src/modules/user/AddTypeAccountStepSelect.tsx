@@ -2,15 +2,12 @@ import { Controller, useFormContext } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { BtnInFormSaveCancel } from "../../common/components/navigateButton/BtnInFormSaveCancel";
 import { ReactSelectElement } from "../../common/ui-elements/react-select/ReactSelectElement";
-import { useAppDispatch } from "../../core/redux/app/hooks";
 import { RouteNames } from "../../core/router/RouteNames";
-import { authThunkCreateMyTypeForms } from "../authorization/authThunkCreateMyTypeForms";
 import { convertOptions } from "../authorization/helpers/convertOptions";
 import { optionsTypeAccount } from "../authorization/service/BD";
 import s from "./style/secondStepFormRegister.module.scss";
 
 export const AddTypeAccountStepSelect = () => {
- const dispatch = useAppDispatch();
  const navigate = useNavigate();
 
  const {

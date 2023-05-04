@@ -1,13 +1,12 @@
-import { createEntityAdapter } from "@reduxjs/toolkit";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/dist/query/react";
 import queryString from "query-string";
 import { doneParseLocalStorage } from "../../helpers/getJsonParseLocalStorage";
 import { PortfolioType } from "../../types/PROFILE/accountMainGlobalType";
 import { GenreGlobalType } from "../../types/PROFILE/genreGlobalType";
 import { FilterSearchAllFormsType } from "./types/filterSearchAllFormsType";
-import { AllFormsType, ResponseSearchAllFormsType } from "./types/responseSearchAllForms";
+import { ResponseSearchAllFormsType } from "./types/responseSearchAllForms";
 import { ProfileDataApiDataType } from "./types/userSliceType";
-import { ResponseAdsType } from "../ads/types/responseAdsType";
+import { rulesQueryInfiniteScroll } from "../../helpers/rulesQueryInfiniteScroll";
 
 //export const itemsAdapter = createEntityAdapter({
 // selectId: (item: AllFormsType) => item.formId,
@@ -62,7 +61,6 @@ export const getMyProfileQuery = createApi({
 
   listAccount: build.query<ResponseSearchAllFormsType, FilterSearchAllFormsType | void | null>({
    query: (arg) => {
-    console.log("0", arg);
     const params = {
      page: arg?.page || 0,
      pageSize: 10,
@@ -89,28 +87,12 @@ export const getMyProfileQuery = createApi({
 
    merge: (currentCache, newItems) => {
     currentCache.currentPage = newItems.currentPage;
-    currentCache.pageCount = newItems.pageCount;
+    currentCache.isNextPage = newItems.isNextPage;
     currentCache.results.push(...newItems.results);
    },
 
    forceRefetch({ currentArg, previousArg, endpointState }) {
-    const notDoubleFetch = endpointState?.data as ResponseSearchAllFormsType;
-    const rulesQuery = () => {
-     if (
-      notDoubleFetch &&
-      currentArg &&
-      previousArg &&
-      notDoubleFetch &&
-      notDoubleFetch.results.length > 0 &&
-      currentArg?.page > previousArg?.page
-     ) {
-      return true;
-     } else if (notDoubleFetch && notDoubleFetch.results.length === 0) {
-      return true;
-     }
-    };
-
-    return currentArg !== previousArg && (rulesQuery() || false);
+    return rulesQueryInfiniteScroll(previousArg, currentArg, endpointState);
    },
   }),
 

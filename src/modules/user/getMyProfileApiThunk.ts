@@ -1,12 +1,8 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import authApi from "../../api/authApi/authApi";
 import apiProfile from "../../api/axiosConfigPROFILE";
 import { MyTypeFormsAccountProfileType } from "./types/myTypeFormProfile";
 
-export const getMyProfileApiThunk = createAsyncThunk<
- MyTypeFormsAccountProfileType[],
- undefined
->(
+export const getMyProfileApiThunk = createAsyncThunk<MyTypeFormsAccountProfileType[], undefined>(
  `getMyProfileApiThunk/user`,
  async function (_, { rejectWithValue }) {
   try {

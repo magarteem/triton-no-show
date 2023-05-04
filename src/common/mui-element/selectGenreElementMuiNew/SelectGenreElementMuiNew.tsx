@@ -15,10 +15,10 @@ import { GenreType } from "../../../modules/authorization/types/authType";
 import { styleSxGenre } from "./styleSxGenre";
 import { ChipsElement } from "./ChipsElement";
 import { GenreGlobalType } from "../../../types/PROFILE/genreGlobalType";
-import { styleSxTool } from "../selectToolsElementMuiToolsNew/styleSxTool";
 import "./styleGenre.css";
 import cn from "classnames";
 import { GroupeElement } from "./GroupeElement";
+import { hexToRGB } from "../../../modules/authorization/helpers/convertHexToRgb";
 
 interface SelectGenreElementMuiNewType {
  placeholder: string;
@@ -121,8 +121,12 @@ export const SelectGenreElementMuiNew = ({
 
      if (x.subGenres.length === 0) {
       return (
-       <MenuItem sx={styleSxTool.menuItem} key={x.name} value={x.name}>
-        <Checkbox sx={styleSxTool.checkbox} checked={personName.indexOf(x.name) > -1} />
+       <MenuItem
+        key={x.name}
+        value={x.name}
+        sx={{ backgroundColor: `${hexToRGB(x.color, "0.1")} !important` }}
+       >
+        <Checkbox sx={styleSxGenre.checkbox} checked={personName.indexOf(x.name) > -1} />
         <ListItemText primary={x.name} />
        </MenuItem>
       );
@@ -147,14 +151,14 @@ export const SelectGenreElementMuiNew = ({
       } else {
        return (
         <MenuItem
+         sx={{ backgroundColor: `${hexToRGB(p.color, "0.1")} !important` }}
          className={cn({
           optionCustom: index !== classesHiddenCount,
          })}
-         sx={styleSxTool.menuItem}
          key={p.name}
          value={p.name}
         >
-         <Checkbox sx={styleSxTool.checkbox} checked={personName.indexOf(p.name) > -1} />
+         <Checkbox sx={styleSxGenre.checkbox} checked={personName.indexOf(p.name) > -1} />
          <ListItemText primary={p.name} />
         </MenuItem>
        );
@@ -170,14 +174,3 @@ export const SelectGenreElementMuiNew = ({
   </FormControl>
  );
 };
-
-//return (
-//  <MenuItem key={x.name} value={x.name}>
-//   <Checkbox
-//    style={{ width: "15px", height: "15px" }}
-//    sx={styleSxGenre.checkbox}
-//    checked={personName.indexOf(x.name) > -1}
-//   />
-//   <ListItemText primary={x.name} />
-//  </MenuItem>
-// );

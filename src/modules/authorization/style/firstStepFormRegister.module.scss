@@ -27,14 +27,6 @@
   }
  }
 
- .forgetPassword {
-  align-self: flex-end;
-  color: $white;
-  font-size: 14px;
-  font-weight: 500;
-  margin-top: 12px;
- }
-
  .styleBtn {
   @include flex_horizont_position();
   height: 52px;

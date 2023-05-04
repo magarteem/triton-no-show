@@ -26,10 +26,9 @@ export const ChangePhoto = ({ thisSrcAvatar }: ChangePhotoType) => {
  };
 
  const formDataImg = new FormData();
-
  const setPhoto = (e: any) => {
   if (e.target.files[0].size / 1024 / 1024 <= 1) {
-   formDataImg.append("file", e.target.files[0]);
+   formDataImg.append("file", e.target.files[0], e.target.files[0].name.replace(/ /g, ""));
    formDataImg.append("removeFilesUrl", `${thisSrcAvatar}`);
 
    setAvatar({

@@ -23,7 +23,7 @@ export const Login = () => {
     <div className={s.fieldLogin}>
      <FormLogin setOpen={setOpen} />
 
-     <LoginSocial />
+     {/*<LoginSocial />*/}
     </div>
 
     <RegistrationQuestionLink

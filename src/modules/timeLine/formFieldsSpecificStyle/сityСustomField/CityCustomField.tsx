@@ -1,32 +1,19 @@
-import {
- Autocomplete,
- CircularProgress,
- TextField,
-} from "@mui/material";
-import React, {
- ChangeEvent,
- useEffect,
- useState,
-} from "react";
+import { Autocomplete, CircularProgress, TextField } from "@mui/material";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import { useGetCityDataAsyncQuery } from "../../../../api/getDataForForm/getCityQuery";
-import {
- CityGlobalType,
- CityResultsType,
-} from "../../../../types/PROFILE/cityGlobalType";
+import { CityGlobalType, CityResultsType } from "../../../../types/PROFILE/cityGlobalType";
 import { InterfaceGlobalSelectTypeCity } from "../../../user/types/userSliceType";
 
 import { styleTextFieldSX } from "./styleTextFieldSX";
 
 const reselect = (data: CityGlobalType) => {
- const dataResult = data.results.map(
-  (x: CityResultsType) => {
-   return {
-    id: x.id,
-    name: x.title,
-    metros: x.metros?.length !== 0 ? x.metros : null,
-   };
-  }
- );
+ const dataResult = data.results.map((x: CityResultsType) => {
+  return {
+   id: x.id,
+   name: x.title,
+   metros: x.metros?.length !== 0 ? x.metros : null,
+  };
+ });
 
  return dataResult;
 };
@@ -52,6 +39,7 @@ export default function CityCustomField({
  const [page, setPage] = useState(0);
  const [query, setQuery] = useState("");
 
+ //@ts-ignore
  const { data } = useGetCityDataAsyncQuery({
   page,
   query,
@@ -62,9 +50,9 @@ export default function CityCustomField({
  }, [data]);
 
  const [open, setOpen] = useState(false);
- const [options, setOptions] = useState<
-  InterfaceGlobalSelectTypeCity[]
- >(data ? reselect(data) : []);
+ const [options, setOptions] = useState<InterfaceGlobalSelectTypeCity[]>(
+  data ? reselect(data) : []
+ );
 
  const loading = open && options.length === 0;
 
@@ -110,12 +98,8 @@ export default function CityCustomField({
     setOpen(false);
    }}
    value={!!inputValue ? inputValue : null}
-   isOptionEqualToValue={(option, value) =>
-    option.id === value.id
-   }
-   getOptionLabel={(option) =>
-    option.name ? option.name : ""
-   }
+   isOptionEqualToValue={(option, value) => option.id === value.id}
+   getOptionLabel={(option) => (option.name ? option.name : "")}
    options={options}
    loading={loading}
    renderInput={(params) => (
@@ -131,9 +115,7 @@ export default function CityCustomField({
       ...params.InputProps,
       endAdornment: (
        <React.Fragment>
-        {loading ? (
-         <CircularProgress color="inherit" size={20} />
-        ) : null}
+        {loading ? <CircularProgress color="inherit" size={20} /> : null}
         {params.InputProps.endAdornment}
        </React.Fragment>
       ),

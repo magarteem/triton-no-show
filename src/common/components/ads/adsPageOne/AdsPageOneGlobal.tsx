@@ -33,7 +33,6 @@ interface AdsPageOneGlobalType {
 export const AdsPageOneGlobal = ({ data }: AdsPageOneGlobalType) => {
  const { allMyForms } = useAppSelector((state) => state.userSliceReducer);
 
- console.log("data=", data);
  return (
   <StylesFullScreen>
    <div className={s.adsPageOne}>
@@ -48,7 +47,7 @@ export const AdsPageOneGlobal = ({ data }: AdsPageOneGlobalType) => {
 
     <section className={s.bodyAdsPageOne}>
      <HeaderPageOneAds data={data} />
-     {data.description && <div className={s.about}>{data.description}</div>}
+     <div className={s.about}>{data.conditions?.scheduleDescription}</div>
      {data.musicianAnnouncementDocument && (
       <>
        {data.musicianAnnouncementDocument.gender &&
@@ -113,7 +112,7 @@ export const AdsPageOneGlobal = ({ data }: AdsPageOneGlobalType) => {
 
      {data.description && (
       <div className={s.styleAbout}>
-       <span className={s.titleSpan}>Комментарий:</span>
+       <span className={s.titleSpan}>Описание:</span>
        {data.description}
       </div>
      )}

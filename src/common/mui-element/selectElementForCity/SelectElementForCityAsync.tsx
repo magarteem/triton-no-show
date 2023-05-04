@@ -1,5 +1,5 @@
 import { Autocomplete, CircularProgress, TextField } from "@mui/material";
-import React, { ChangeEvent, useEffect, useState } from "react";
+import React, { ChangeEvent, useEffect, useState, forwardRef } from "react";
 import { useGetCityDataAsyncQuery } from "../../../api/getDataForForm/getCityQuery";
 import { InterfaceGlobalSelectTypeCity } from "../../../modules/user/types/userSliceType";
 import { CityResultsType, CityGlobalType } from "../../../types/PROFILE/cityGlobalType";
@@ -22,6 +22,12 @@ const reselect = (data: CityGlobalType) => {
  return dataResult;
 };
 
+export interface ParamsCityQuery {
+ page: number;
+ pageSize: number | undefined;
+ query: string;
+}
+
 interface SelectElementForCityAsyncType {
  required?: boolean;
  helperText?: string;
@@ -42,14 +48,10 @@ export default function SelectElementForCityAsync({
  setValue,
  ...props
 }: SelectElementForCityAsyncType) {
- const [page, setPage] = useState(0);
- const [query, setQuery] = useState("");
- const debouncedValue = useDebounce<string>(query, 500);
+ const [query, setQuery] = useState<ParamsCityQuery>({ page: 0, pageSize: 3, query: "" });
+ const debouncedValue = useDebounce<ParamsCityQuery>(query, 500);
 
- const { data, isLoading, isFetching } = useGetCityDataAsyncQuery({
-  page,
-  query: debouncedValue,
- });
+ const { data, isLoading, isFetching } = useGetCityDataAsyncQuery(debouncedValue);
 
  useEffect(() => {
   data && setOptions([...reselect(data)]);
@@ -82,13 +84,26 @@ export default function SelectElementForCityAsync({
  }, [open]);
 
  const asyncFu = async (str: string) => {
+  console.log(str);
   setOptions([]);
-  setPage(0);
-  setQuery(str);
+  setQuery({
+   ...query,
+   query: str,
+  });
  };
 
+ const loadMoreResults = () => console.log("loadMoreResults");
  return (
   <Autocomplete
+   ListboxProps={{
+    onScroll: (event: React.SyntheticEvent) => {
+     const listboxNode = event.currentTarget;
+     if (listboxNode.scrollTop + listboxNode.clientHeight === listboxNode.scrollHeight) {
+      loadMoreResults();
+     }
+    },
+   }}
+   ListboxComponent={(listboxProps) => <ListboxComponent {...listboxProps} />}
    loadingText="Поиск..."
    noOptionsText="Нет результатов"
    onChange={(e, data: any) => {
@@ -133,3 +148,17 @@ export default function SelectElementForCityAsync({
   />
  );
 }
+
+const ListboxComponent = forwardRef(function ListboxComponent({ ...rest }, ref: any) {
+ return (
+  <ul
+   ref={ref}
+   {...rest}
+   // onScroll={({ target }) =>
+   //  setIsScrollBottom(target.scrollHeight - target.scrollTop === target.clientHeight)
+   // }
+  />
+ );
+});
+
+//https://codesandbox.io/s/jolly-matsumoto-ugs5d?file=/src/Autocomplete.js

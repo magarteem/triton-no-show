@@ -1,10 +1,10 @@
+import { ResponseGlobalType } from "../../../api/types/ResponseGlobalType";
 import { PortfolioType } from "../../../types/PROFILE/accountMainGlobalType";
 import { CityResultsType } from "../../../types/PROFILE/cityGlobalType";
 import { EnumContactRequestStatusResponse } from "../../../types/PROFILE/enum/EnumContactRequestStatusResponse";
 import { EnumPrivateType } from "../../../types/PROFILE/enum/EnumPrivateType";
 import { GenreSliceType, ToolsSliceType } from "../../user/types/userSliceType";
 
-//==============================================
 export interface AllFormsType {
  formId: string;
  name: string;
@@ -20,10 +20,6 @@ export interface AllFormsType {
  tritoneUserId: string;
 }
 
-export interface ResponseSearchAllFormsType {
- currentPage: number;
- pageCount: number;
- pageSize: number;
- rowCount: number;
+export interface ResponseSearchAllFormsType extends ResponseGlobalType {
  results: AllFormsType[];
 }

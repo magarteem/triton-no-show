@@ -85,7 +85,7 @@ export const CreateFormVacancy = ({ buttonSubmitText }: CreateFormVacancyType) =
      />
      {(mus || sound) && <ControllerMaster control={control} name="master" />}
 
-     <ControllerTextArea control={control} name="commit" placeholder="Комментарий" />
+     <ControllerTextArea control={control} name="commit" placeholder="Описание" />
 
      <div className={s.requirements}>
       <h2>О работе</h2>

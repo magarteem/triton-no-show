@@ -9,6 +9,7 @@ import {
  AdsFilterParamsRequestType,
  VacancyFilterParamsRequestType,
 } from "./types/FilterFormsAdsFieldsType";
+import { rulesQueryInfiniteScroll } from "../../helpers/rulesQueryInfiniteScroll";
 
 export const adsQuery = createApi({
  reducerPath: "adsQuery",
@@ -29,7 +30,7 @@ export const adsQuery = createApi({
    query: (arg) => {
     const params = {
      page: arg?.page || 0,
-     pageSize: 5,
+     pageSize: 10,
      query: arg?.query || undefined,
      formId: arg?.formId,
      vacancyOwnerFormType: arg?.vacancyOwnerFormType,
@@ -51,34 +52,19 @@ export const adsQuery = createApi({
 
    merge: (currentCache, newItems) => {
     currentCache.currentPage = newItems.currentPage;
-    currentCache.pageCount = newItems.pageCount;
+    currentCache.isNextPage = newItems.isNextPage;
     currentCache.results.push(...newItems.results);
    },
 
    forceRefetch({ currentArg, previousArg, endpointState }) {
-    const notDoubleFetch = endpointState?.data as ResponseAdsType;
-    const rulesQuery = () => {
-     if (
-      notDoubleFetch &&
-      currentArg &&
-      previousArg &&
-      notDoubleFetch &&
-      notDoubleFetch.results.length > 0 &&
-      currentArg?.page > previousArg?.page
-     ) {
-      return true;
-     } else if (notDoubleFetch && notDoubleFetch.results.length === 0) {
-      return true;
-     }
-    };
-    return currentArg !== previousArg && (rulesQuery() || false);
+    return rulesQueryInfiniteScroll(previousArg, currentArg, endpointState);
    },
   }),
   listAds: build.query<ResponseAdsType, AdsFilterParamsRequestType | void | null>({
    query: (arg) => {
     const params = {
      page: arg?.page || 0,
-     pageSize: 5,
+     pageSize: 10,
      searchAnnouncementDocumentType: arg?.searchAnnouncementDocumentType,
      cityIds: arg?.cityIds ?? undefined,
      genreIds: arg?.genreIds,
@@ -98,37 +84,12 @@ export const adsQuery = createApi({
 
    merge: (currentCache, newItems) => {
     currentCache.currentPage = newItems.currentPage;
-    currentCache.pageCount = newItems.pageCount;
+    currentCache.isNextPage = newItems.isNextPage;
     currentCache.results.push(...newItems.results);
    },
 
    forceRefetch({ currentArg, previousArg, endpointState }) {
-    const notDoubleFetch = endpointState?.data as ResponseAdsType;
-    const rulesQuery = () => {
-     // if (
-     //  notDoubleFetch &&
-     //  notDoubleFetch.pageCount > notDoubleFetch.currentPage + 1 &&
-     //  currentArg &&
-     //  previousArg &&
-     //  currentArg?.page > previousArg?.page
-     // ) {
-     //  return true;
-     // }
-     if (
-      notDoubleFetch &&
-      currentArg &&
-      previousArg &&
-      notDoubleFetch &&
-      notDoubleFetch.results.length > 0 &&
-      currentArg?.page > previousArg?.page
-     ) {
-      return true;
-     } else if (notDoubleFetch && notDoubleFetch.results.length === 0) {
-      return true;
-     }
-    };
-
-    return currentArg !== previousArg && (rulesQuery() || false);
+    return rulesQueryInfiniteScroll(previousArg, currentArg, endpointState);
    },
   }),
 

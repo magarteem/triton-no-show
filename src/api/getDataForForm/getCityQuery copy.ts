@@ -3,7 +3,6 @@ import { CityGlobalType } from "../../types/PROFILE/cityGlobalType";
 import { GenreGlobalType } from "../../types/PROFILE/genreGlobalType";
 import { InstitutionTypeGlobalType } from "../../types/PROFILE/institutionTypeGlobalType";
 import { InstrumentGlobalType } from "../../types/PROFILE/InstrumentGlobalType";
-import { ParamsCityQuery } from "../../common/mui-element/selectElementForCity/SelectElementForCityAsync";
 
 export const getCityQuery = createApi({
  reducerPath: "getCityQuery",
@@ -32,19 +31,14 @@ export const getCityQuery = createApi({
     };
    },
   }),
-  getCityDataAsync: build.query<CityGlobalType, ParamsCityQuery>({
-   query: (arg) => {
-    const params = {
-     page: arg?.page || 0,
-     pageSize: arg?.page || undefined,
-     query: arg?.query,
-    };
-
-    return {
-     url: "city",
-     params: params,
-    };
-   },
+  getCityDataAsync: build.query<CityGlobalType, { page: number; query: string }>({
+   query: (arg) => ({
+    url: "city",
+    params: {
+     page: !!arg.page ? arg.page : 0,
+     query: !!arg.page ? "" : arg.query,
+    },
+   }),
   }),
   getGenreData: build.query<GenreGlobalType[], void>({
    query: (arg) => ({

@@ -48,7 +48,7 @@ export const IncomingNotification = memo(() => {
        className={s.ads}
       >
        {x.announcement?.instruments.length > 0 && (
-        <div className={s.yreStyleImportant}>
+        <div className={s.reStyleImportant}>
          <SkillsLayoutTools skillsDataItem={x.announcement.instruments} skillsCategoryTitle="" />
         </div>
        )}
@@ -60,7 +60,7 @@ export const IncomingNotification = memo(() => {
        )}
 
        <div className={s.publicationDate}>{`Отправлена ${dateDeclension(
-        new Date(x.announcement?.createdDate).getTime()
+        new Date(x.announcement?.createdDate ?? x.triggerForm.createdDate).getTime()
        )}`}</div>
       </Link>
 

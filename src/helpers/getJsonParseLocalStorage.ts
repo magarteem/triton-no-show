@@ -1,17 +1,14 @@
-export const getJsonParseLocalStorage = () =>
- localStorage.getItem(`active-my-forms`) || "{}";
+export const getJsonParseLocalStorage = () => localStorage.getItem(`active-my-forms`) || "{}";
 
 interface DoneParseLocalStorageType {
  id: string;
  nameForms: string;
 }
-export const doneParseLocalStorage: DoneParseLocalStorageType =
- JSON.parse(getJsonParseLocalStorage());
+export const doneParseLocalStorage: DoneParseLocalStorageType = JSON.parse(
+ getJsonParseLocalStorage()
+);
 
-export const setJsonLocalStorage = (
- strID: string,
- strNameForms: string
-) =>
+export const setJsonLocalStorage = (strID: string, strNameForms: string) =>
  localStorage.setItem(
   "active-my-forms",
   JSON.stringify({
@@ -29,7 +26,6 @@ export const setLocalStorageSwiperActiv = (strID: number) =>
  );
 
 export const getLocalStorageSwiperActiv = (): number => {
- const parseJson =
-  localStorage.getItem("active-forms-id") || "{}";
+ const parseJson = localStorage.getItem("active-forms-id") || "{}";
  return JSON.parse(parseJson).id;
 };

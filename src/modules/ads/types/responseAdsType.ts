@@ -1,3 +1,4 @@
+import { ResponseGlobalType } from "../../../api/types/ResponseGlobalType";
 import {
  AnnouncementStatusResponseType,
  ContactsType,
@@ -37,6 +38,7 @@ export interface MusicianAnnouncementDocumentType {
  };
  skills: string;
  education: string;
+ cooperationTerms: string;
 }
 
 export interface ResultAdsTypeResponse {
@@ -58,11 +60,7 @@ export interface ResultAdsTypeResponse {
  announcementStatusResponse: AnnouncementStatusResponseType;
 }
 
-export interface ResponseAdsType {
- currentPage: number;
- pageCount: number;
- pageSize: number;
- rowCount: number;
+export interface ResponseAdsType extends ResponseGlobalType {
  results: ResultAdsTypeResponse[];
 }
 

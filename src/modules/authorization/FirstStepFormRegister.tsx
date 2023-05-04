@@ -12,8 +12,14 @@ import { authThunkRegister } from "./authThunkRegister";
 import { LoginResponseType } from "../../types/SSO/loginResponseType";
 import s from "./style/firstStepFormRegister.module.scss";
 
+interface OutletType {
+ responseLogin: LoginResponseType;
+ loading: boolean;
+ error: boolean;
+}
+
 export const FirstStepFormRegister = () => {
- const [responseLogin, loading, error]: [LoginResponseType, boolean, boolean] = useOutletContext();
+ const { responseLogin, loading, error }: OutletType = useOutletContext();
  const dispatch = useAppDispatch();
  const navigate = useNavigate();
 

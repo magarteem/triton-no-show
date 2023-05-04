@@ -23,6 +23,7 @@
    column-gap: 28px;
 
    p {
+    text-shadow: 1px 1px 1px #000;
     font-weight: 700;
     font-size: 14px;
    }
@@ -30,7 +31,6 @@
   .titleSettings {
    display: flex;
    align-items: center;
-   // column-gap: 20px;
    height: 100%;
   }
 

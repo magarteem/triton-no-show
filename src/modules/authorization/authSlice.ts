@@ -78,18 +78,19 @@ const authSlice = createSlice({
    // FORM
    .addCase(authThunkCreateMyTypeForms.pending.type, (state: InitialStateType) => {
     state.error = null;
+    state.loading = true;
    })
    .addCase(
     authThunkCreateMyTypeForms.fulfilled.type,
     (state: InitialStateType, actions: PayloadAction<string>) => {
-     console.log("authThunkCreateMyTypeForms = ", actions.payload);
      state.thisMyFormsId = actions.payload;
+     state.loading = false;
     }
    )
    .addCase(
     authThunkCreateMyTypeForms.rejected.type,
     (state: InitialStateType, actions: PayloadAction<string>) => {
-     console.log("error = ", actions.payload);
+     state.loading = false;
     }
    );
  },

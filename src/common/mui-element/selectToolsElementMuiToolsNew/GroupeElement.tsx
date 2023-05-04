@@ -1,4 +1,3 @@
-//import React from "react";
 import { styleSxTool } from "../selectToolsElementMui/styleSxTool";
 import arrowSelect from "../../../assets/icons/arrowSelect.webp";
 import { ListItemText } from "@mui/material";

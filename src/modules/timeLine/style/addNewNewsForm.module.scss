@@ -28,28 +28,8 @@
 
   .imgWrap {
    position: relative;
-   // overflow: hidden;
    border-radius: 4px;
    margin: 24px 0;
-
-   // img {
-   //  align-self: center;
-   //  width: 100%;
-   //  max-width: 600px;
-   // }
-
-   // .clearImgButton {
-   //  cursor: pointer;
-   //  width: 24px;
-   //  height: 24px;
-   //  position: absolute;
-   //  top: 10px;
-   //  right: 10px;
-
-   //  img {
-   //   width: 100%;
-   //  }
-   // }
 
    .imgCards {
     position: relative;
@@ -119,7 +99,9 @@
    column-gap: 10px;
    margin: 12px 0 20px;
 
-   @media (max-width: $mediaMaxWidth340px) {
+   width: 100%;
+
+   @media only screen and (max-width: $mediaMaxWidth340px) {
     flex-direction: column;
     gap: 10px;
     margin: 12px 0 20px;
@@ -131,6 +113,7 @@
     width: 100%;
 
     input {
+     position: absolute;
      opacity: 0;
      height: 0;
      width: 0;
@@ -138,11 +121,12 @@
      overflow: hidden;
      padding: 0;
      margin: 0;
+     top: 0;
     }
    }
 
    .btnWrapper.imgSend {
-    @media (max-width: $mediaMaxWidth400px) {
+    @media only screen and (max-width: $mediaMaxWidth400px) {
      width: 40%;
     }
    }

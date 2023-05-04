@@ -32,14 +32,14 @@ export const Settings = () => {
    />
 
    <section className={s.mainSettings}>
-    <div className={s.buttonAction}>
+    {/*<div className={s.buttonAction}>
      <div className={s.title}>
       <img src={moon} alt="moon" />
       <p>Ночная тема</p>
      </div>
 
      <SwitchMui />
-    </div>
+    </div>*/}
 
     <a className={s.buttonAction} href="mailto:support@3-tone.ru">
      <div className={s.buttonAction}>

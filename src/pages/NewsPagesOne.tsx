@@ -100,9 +100,10 @@ export const NewsPagesOne = () => {
       <span className={s.theme}>{selectTypeNews[dataOneNews.type]}</span>
 
       {objectSkills?.map((x: any) => {
-       if (!!x.icon) {
+       console.log("x", x);
+       if (Object.keys(x).includes("icon")) {
         return <ChipsToolItem itemLabel={x} key={x.id} />;
-       } else if (!!x.color) {
+       } else if (Object.keys(x).includes("color")) {
         return <ChipsGenreItem itemLabel={x} key={x.id} />;
        }
       })}

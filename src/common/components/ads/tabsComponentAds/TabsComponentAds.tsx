@@ -3,7 +3,10 @@ import { Tab, Tabs } from "@mui/material";
 import { Link, useLocation } from "react-router-dom";
 import { styleSxTabsComponent } from "./styleSxTabsComponent";
 import { RouteNames } from "../../../../core/router/RouteNames";
-import { routeAccount, routeAnonnsemend } from "../../../../modules/ads/service/routesVariableForAds";
+import {
+  routeAccount,
+  routeAnonnsemend,
+} from "../../../../modules/ads/service/routesVariableForAds";
 
 export const TabsComponentAds = () => {
   const [value, setValue] = React.useState("");
@@ -30,7 +33,14 @@ export const TabsComponentAds = () => {
       aria-label="secondary tabs example"
       sx={styleSxTabsComponent.tabs}
     >
-      <Tab to="" value="" component={Link} label="Вакансии" sx={styleSxTabsComponent.tab} onClick={() => setValue("")} />
+      <Tab
+        to=""
+        value=""
+        component={Link}
+        label="Вакансии"
+        sx={styleSxTabsComponent.tab}
+        onClick={() => setValue("")}
+      />
       <Tab
         to={RouteNames.ADS_LIST}
         value={RouteNames.ADS_LIST}

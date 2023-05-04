@@ -1,32 +1,24 @@
 import { Controller, useForm } from "react-hook-form";
-import { InitialStateTeamLineType, TimeLinePostType } from "./types/timlineSliceType";
-import { SelectToolsElementMui } from "../../common/mui-element/selectToolsElementMui/SelectToolsElementMui";
 import { genreBD, groupeOptions } from "../authorization/service/BD";
 import { SelectGenreElementMui } from "../../common/mui-element/selectGenreElementMui/SelectGenreElementMui";
 import { TextField } from "@mui/material";
 import { optionСategoryBD } from "./service/optionСategoryBD";
 import s from "./style/addNewNewsForm.module.scss";
 import cn from "classnames";
-import { useAppDispatch, useAppSelector } from "../../core/redux/app/hooks";
 import { useNavigate } from "react-router-dom";
-import { setNewNewsTimeLineThunk } from "./setNewNewsTimeLineThunk";
 import { ReactComponent as AddImageIcons } from "../../assets/icons/addImageIcons.svg";
 import clearIcon from "../../assets/icons/clearIcon.svg";
 import { ButtonSubmitMui } from "../../common/mui-element/ButtonSubmitMui";
 import { CustomButtomAddImg } from "../../common/components/timeLine/customButtomAddImg/CustomButtomAddImg";
-import { updateDataTimeLineThunk } from "./updateDataTimeLineThunk";
 import { CityResultsType } from "../../types/PROFILE/cityGlobalType";
-import { useGetCityDataQuery } from "../../api/getDataForForm/getCityQuery";
 import { SelectTypeNews } from "./formFieldsSpecificStyle/SelectTypeNews";
 
 interface ChangeNewNewsFormType {
- changeDataNews: InitialStateTeamLineType;
+ changeDataNews: any;
 }
 
 export const ChangeThisNewsForm = ({ changeDataNews }: ChangeNewNewsFormType) => {
- const { data } = useGetCityDataQuery(50);
- const myProfile = useAppSelector((state) => state.userSliceReducer.profileData);
- const dispatch = useAppDispatch();
+ // const { data } = useGetCityDataQuery(50);
  const navigate = useNavigate();
 
  const { timeLinePost, author, date, id } = changeDataNews;
@@ -38,7 +30,7 @@ export const ChangeThisNewsForm = ({ changeDataNews }: ChangeNewNewsFormType) =>
   handleSubmit,
   setValue,
   formState: { errors, isValid },
- } = useForm<TimeLinePostType>({
+ } = useForm<any>({
   mode: "onBlur",
   defaultValues: {
    genre: timeLinePost.genre,
@@ -50,24 +42,24 @@ export const ChangeThisNewsForm = ({ changeDataNews }: ChangeNewNewsFormType) =>
   },
  });
 
- const onSubmit = (data: TimeLinePostType) => {
-  myProfile &&
-   dispatch(
-    updateDataTimeLineThunk({
-     date,
-     id,
-     timeLinePost: {
-      ...data,
-      genre: data.genre,
-      tools: data.tools,
-      photo: data.photo,
-      text: data.text,
-      typeCategory: data.typeCategory,
-      city: data.city,
-     },
-     author,
-    })
-   );
+ const onSubmit = (data: any) => {
+  //myProfile &&
+  //  dispatch(
+  //    updateDataTimeLineThunk({
+  //      date,
+  //      id,
+  //      timeLinePost: {
+  //        ...data,
+  //        genre: data.genre,
+  //        tools: data.tools,
+  //        photo: data.photo,
+  //        text: data.text,
+  //        typeCategory: data.typeCategory,
+  //        city: data.city,
+  //      },
+  //      author,
+  //    })
+  //  );
   navigate(-1);
  };
 
@@ -124,23 +116,23 @@ export const ChangeThisNewsForm = ({ changeDataNews }: ChangeNewNewsFormType) =>
      />
     </div>
 
-    <div className={cn(s.selectFieldCustomHeight, s.addMargin)}>
-     <Controller
-      name="tools"
-      control={control}
-      render={({ field: { onChange, value, ref, ...field }, formState: { errors } }) => (
-       <SelectToolsElementMui
-        ItemRef={ref}
-        value={value}
-        placeholder="Инструмент (род деятельности)"
-        options={groupeOptions}
-        onChange={onChange}
-        errors={errors.tools}
-        {...field}
-       />
-      )}
-     />
-    </div>
+    {/*<div className={cn(s.selectFieldCustomHeight, s.addMargin)}>
+          <Controller
+            name="tools"
+            control={control}
+            render={({ field: { onChange, value, ref, ...field }, formState: { errors } }) => (
+              <SelectToolsElementMui
+                ItemRef={ref}
+                value={value}
+                placeholder="Инструмент (род деятельности)"
+                options={groupeOptions}
+                onChange={onChange}
+                errors={errors.tools}
+                {...field}
+              />
+            )}
+          />
+        </div>*/}
 
     <div className={s.selectBlock}>
      <div className={s.selectField}>

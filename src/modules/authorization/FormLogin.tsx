@@ -98,7 +98,7 @@ export const FormLogin = ({ setOpen }: FormLoginType) => {
    </div>
 
    <Link to={RouteNames.REQUEST_RESET_PASSWORD} className={s.forgetPassword}>
-    Забыли пароль?
+    <span className={s.forgotPasswordText}>Забыли пароль ?</span>
    </Link>
 
    <div className={s.styleBtn}>

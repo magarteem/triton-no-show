@@ -83,7 +83,7 @@ export const RespondButton = ({ idPost, autorThisPost, statusAds }: RespondButto
     <ButtonSubmitMui isValidInButton={true} textButton="Ожидание ответа" />
    ) : isLoadingVacancy || isLoadingAds ? (
     <div className={s.loading}>
-     <CircularProgress style={{ width: "30px" }} />
+     <CircularProgress size={30} />
     </div>
    ) : isErrorVacancy || isErrorAds ? (
     <ButtonSubmitMui

@@ -1,9 +1,10 @@
 import { useFormContext } from "react-hook-form";
+import { CircularProgress } from "@mui/material";
 import { FormLayout } from "../../common/layout/formLayout/FormLayout";
 import { BtnInGroupeSaveCancelMui } from "../../common/components/navigateButton/BtnInGroupeSaveCancelMui";
 import { teamTypeADS } from "../vacancy/service/createVacancyBD";
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useNavigate, useOutletContext } from "react-router-dom";
 import { RouteNames } from "../../core/router/RouteNames";
 import { ControllersCityAsync } from "../../common/hookFormControllers/ControllersCityAsync";
 import { EnumTypeAccount } from "../../types/PROFILE/enum/EnumTypeAccount";
@@ -28,11 +29,26 @@ import { ControllerUploadAvatar } from "../../common/hookFormControllers/control
 import { ControllerAgeRmcPicker } from "../../common/hookFormControllers/ControllerAgeRmcPicker";
 import { ControllerOpeningHoursRmcPicker } from "../../common/hookFormControllers/ControllerOpeningHoursRmcPicker";
 import s from "./style/threeStepFormRegister.module.scss";
+import { ButtonSubmitMui } from "../../common/mui-element/ButtonSubmitMui";
 
+interface OutletType {
+ loading: boolean;
+}
 export const AddTypeAccountStepUpdateData = () => {
  const navigate = useNavigate();
+ const { loading }: OutletType = useOutletContext();
+ const {
+  watch,
+  control,
+  setValue,
+  setFocus,
+  formState: { errors },
+ } = useFormContext();
+ const [load, setLoad] = useState(false);
 
- const { watch, control, setValue } = useFormContext();
+ useEffect(() => {
+  loading && setLoad((prev) => !prev);
+ }, [loading]);
 
  const watchFieldType = watch("type_account")?.value;
 
@@ -44,6 +60,22 @@ export const AddTypeAccountStepUpdateData = () => {
  useEffect(() => {
   !!!watchFieldType && navigate(`/${RouteNames.ADD_NEW_ACCOUNT}`);
  }, []);
+
+ // useEffect(() => {
+ //  const firstError = Object.keys(errors).reduce((field: any, a) => {
+ //   console.log("field", field);
+ //   return !!errors[field] ? field : a;
+ //  }, null);
+
+ //  if (firstError) {
+ //   setFocus(firstError);
+ //  }
+ // }, [errors, setFocus]);
+
+ // useEffect(() => {
+ //  console.log("name_field");
+ //  setFocus("name_field");
+ // }, [errors]);
 
  return (
   <FormLayout textLabel="Создание анкеты">
@@ -164,9 +196,19 @@ export const AddTypeAccountStepUpdateData = () => {
     )}
    </div>
 
-   <div className={s.btnFormWrapper}>
-    <BtnInGroupeSaveCancelMui textCancelButton="Назад" textButton="Создать анкету" />
-   </div>
+   {load ? (
+    <div className={s.btnFormWrapper}>
+     <ButtonSubmitMui
+      startIcon={<CircularProgress size={25} style={{ marginRight: "10px" }} color="warning" />}
+      textButton="Подождите"
+      isValidInButton={true}
+     />
+    </div>
+   ) : (
+    <div className={s.btnFormWrapper}>
+     <BtnInGroupeSaveCancelMui textCancelButton="Назад" textButton="Создать анкету" />
+    </div>
+   )}
   </FormLayout>
  );
 };

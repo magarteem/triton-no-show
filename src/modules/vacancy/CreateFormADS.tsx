@@ -85,7 +85,7 @@ export const CreateFormADS = ({ buttonSubmitText }: CreateFormADSType) => {
      <ControllerTextArea
       control={control}
       name="commit"
-      placeholder={work ? "О себе" : "Комментарий"}
+      placeholder={work ? "О себе" : "Описание"}
      />
 
      <div className={s.requirements}>{work ? <h2>О работе</h2> : <h2>О сотрудничестве</h2>}</div>

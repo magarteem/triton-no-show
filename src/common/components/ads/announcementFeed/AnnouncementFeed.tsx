@@ -2,10 +2,7 @@ import { useLocation } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../../../core/redux/app/hooks";
 import { RouteNames } from "../../../../core/router/RouteNames";
 import { CircularProgress } from "@mui/material";
-import {
- useOptionsLongMenu,
- useOptionsLongMenu1,
-} from "../../../../modules/ads/helpers/OptionsLongMenu";
+import { useOptionsLongMenu1 } from "../../../../modules/ads/helpers/OptionsLongMenu";
 import {
  ResponseAdsType,
  ResultAdsTypeResponse,
@@ -14,8 +11,6 @@ import {
  useSendAnnouncementReplyMutation,
  useSendVacancyReplyMutation,
 } from "../../../../modules/notification/notificationQuery";
-import { setDataNotificationThunk } from "../../../../modules/notification/setDataNotificationThunk";
-import { InitialStateUserType } from "../../../../modules/user/types/userSliceType";
 import { EnumAnnouncementStatus } from "../../../../types/PROFILE/enum/EnumAnnouncementStatus";
 import { AdsLayoutItem } from "../../../layout/adsLayoutItem/AdsLayoutItem";
 import { ButtonSubmitMui } from "../../../mui-element/ButtonSubmitMui";
@@ -26,10 +21,9 @@ import { adsQuery } from "../../../../modules/vacancy/adsQuery";
 
 interface AnnouncementFeedType {
  x: ResultAdsTypeResponse;
- profile?: InitialStateUserType;
 }
 
-export const AnnouncementFeed = ({ x, profile }: AnnouncementFeedType) => {
+export const AnnouncementFeed = ({ x }: AnnouncementFeedType) => {
  const dispatch = useAppDispatch();
  const { isActiveForms: idMyFormStore, allMyForms } = useAppSelector(
   (state) => state.userSliceReducer
@@ -111,7 +105,7 @@ export const AnnouncementFeed = ({ x, profile }: AnnouncementFeedType) => {
      </div>
     ) : isLoadingVacancy || isLoadingAds ? (
      <div className={s.loading}>
-      <CircularProgress style={{ width: "30px" }} />
+      <CircularProgress size={30} />
      </div>
     ) : isSuccessAds || isSuccessVacancy ? (
      <div className={s.respond}>

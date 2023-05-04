@@ -158,12 +158,6 @@ export const SelectToolsElementMuiToolsNew = ({
         >
          <Checkbox sx={styleSxTool.checkbox} checked={personName.indexOf(p.name) > -1} />
          <img alt="icon" src={exportIconsSVG[p.icon] ?? hourIcons} />
-         {/*<img
-                    alt="icon"
-                    src={
-                      exportIconsSVG[iconTools.filter((y) => y !== undefined)[0].icon] ?? hourIcons
-                    }
-                  />*/}
          <ListItemText primary={p.name} />
         </MenuItem>
        );

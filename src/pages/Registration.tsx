@@ -124,7 +124,7 @@ export const Registration = () => {
   <WrapperFullScreen>
    <FormProvider {...method}>
     <form noValidate className={s.formRegister} onSubmit={method.handleSubmit(onSubmit)}>
-     <Outlet context={[responseLogin, loading, error]} />
+     <Outlet context={{ responseLogin, loading, error }} />
     </form>
    </FormProvider>
 

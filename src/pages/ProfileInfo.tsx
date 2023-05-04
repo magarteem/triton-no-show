@@ -7,34 +7,34 @@ import { useOutletContext } from "react-router-dom";
 import { PreLoader } from "../common/components/preLoader/PreLoader";
 
 interface ProfileInfoType {
- isLoading: boolean;
- profileData: InitialStateUserType;
- profileDataApiData: ProfileDataApiDataType;
+  isLoading: boolean;
+  profileData: InitialStateUserType;
+  profileDataApiData: ProfileDataApiDataType;
 }
 
 export const ProfileInfo = () => {
- const { profileData, profileDataApiData, isLoading }: ProfileInfoType = useOutletContext();
+  const { profileData, profileDataApiData, isLoading }: ProfileInfoType = useOutletContext();
 
- return (
-  <>
-   {!isLoading ? (
+  return (
     <>
-     <HeaderWrapper srcPhoto={profileData.avatar?.uri}>
-      <HeaderProfile
-       change={true}
-       settings={true}
-       avatar={profileData.avatar?.uri}
-       profileDataApiData={profileDataApiData}
-       textLabel={profileData.type_account.name}
-      />
-     </HeaderWrapper>
+      {!isLoading ? (
+        <>
+          <HeaderWrapper srcPhoto={profileData.avatar?.uri}>
+            <HeaderProfile
+              change={true}
+              settings={true}
+              avatar={profileData.avatar?.uri}
+              profileDataApiData={profileDataApiData}
+              textLabel={profileData.type_account.name}
+            />
+          </HeaderWrapper>
 
-     <AboutProfile userDataProfile={profileData} />
+          <AboutProfile userDataProfile={profileData} />
+        </>
+      ) : (
+        <PreLoader />
+      )}
+      <PopUpNavigateGradient />
     </>
-   ) : (
-    <PreLoader />
-   )}
-   <PopUpNavigateGradient />
-  </>
- );
+  );
 };

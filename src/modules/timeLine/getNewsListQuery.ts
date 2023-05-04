@@ -44,18 +44,12 @@ export const getNewsListQuery = createApi({
 
    merge: (currentCache, newItems) => {
     currentCache.currentPage = newItems.currentPage;
+    currentCache.isNextPage = newItems.isNextPage;
     currentCache.results.push(...newItems.results);
    },
 
-   // forceRefetch({ currentArg, previousArg }) {
-   //  return currentArg !== previousArg;
-   // },
-
    forceRefetch({ currentArg, previousArg, endpointState, state }) {
-    //const notDoubleFetch = endpointState?.data as ResponseNewsType;
-    return (
-     currentArg !== previousArg && rulesQueryInfiniteScroll(previousArg, currentArg, endpointState)
-    );
+    return rulesQueryInfiniteScroll(previousArg, currentArg, endpointState);
    },
   }),
 

@@ -1,3 +1,5 @@
+import { ResponseGlobalType } from "../../api/types/ResponseGlobalType";
+
 export interface CityResultsType {
  id: number;
  title: string;
@@ -7,10 +9,6 @@ export interface CityResultsType {
  metros?: [];
 }
 
-export interface CityGlobalType {
- currentPage: number;
- pageCount: number;
- pageSize: number;
- rowCount: number;
+export interface CityGlobalType extends ResponseGlobalType {
  results: CityResultsType[];
 }

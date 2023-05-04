@@ -43,7 +43,7 @@ export const BtnUserContact = ({
       Закрытая анкета
      </button>
     ) : isLoading ? (
-     <CircularProgress style={{ width: "30px" }} />
+     <CircularProgress size={30} />
     ) : isError ? (
      <button onClick={contactReply} className={s.buttonContactWrapper}>
       Ошибка, повторить запрос

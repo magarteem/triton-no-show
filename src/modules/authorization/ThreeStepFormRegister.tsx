@@ -1,9 +1,10 @@
 import { useFormContext } from "react-hook-form";
+import { CircularProgress } from "@mui/material";
 import { FormLayout } from "../../common/layout/formLayout/FormLayout";
 import { BtnInGroupeSaveCancelMui } from "../../common/components/navigateButton/BtnInGroupeSaveCancelMui";
 import { teamTypeADS } from "../vacancy/service/createVacancyBD";
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useNavigate, useOutletContext } from "react-router-dom";
 import { RouteNames } from "../../core/router/RouteNames";
 import { ControllersCityAsync } from "../../common/hookFormControllers/ControllersCityAsync";
 import { EnumTypeAccount } from "../../types/PROFILE/enum/EnumTypeAccount";
@@ -28,10 +29,17 @@ import { ControllersMetroTest } from "../../common/hookFormControllers/Controlle
 import { ControllerAgeRmcPicker } from "../../common/hookFormControllers/ControllerAgeRmcPicker";
 import { ControllerOpeningHoursRmcPicker } from "../../common/hookFormControllers/ControllerOpeningHoursRmcPicker";
 import s from "./style/threeStepFormRegister.module.scss";
+import { ButtonSubmitMui } from "../../common/mui-element/ButtonSubmitMui";
+
+interface OutletType {
+ loading: boolean;
+}
 
 export const ThreeStepFormRegister = () => {
  const navigate = useNavigate();
+ const { loading }: OutletType = useOutletContext();
 
+ const [load, setLoad] = useState(false);
  const {
   watch,
   control,
@@ -44,6 +52,10 @@ export const ThreeStepFormRegister = () => {
  const watchTeam = watchFieldType === EnumTypeAccount.TEAM;
  const watchInstitution = watchFieldType === EnumTypeAccount.INSTITUTION;
  const watchSoundProduser = watchFieldType === EnumTypeAccount.SOUND_PRODUCER;
+
+ useEffect(() => {
+  loading && setLoad((prev) => !prev);
+ }, [loading]);
 
  useEffect(() => {
   !!!watchFieldType && navigate(`${RouteNames.REGISTER}/${RouteNames.REG_TYPE_ACCOUNT}`);
@@ -167,9 +179,23 @@ export const ThreeStepFormRegister = () => {
     )}
    </div>
 
-   <div className={s.btnFormWrapper}>
+   {load ? (
+    <div className={s.btnFormWrapper}>
+     <ButtonSubmitMui
+      startIcon={<CircularProgress size={25} style={{ marginRight: "10px" }} color="warning" />}
+      textButton="Подождите"
+      isValidInButton={true}
+     />
+    </div>
+   ) : (
+    <div className={s.btnFormWrapper}>
+     <BtnInGroupeSaveCancelMui textCancelButton="Назад" textButton="Создать анкету" />
+    </div>
+   )}
+
+   {/*<div className={s.btnFormWrapper}>
     <BtnInGroupeSaveCancelMui textCancelButton="Назад" textButton="Создать анкету" />
-   </div>
+   </div>*/}
   </FormLayout>
  );
 };

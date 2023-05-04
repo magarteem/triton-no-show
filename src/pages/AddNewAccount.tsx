@@ -58,6 +58,7 @@ export const AddNewAccount = () => {
  });
 
  const onSubmit = (data: ISignUpFormValues) => {
+  console.log("BUTTON");
   //@ts-ignore
   const typeAccount = method.watch("type_account")?.value;
 
@@ -115,7 +116,7 @@ export const AddNewAccount = () => {
   <WrapperFullScreen>
    <FormProvider {...method}>
     <form noValidate className={s.formRegister} onSubmit={method.handleSubmit(onSubmit)}>
-     <Outlet context={[responseLogin, loading, error]} />
+     <Outlet context={{ responseLogin, loading, error }} />
     </form>
    </FormProvider>
   </WrapperFullScreen>

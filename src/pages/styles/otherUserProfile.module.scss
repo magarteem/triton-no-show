@@ -1,12 +1,13 @@
 @import "src/styles/variable";
 
 .shareIcon {
-  path {
-    fill: #fff;
-  }
+ path {
+  fill: #fff;
+  stroke: #000;
+ }
 }
 
 .closedProfileInfo {
-  padding: 16px;
-  align-self: "center";
+ padding: 16px;
+ align-self: "center";
 }

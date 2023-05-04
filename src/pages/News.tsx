@@ -8,16 +8,13 @@ export const News = () => {
  const dispatch = useAppDispatch();
  const myProfileKey = useAppSelector((state) => state.userSliceReducer.allMyForms);
 
- // const [pageCountCheck, setPageCountCheck] = useState(0);
  const [pageparams, setPageparams] = useState<FilterParamsRequestType>({
   page: 0,
  });
 
  const { data, isLoading, isFetching } = useInfinityScrollNewsQuery(pageparams);
-
  const refetchFu = () => {
   dispatch(getNewsListQuery.util.resetApiState());
-  //pageCountCheck === 0 &&
   setPageparams({
    page: 0,
    query: undefined,
@@ -27,10 +24,6 @@ export const News = () => {
    instrumentIds: undefined,
   });
  };
-
- // useEffect(() => {
- //  data && setPageCountCheck(data.pageCount);
- // }, [data]);
 
  const setPageFu = (params: FilterParamsRequestType) => {
   if (params) {

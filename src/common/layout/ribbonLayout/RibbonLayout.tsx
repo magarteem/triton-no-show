@@ -4,25 +4,26 @@ import { PreLoader } from "../../components/preLoader/PreLoader";
 import s from "./ribbonLayout.module.scss";
 
 interface RibbonLayoutType {
-  children: ReactNode;
-  isFetching?: boolean;
-  setPageFu?: () => void;
+ children: ReactNode;
+ isFetching?: boolean;
+ setPageFu?: () => void;
 }
 
 export const RibbonLayout = memo(({ children, isFetching, setPageFu }: RibbonLayoutType) => {
-  const { ref, inView } = useInView({
-    threshold: 0,
-    rootMargin: "100px",
-  });
+ const { ref, inView } = useInView({
+  threshold: 0,
+  rootMargin: "100px",
+ });
 
-  useEffect(() => {
-    inView && setPageFu && setPageFu();
-  }, [inView]);
+ useEffect(() => {
+  console.log("1");
+  inView && setPageFu && setPageFu();
+ }, [inView]);
 
-  return (
-    <section className={s.ribbonLayout}>
-      {children}
-      <span ref={ref}>{isFetching && <PreLoader />}</span>
-    </section>
-  );
+ return (
+  <section className={s.ribbonLayout}>
+   {children}
+   <span ref={ref}>{isFetching && <PreLoader />}</span>
+  </section>
+ );
 });

@@ -24,8 +24,7 @@ export const ButtonSubmitMui = ({
    type="submit"
    sx={{
     lineHeight: 1,
-    background:
-     "linear-gradient(270.95deg, #79AF33 0%, #448016 100%)",
+    background: "linear-gradient(270.95deg, #79AF33 0%, #448016 100%)",
     borderRadius: "100px",
     width: "100%",
     textTransform: "none",

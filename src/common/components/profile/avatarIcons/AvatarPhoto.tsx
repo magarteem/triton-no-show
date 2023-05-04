@@ -54,9 +54,9 @@ export const AvatarPhoto = ({ avatarPhoto, profileDataApiData }: AvatarIconsType
  const [st, setSt] = useState<any>(myFormsNewListener ? r() : getLocalStorageSwiperActiv());
 
  const fu = (element: number) => {
-  const tempData = result[element];
+  //const tempData = result[element];
   setLocalStorageSwiperActiv(element);
-  tempData && setJsonLocalStorage(tempData.id, tempData.type.replace("Form", ""));
+  //tempData && setJsonLocalStorage(tempData.id, tempData.type.replace("Form", ""));
   setSt(element);
  };
 
@@ -66,6 +66,8 @@ export const AvatarPhoto = ({ avatarPhoto, profileDataApiData }: AvatarIconsType
    id: tempData.id,
    nameForms: tempData.type.replace("Form", ""),
   };
+
+  tempData && setJsonLocalStorage(TypeAccountType.id, TypeAccountType.nameForms);
   dispatch(toggleForm({ tempData, TypeAccountType }));
  }, [st]);
 
