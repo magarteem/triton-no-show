@@ -79,23 +79,7 @@ self.addEventListener("message", (event) => {
 
 // Any other custom service worker logic can go here.
 
-//self.addEventListener("install", (event) => {
-// // forces a service worker to activate immediately (forces update)
-// self.skipWaiting();
-//});
-
-let isTooSoon = true;
-window.addEventListener("beforeinstallprompt", (e) => {
- if (isTooSoon) {
-  e.preventDefault(); // Prevents prompt display
-  // Prompt later instead:
-  setTimeout(() => {
-   isTooSoon = false;
-   //@ts-ignore
-   e.prompt(); // Throws if called more than once or default not prevented
-  }, 10000);
- }
-
- // The event was re-dispatched in response to our request
- // …
+self.addEventListener("install", (event) => {
+ // forces a service worker to activate immediately (forces update)
+ self.skipWaiting();
 });
