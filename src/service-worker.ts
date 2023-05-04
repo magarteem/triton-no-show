@@ -79,7 +79,7 @@ self.addEventListener("message", (event) => {
 
 // Any other custom service worker logic can go here.
 
-self.addEventListener("install", (event) => {
- // forces a service worker to activate immediately (forces update)
- self.skipWaiting();
-});
+//self.addEventListener("install", (event) => {
+// // forces a service worker to activate immediately (forces update)
+// self.skipWaiting();
+//});
