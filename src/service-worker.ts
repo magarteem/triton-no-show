@@ -72,8 +72,6 @@ registerRoute(
 // This allows the web app to trigger skipWaiting via
 // registration.waiting.postMessage({type: 'SKIP_WAITING'})
 self.addEventListener("message", (event) => {
- var years = prompt("Сколько вам лет?", "1000");
- alert("Вам " + years + " лет!");
  if (event.data && event.data.type === "SKIP_WAITING") {
   self.skipWaiting();
  }
@@ -83,23 +81,5 @@ self.addEventListener("message", (event) => {
 
 self.addEventListener("install", (event) => {
  // forces a service worker to activate immediately (forces update)
- alert("Go Go Go");
-
- var years = prompt("Сколько вам лет?", "100");
- alert("Вам " + years + " лет!");
-
- const isAdmin = confirm("Tecт обновление приложения, кнопка ОК - start, а CANSEL - stop");
- if (isAdmin) {
-  self.skipWaiting();
- } else alert("Обновление всёравно состоится после перезагрузки c(: ");
+ self.skipWaiting();
 });
-
-//self.addEventListener("message", (event) => {
-// if (event.data && event.data.type === "SKIP_WAITING") {
-//  self.skipWaiting();
-// }
-//});
-
-//self.addEventListener("install", (event) => {
-// self.skipWaiting();
-//});
