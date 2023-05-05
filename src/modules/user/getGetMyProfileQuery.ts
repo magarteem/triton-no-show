@@ -45,6 +45,9 @@ export const getMyProfileQuery = createApi({
   getOtherUserProfileForID: build.query<ProfileDataApiDataType, string>({
    query: (id_user) => ({
     url: `form/${id_user}`,
+    params: {
+     requestFormId: doneParseLocalStorage.id,
+    },
    }),
   }),
 

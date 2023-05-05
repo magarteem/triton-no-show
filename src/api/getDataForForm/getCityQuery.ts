@@ -11,15 +11,6 @@ export const getCityQuery = createApi({
   baseUrl: `${process.env.REACT_APP_API_URL_PROFILE}`,
  }),
  endpoints: (build) => ({
-  //getCityData: build.query<CityGlobalType, number>({
-  // query: (limit = 50) => ({
-  //  url: "city",
-  //  params: {
-  //   page: 0,
-  //   pageSize: limit,
-  //  },
-  // }),
-  //}),
   getMetroForCity: build.mutation<CityGlobalType, string>({
    query: (str) => {
     return {

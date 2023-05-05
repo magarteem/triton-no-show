@@ -21,7 +21,6 @@ import { EnumTypeAccount } from "../../types/PROFILE/enum/EnumTypeAccount";
 import { ControllerUploadPortfolio } from "../../common/hookFormControllers/controllerUploadPortfolio/ControllerUploadPortfolio";
 import { TitleTagH } from "../../common/components/profile/titleTagH/TitleTagH";
 import { ControllerPhone } from "../../common/hookFormControllers/ControllerPhone";
-import { ControllersInstitutionTypeAsyncNew } from "../../common/hookFormControllers/ControllersInstitutionTypeAsyncNew";
 import { ControllerTextField } from "../../common/hookFormControllers/ControllerTextField";
 import { ControllerToolsAsync } from "../../common/hookFormControllers/ControllerToolsAsync";
 import { ControllerMaster } from "../../common/hookFormControllers/ControllerMaster";
@@ -41,6 +40,7 @@ import {
 } from "../../common/mui-element/snackbar/SnackbarGlobal";
 import { ControllerOpeningHoursRmcPicker } from "../../common/hookFormControllers/ControllerOpeningHoursRmcPicker";
 import { ControllerAgeRmcPicker } from "../../common/hookFormControllers/ControllerAgeRmcPicker";
+import { ControllersInstitutionTypeAsync } from "../../common/hookFormControllers/ControllersInstitutionTypeAsync";
 
 interface FormChangeProfileType {
   userDataProfile: InitialStateUserType;
@@ -179,7 +179,7 @@ export const FormChangeProfile = ({ userDataProfile }: FormChangeProfileType) =>
       />
 
       {watchInstitution && (
-        <ControllersInstitutionTypeAsyncNew
+        <ControllersInstitutionTypeAsync
           name="institutionType"
           control={control}
           placeholder="Тип заведения"

@@ -7,7 +7,6 @@ import { ControllerWebSite } from "../../common/hookFormControllers/ControllerWe
 import { ControllerGender } from "../../common/hookFormControllers/ControllerGender";
 import { ControllerWorkExperience } from "../../common/hookFormControllers/ControllerWorkExperience";
 import { ControllerGenreAsync } from "../../common/hookFormControllers/ControllerGenreAsync";
-import { ControllersInstitutionTypeAsyncNew } from "../../common/hookFormControllers/ControllersInstitutionTypeAsyncNew";
 import { ControllersCityAsync } from "../../common/hookFormControllers/ControllersCityAsync";
 import { ControllerToolsAsync } from "../../common/hookFormControllers/ControllerToolsAsync";
 import { ControllerMaster } from "../../common/hookFormControllers/ControllerMaster";
@@ -17,115 +16,125 @@ import { ControllerTextArea } from "../../common/hookFormControllers/ControllerT
 import { EnumTypeDocumentType } from "../../types/PROFILE/enum/EnumTypeDocumentType";
 import { ControllerAgeRangeRmcPicker } from "../../common/hookFormControllers/ControllerAgeRangeRmcPicker";
 import s from "./style/createFormADS.module.scss";
+import { ControllersInstitutionTypeAsync } from "../../common/hookFormControllers/ControllersInstitutionTypeAsync";
 
 interface CreateFormADSType {
- buttonSubmitText: string;
+  buttonSubmitText: string;
 }
 
 export const CreateFormADS = ({ buttonSubmitText }: CreateFormADSType) => {
- const { control, watch, setValue } = useFormContext();
- const typeAds = watch("required")?.id;
+  const { control, watch, setValue } = useFormContext();
+  const typeAds = watch("required")?.id;
 
- const team = typeAds === EnumTypeDocumentType.TEAM;
- const mus = typeAds === EnumTypeDocumentType.MUSICIAN;
- const work = typeAds === EnumTypeDocumentType.WORK;
+  const team = typeAds === EnumTypeDocumentType.TEAM;
+  const mus = typeAds === EnumTypeDocumentType.MUSICIAN;
+  const work = typeAds === EnumTypeDocumentType.WORK;
 
- return (
-  <>
-   <ControllerRandomSelect
-    control={control}
-    options={requiredADS}
-    placeholder="Ищу \ Ищем"
-    name="required"
-    required={true}
-   />
-   {team && (
-    <ControllerRandomSelect
-     control={control}
-     placeholder="Вид коллектива"
-     name="whoAreLooking"
-     options={teamTypeADS}
-    />
-   )}
-   {!!typeAds && (
+  return (
     <>
-     {work && (
-      <ControllersInstitutionTypeAsyncNew
-       name="typeOfInstitution"
-       control={control}
-       placeholder="Место работы"
-       required={true}
-      />
-     )}
-
-     <ControllerToolsAsync
-      control={control}
-      name="tool"
-      placeholder={team ? "Состав" : "Инструмент (род деятельности)"}
-      required={mus ? true : false}
-     />
-     <ControllerGenreAsync control={control} name="genre" required={false} />
-     <ControllersCityAsync name="city" placeholder="Город" control={control} setValue={setValue} />
-     {mus && (
-      <>
-       <ControllerGender control={control} name="gender" required={false} />
-       <ControllerAgeRangeRmcPicker control={control} watch={watch} />
-      </>
-     )}
-
-     <div className={s.requirements}>{work ? <h2>О себе</h2> : <h2>Требования</h2>}</div>
-
-     <ControllerWorkExperience
-      control={control}
-      name="work_experience"
-      helperText="Опишите требуемый опыт"
-     />
-     {!team && <ControllerMaster control={control} name="master" />}
-
-     <ControllerTextArea
-      control={control}
-      name="commit"
-      placeholder={work ? "О себе" : "Описание"}
-     />
-
-     <div className={s.requirements}>{work ? <h2>О работе</h2> : <h2>О сотрудничестве</h2>}</div>
-
-     {work && (
-      <ControllerTextField
-       control={control}
-       name="payment"
-       placeholder="Оплата"
-       helperText="Обязательное поле"
-      />
-     )}
-
-     {work ? (
       <ControllerRandomSelect
-       control={control}
-       options={workingConditionsBD}
-       placeholder="Условия работы"
-       name="workingConditions"
-       required={false}
+        control={control}
+        options={requiredADS}
+        placeholder="Ищу \ Ищем"
+        name="required"
+        required={true}
       />
-     ) : (
-      <ControllerTextArea control={control} name="workingConditions" placeholder="Условия" />
-     )}
+      {team && (
+        <ControllerRandomSelect
+          control={control}
+          placeholder="Вид коллектива"
+          name="whoAreLooking"
+          options={teamTypeADS}
+        />
+      )}
+      {!!typeAds && (
+        <>
+          {work && (
+            <ControllersInstitutionTypeAsync
+              name="typeOfInstitution"
+              control={control}
+              placeholder="Место работы"
+              required={true}
+            />
+          )}
 
-     {work && <ControllerTextArea control={control} name="commitAbout" placeholder="Комментарий" />}
+          <ControllerToolsAsync
+            control={control}
+            name="tool"
+            placeholder={team ? "Состав" : "Инструмент (род деятельности)"}
+            required={mus ? true : false}
+          />
+          <ControllerGenreAsync control={control} name="genre" required={false} />
+          <ControllersCityAsync
+            name="city"
+            placeholder="Город"
+            control={control}
+            setValue={setValue}
+          />
+          {mus && (
+            <>
+              <ControllerGender control={control} name="gender" required={false} />
+              <ControllerAgeRangeRmcPicker control={control} watch={watch} />
+            </>
+          )}
 
-     <div className={s.requirements}>
-      <h2>Контакты</h2>
-     </div>
+          <div className={s.requirements}>{work ? <h2>О себе</h2> : <h2>Требования</h2>}</div>
 
-     <ControllerPhone control={control} name="phone" />
-     <ControllerEmail control={control} name="email" />
-     <ControllerWebSite control={control} name="web_site" />
+          <ControllerWorkExperience
+            control={control}
+            name="work_experience"
+            helperText="Опишите требуемый опыт"
+          />
+          {!team && <ControllerMaster control={control} name="master" />}
 
-     <div className={s.btnFormWrapper}>
-      <BtnInGroupeSaveCancelMui textCancelButton="Назад" textButton={buttonSubmitText} />
-     </div>
+          <ControllerTextArea
+            control={control}
+            name="commit"
+            placeholder={work ? "О себе" : "Описание"}
+          />
+
+          <div className={s.requirements}>
+            {work ? <h2>О работе</h2> : <h2>О сотрудничестве</h2>}
+          </div>
+
+          {work && (
+            <ControllerTextField
+              control={control}
+              name="payment"
+              placeholder="Оплата"
+              helperText="Обязательное поле"
+            />
+          )}
+
+          {work ? (
+            <ControllerRandomSelect
+              control={control}
+              options={workingConditionsBD}
+              placeholder="Условия работы"
+              name="workingConditions"
+              required={false}
+            />
+          ) : (
+            <ControllerTextArea control={control} name="workingConditions" placeholder="Условия" />
+          )}
+
+          {work && (
+            <ControllerTextArea control={control} name="commitAbout" placeholder="Комментарий" />
+          )}
+
+          <div className={s.requirements}>
+            <h2>Контакты</h2>
+          </div>
+
+          <ControllerPhone control={control} name="phone" />
+          <ControllerEmail control={control} name="email" />
+          <ControllerWebSite control={control} name="web_site" />
+
+          <div className={s.btnFormWrapper}>
+            <BtnInGroupeSaveCancelMui textCancelButton="Назад" textButton={buttonSubmitText} />
+          </div>
+        </>
+      )}
     </>
-   )}
-  </>
- );
+  );
 };

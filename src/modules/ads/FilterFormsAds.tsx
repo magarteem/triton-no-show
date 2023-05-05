@@ -12,11 +12,10 @@ import { ControllerToolsAsync } from "../../common/hookFormControllers/Controlle
 import { ControllerGenreAsync } from "../../common/hookFormControllers/ControllerGenreAsync";
 import { ControllerGender } from "../../common/hookFormControllers/ControllerGender";
 import { ControllerMaster } from "../../common/hookFormControllers/ControllerMaster";
-import { ControllersInstitutionTypeAsyncNew } from "../../common/hookFormControllers/ControllersInstitutionTypeAsyncNew";
 import { EnumTypeAccount } from "../../types/PROFILE/enum/EnumTypeAccount";
 import {
- AdsFilterParamsRequestType,
- VacancyFilterParamsRequestType,
+  AdsFilterParamsRequestType,
+  VacancyFilterParamsRequestType,
 } from "../vacancy/types/FilterFormsAdsFieldsType";
 import { RouteNames } from "../../core/router/RouteNames";
 import { ControllerRandomSelect } from "../../common/hookFormControllers/ControllerRandomSelect";
@@ -26,239 +25,240 @@ import { filterSubmit } from "./helpers/filterSubmit";
 import { routeAccount, routeAnonnsemend, routeVacancy } from "./service/routesVariableForAds";
 import { useClearResultsqueryAds } from "./hooks/useClearResultsqueryAds";
 import s from "./style/filterFormsAds.module.scss";
+import { ControllersInstitutionTypeAsync } from "../../common/hookFormControllers/ControllersInstitutionTypeAsync";
 
 const deff = {
- city: null,
- tool: [],
- genre: [],
- gender: null,
- typeOfInstitution: null,
- teamType: null,
- who_is_looking_vacancy: null,
- who_is_looking_vacancy_partner: null,
- who_is_looking_ads: null,
- who_is_looking_questionnaire: null,
- fromAge: null,
- toAge: null,
- master: null,
+  city: null,
+  tool: [],
+  genre: [],
+  gender: null,
+  typeOfInstitution: null,
+  teamType: null,
+  who_is_looking_vacancy: null,
+  who_is_looking_vacancy_partner: null,
+  who_is_looking_ads: null,
+  who_is_looking_questionnaire: null,
+  fromAge: null,
+  toAge: null,
+  master: null,
 };
 
 interface FilterFormsAdsType {
- searchQuery: string | null;
- handleClose: () => void;
- setPageFu: (args: AdsFilterParamsRequestType | VacancyFilterParamsRequestType) => void;
+  searchQuery: string | null;
+  handleClose: () => void;
+  setPageFu: (args: AdsFilterParamsRequestType | VacancyFilterParamsRequestType) => void;
 
- filterState: FormsFilterType;
- defaultFilter: FormsFilterType;
- setFilterStateFu: (data: any) => void;
+  filterState: FormsFilterType;
+  defaultFilter: FormsFilterType;
+  setFilterStateFu: (data: any) => void;
 }
 
 export const FilterFormsAds = ({
- handleClose,
- searchQuery,
- setPageFu,
- filterState,
- defaultFilter,
- setFilterStateFu,
+  handleClose,
+  searchQuery,
+  setPageFu,
+  filterState,
+  defaultFilter,
+  setFilterStateFu,
 }: FilterFormsAdsType) => {
- const navigate = useNavigate();
- const { clearListVacancy, clearListAds, clearListAccount } = useClearResultsqueryAds();
- let location = useLocation();
- const locationTabs = location.pathname;
+  const navigate = useNavigate();
+  const { clearListVacancy, clearListAds, clearListAccount } = useClearResultsqueryAds();
+  let location = useLocation();
+  const locationTabs = location.pathname;
 
- const { control, handleSubmit, watch, reset, setValue } = useForm<FormsFilterType>({
-  mode: "onBlur",
-  defaultValues: filterState,
- });
-
- const watch_vacancy_partner = watch("who_is_looking_vacancy_partner")?.id;
- const who_is_looking_vacancy = watch("who_is_looking_vacancy")?.id;
- const watch_looking_ads = watch("who_is_looking_ads")?.id;
- const watch_questionnaire = watch("who_is_looking_questionnaire")?.id;
-
- useEffect(() => {
-  searchQuery && onSubmit({ ...deff, query: searchQuery });
- }, [searchQuery]);
-
- const resetFormFields = () => reset(deff);
- const onSubmit = (data: FormsFilterType) => {
-  handleClose();
-  switch (locationTabs) {
-   case routeVacancy:
-    clearListVacancy();
-    setPageFu(filterSubmit(data, "vacancy"));
-    navigate(RouteNames.ADS);
-    break;
-   case routeAnonnsemend:
-    clearListAds();
-    setPageFu(filterSubmit(data, "ads"));
-    navigate(RouteNames.ADS_LIST);
-    break;
-   default:
-    clearListAccount();
-    setPageFu(filterSubmit(data, "account"));
-    navigate(RouteNames.ADS_QUESTIONNAIRE_LIST);
-  }
- };
-
- useEffect(() => {
-  const subscription = watch((value, { name, type }) => {
-   setFilterStateFu(value);
+  const { control, handleSubmit, watch, reset, setValue } = useForm<FormsFilterType>({
+    mode: "onBlur",
+    defaultValues: filterState,
   });
-  return () => subscription.unsubscribe();
- }, [watch]);
 
- return (
-  <FilterLayoutWrapper handleClose={handleClose}>
-   <form noValidate onSubmit={handleSubmit(onSubmit)}>
-    <div className={s.headerForms}>
-     <h1>Фильтр</h1>
-     <IconButton
-      onClick={resetFormFields}
-      sx={{
-       borderRadius: "10px",
-       padding: "13px",
-      }}
-     >
-      <h5>Очистить</h5>
-     </IconButton>
-    </div>
+  const watch_vacancy_partner = watch("who_is_looking_vacancy_partner")?.id;
+  const who_is_looking_vacancy = watch("who_is_looking_vacancy")?.id;
+  const watch_looking_ads = watch("who_is_looking_ads")?.id;
+  const watch_questionnaire = watch("who_is_looking_questionnaire")?.id;
 
-    <div className={s.gawField}>
-     <ControllersCityAsync
-      name="city"
-      placeholder="Город"
-      control={control}
-      setValue={setValue}
-      required={false}
-     />
-     <ControllerToolsAsync
-      control={control}
-      placeholder="Инструмент (род деятельности)"
-      name="tool"
-      required={false}
-     />
-     <ControllerGenreAsync control={control} name="genre" required={false} />
+  useEffect(() => {
+    searchQuery && onSubmit({ ...deff, query: searchQuery });
+  }, [searchQuery]);
 
-     <h2 className={s.filterForVacancy}>
-      {locationTabs === routeVacancy
-       ? "Фильтр по вакансиям"
-       : locationTabs === routeAnonnsemend
-       ? "Фильтр по объявлениям"
-       : "Фильтр по анкетам"}
-     </h2>
+  const resetFormFields = () => reset(deff);
+  const onSubmit = (data: FormsFilterType) => {
+    handleClose();
+    switch (locationTabs) {
+      case routeVacancy:
+        clearListVacancy();
+        setPageFu(filterSubmit(data, "vacancy"));
+        navigate(RouteNames.ADS);
+        break;
+      case routeAnonnsemend:
+        clearListAds();
+        setPageFu(filterSubmit(data, "ads"));
+        navigate(RouteNames.ADS_LIST);
+        break;
+      default:
+        clearListAccount();
+        setPageFu(filterSubmit(data, "account"));
+        navigate(RouteNames.ADS_QUESTIONNAIRE_LIST);
+    }
+  };
 
-     {locationTabs === routeVacancy ? (
-      <ControllerRandomSelect
-       control={control}
-       placeholder="Кто ищет?"
-       name="who_is_looking_vacancy"
-       options={optionsTypeAccount}
-      />
-     ) : locationTabs === routeAnonnsemend ? (
-      <ControllerRandomSelect
-       control={control}
-       placeholder="Что/кого ищут?"
-       name="who_is_looking_ads"
-       options={requiredADS}
-      />
-     ) : (
-      <ControllerRandomSelect
-       name="who_is_looking_questionnaire"
-       control={control}
-       placeholder="Тип аккаунта"
-       options={optionsTypeAccount}
-      />
-     )}
+  useEffect(() => {
+    const subscription = watch((value, { name, type }) => {
+      setFilterStateFu(value);
+    });
+    return () => subscription.unsubscribe();
+  }, [watch]);
 
-     {locationTabs === routeVacancy && (
-      <>
-       {who_is_looking_vacancy === EnumTypeAccount.INSTITUTION && (
-        <ControllersInstitutionTypeAsyncNew
-         name="typeOfInstitution"
-         control={control}
-         placeholder="Тип заведения"
-        />
-       )}
-       <ControllerRandomSelect
-        control={control}
-        placeholder="Кого ищет?"
-        name="who_is_looking_vacancy_partner"
-        options={requiredVacancy}
-       />
-      </>
-     )}
+  return (
+    <FilterLayoutWrapper handleClose={handleClose}>
+      <form noValidate onSubmit={handleSubmit(onSubmit)}>
+        <div className={s.headerForms}>
+          <h1>Фильтр</h1>
+          <IconButton
+            onClick={resetFormFields}
+            sx={{
+              borderRadius: "10px",
+              padding: "13px",
+            }}
+          >
+            <h5>Очистить</h5>
+          </IconButton>
+        </div>
 
-     {locationTabs === routeVacancy &&
-      (watch_vacancy_partner === EnumTypeDocumentType.TEAM ? (
-       <ControllerRandomSelect
-        control={control}
-        placeholder="Вид коллектива"
-        name="teamType"
-        options={teamTypeADS}
-       />
-      ) : (
-       watch_vacancy_partner === EnumTypeDocumentType.MUSICIAN && (
-        <WatchMusician control={control} watch={watch} />
-       )
-      ))}
+        <div className={s.gawField}>
+          <ControllersCityAsync
+            name="city"
+            placeholder="Город"
+            control={control}
+            setValue={setValue}
+            required={false}
+          />
+          <ControllerToolsAsync
+            control={control}
+            placeholder="Инструмент (род деятельности)"
+            name="tool"
+            required={false}
+          />
+          <ControllerGenreAsync control={control} name="genre" required={false} />
 
-     {locationTabs === routeAnonnsemend &&
-      (watch_looking_ads === EnumTypeDocumentType.TEAM ? (
-       <ControllerRandomSelect
-        control={control}
-        placeholder="Вид коллектива"
-        name="teamType"
-        options={teamTypeADS}
-       />
-      ) : watch_looking_ads === EnumTypeDocumentType.MUSICIAN ? (
-       <WatchMusician control={control} watch={watch} />
-      ) : watch_looking_ads === EnumTypeDocumentType.WORK ? (
-       <ControllersInstitutionTypeAsyncNew
-        name="typeOfInstitution"
-        control={control}
-        placeholder="Место работы"
-       />
-      ) : null)}
+          <h2 className={s.filterForVacancy}>
+            {locationTabs === routeVacancy
+              ? "Фильтр по вакансиям"
+              : locationTabs === routeAnonnsemend
+              ? "Фильтр по объявлениям"
+              : "Фильтр по анкетам"}
+          </h2>
 
-     {locationTabs === routeAccount &&
-      (watch_questionnaire === EnumTypeAccount.MUSICIAN ? (
-       <WatchMusician control={control} watch={watch} />
-      ) : watch_questionnaire === EnumTypeAccount.TEAM ? (
-       <ControllerRandomSelect
-        control={control}
-        placeholder="Вид коллектива"
-        name="teamType"
-        options={teamTypeADS}
-       />
-      ) : watch_questionnaire === EnumTypeAccount.INSTITUTION ? (
-       <ControllersInstitutionTypeAsyncNew
-        name="typeOfInstitution"
-        control={control}
-        placeholder="Тип заведения"
-       />
-      ) : null)}
-    </div>
+          {locationTabs === routeVacancy ? (
+            <ControllerRandomSelect
+              control={control}
+              placeholder="Кто ищет?"
+              name="who_is_looking_vacancy"
+              options={optionsTypeAccount}
+            />
+          ) : locationTabs === routeAnonnsemend ? (
+            <ControllerRandomSelect
+              control={control}
+              placeholder="Что/кого ищут?"
+              name="who_is_looking_ads"
+              options={requiredADS}
+            />
+          ) : (
+            <ControllerRandomSelect
+              name="who_is_looking_questionnaire"
+              control={control}
+              placeholder="Тип аккаунта"
+              options={optionsTypeAccount}
+            />
+          )}
 
-    <div className={s.btnWrapper}>
-     <ButtonSubmitMui isValidInButton={false} textButton="Показать результаты" />
-    </div>
-   </form>
-  </FilterLayoutWrapper>
- );
+          {locationTabs === routeVacancy && (
+            <>
+              {who_is_looking_vacancy === EnumTypeAccount.INSTITUTION && (
+                <ControllersInstitutionTypeAsync
+                  name="typeOfInstitution"
+                  control={control}
+                  placeholder="Тип заведения"
+                />
+              )}
+              <ControllerRandomSelect
+                control={control}
+                placeholder="Кого ищет?"
+                name="who_is_looking_vacancy_partner"
+                options={requiredVacancy}
+              />
+            </>
+          )}
+
+          {locationTabs === routeVacancy &&
+            (watch_vacancy_partner === EnumTypeDocumentType.TEAM ? (
+              <ControllerRandomSelect
+                control={control}
+                placeholder="Вид коллектива"
+                name="teamType"
+                options={teamTypeADS}
+              />
+            ) : (
+              watch_vacancy_partner === EnumTypeDocumentType.MUSICIAN && (
+                <WatchMusician control={control} watch={watch} />
+              )
+            ))}
+
+          {locationTabs === routeAnonnsemend &&
+            (watch_looking_ads === EnumTypeDocumentType.TEAM ? (
+              <ControllerRandomSelect
+                control={control}
+                placeholder="Вид коллектива"
+                name="teamType"
+                options={teamTypeADS}
+              />
+            ) : watch_looking_ads === EnumTypeDocumentType.MUSICIAN ? (
+              <WatchMusician control={control} watch={watch} />
+            ) : watch_looking_ads === EnumTypeDocumentType.WORK ? (
+              <ControllersInstitutionTypeAsync
+                name="typeOfInstitution"
+                control={control}
+                placeholder="Место работы"
+              />
+            ) : null)}
+
+          {locationTabs === routeAccount &&
+            (watch_questionnaire === EnumTypeAccount.MUSICIAN ? (
+              <WatchMusician control={control} watch={watch} />
+            ) : watch_questionnaire === EnumTypeAccount.TEAM ? (
+              <ControllerRandomSelect
+                control={control}
+                placeholder="Вид коллектива"
+                name="teamType"
+                options={teamTypeADS}
+              />
+            ) : watch_questionnaire === EnumTypeAccount.INSTITUTION ? (
+              <ControllersInstitutionTypeAsync
+                name="typeOfInstitution"
+                control={control}
+                placeholder="Тип заведения"
+              />
+            ) : null)}
+        </div>
+
+        <div className={s.btnWrapper}>
+          <ButtonSubmitMui isValidInButton={false} textButton="Показать результаты" />
+        </div>
+      </form>
+    </FilterLayoutWrapper>
+  );
 };
 
 interface WatchMusicianType {
- watch: any;
- control: any;
+  watch: any;
+  control: any;
 }
 
 const WatchMusician = ({ watch, control }: WatchMusicianType) => {
- return (
-  <>
-   <ControllerGender control={control} name="gender" required={false} />
-   <ControllerAgeRangeRmcPicker control={control} watch={watch} />
-   <ControllerMaster control={control} name="master" />
-  </>
- );
+  return (
+    <>
+      <ControllerGender control={control} name="gender" required={false} />
+      <ControllerAgeRangeRmcPicker control={control} watch={watch} />
+      <ControllerMaster control={control} name="master" />
+    </>
+  );
 };

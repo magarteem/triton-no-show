@@ -14,7 +14,6 @@ export const MainScreen = () => {
 
  return (
   <div className={s.mainScreen}>
-   <p>88888888888888</p>
    <Outlet />
   </div>
  );

@@ -228,6 +228,9 @@ export const adsQuery = createApi({
    query: (id_ads) => {
     return {
      url: `announcement/${id_ads}`,
+     params: {
+      requestFormId: doneParseLocalStorage.id,
+     },
     };
    },
   }),
@@ -235,9 +238,19 @@ export const adsQuery = createApi({
    query: (id_ads) => {
     return {
      url: `vacancy/${id_ads}`,
+     params: {
+      requestFormId: doneParseLocalStorage.id,
+     },
     };
    },
   }),
+  //oneVacancyPost: build.query<ResultAdsTypeResponse, string>({
+  // query: (id_ads) => {
+  //  return {
+  //   url: `vacancy/${id_ads}`,
+  //  };
+  // },
+  //}),
 
   deleteVacancy: build.mutation<void, string>({
    query: (string) => ({

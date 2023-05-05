@@ -1,7 +1,7 @@
-import { styleSxTool } from "../selectToolsElementMui/styleSxTool";
 import arrowSelect from "../../../assets/icons/arrowSelect.webp";
 import { ListItemText } from "@mui/material";
 import { InstrumentGlobalType } from "../../../types/PROFILE/InstrumentGlobalType";
+import { styleSxTool } from "./styleSxTool";
 import cn from "classnames";
 import s from "../optionCustom.module.scss";
 
@@ -24,16 +24,17 @@ export const GroupeElement = ({
   e.preventDefault();
  };
  const touchCheckTouch = (e: any, index: number) => {
-  console.log("onTouchEnd touchCheckTouch index", index);
-  classesHiddenCount !== index ? setClassesHiddenCount(index) : setClassesHiddenCount(null);
   e.preventDefault();
+  console.log("onTouchCancel touchCheckTouch index", index);
+  classesHiddenCount !== index ? setClassesHiddenCount(index) : setClassesHiddenCount(null);
  };
 
  return (
   <div
    className={s.openMenu}
    onClick={(e) => touchCheck(e, index)}
-   onTouchEnd={(e) => touchCheckTouch(e, index)}
+   // onTouchEnd={(e) => touchCheckTouch(e, index)}
+   onTouchCancel={(e) => touchCheckTouch(e, index)}
   >
    <img
     className={cn({
