@@ -10,11 +10,9 @@
 
 import { clientsClaim } from "workbox-core";
 import { ExpirationPlugin } from "workbox-expiration";
-import { createHandlerBoundToURL, precacheAndRoute, matchPrecache } from "workbox-precaching";
+import { precacheAndRoute, createHandlerBoundToURL } from "workbox-precaching";
 import { registerRoute } from "workbox-routing";
 import { StaleWhileRevalidate } from "workbox-strategies";
-import { setCatchHandler } from "workbox-routing";
-import { Workbox } from "workbox-window";
 
 declare const self: ServiceWorkerGlobalScope;
 
@@ -80,58 +78,3 @@ self.addEventListener("message", (event) => {
 });
 
 // Any other custom service worker logic can go here.
-
-self.addEventListener("install", (event) => {
- // forces a service worker to activate immediately (forces update)
- self.skipWaiting();
-});
-
-// Перехватываем ошибки, связанные с маршрутизацией, такие как отсутствие подключения к сети
-//@ts-ignore
-setCatchHandler(async ({ event }) => {
- // Возвращаем предварительно сохраненную резервную страницу при запросе “документа”
- //@ts-ignore
- if (event.request.destination === "document") {
-  return matchPrecache("/offline.html");
- }
-
- return Response.error();
-});
-
-if ("serviceWorker" in navigator) {
- const wb = new Workbox("/sw.js");
- let registration;
-
- const showSkipWaitingPrompt = (event: any) => {
-  // `event.wasWaitingBeforeRegister` будет иметь значение `false`, если это
-  // первый раз, когда обновленный СВ находится в режиме ожидания.
-  // Когда `event.wasWaitingBeforeRegister` имеет значение `true`, предыдущий
-  // обновленный СВ все еще находится в режиме ожидания.
-  // Это позволяет кастомизировать UI.
-
-  // Предположим, что приложение имеет несколько элементов UI,
-  // которые пользователь может принять или отклонить
-  const prompt = createUIPrompt({
-   onAccept: () => {
-    // Допустим, пользователь принял обновление, регистрируем обработчик,
-    // который перезагрузит страницу как только предыдущий ожидающий
-    // СВ получит контроль над ней
-    wb.addEventListener("controlling", (event) => {
-     window.location.reload();
-    });
-
-    wb.messageSkipWaiting();
-   },
-
-   onReject: () => {
-    prompt.dismiss();
-   },
-  });
- };
-
- // Регистрируем обработчик, который определяет момент, когда
- // СВ был установлен, но ожидает активации
- wb.addEventListener("waiting", showSkipWaitingPrompt);
-
- wb.register();
-}
