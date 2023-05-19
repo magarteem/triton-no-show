@@ -5,6 +5,8 @@
  align-items: center;
  justify-content: center;
 
+ flex: 1 0 100%; // для 100vh <PreLoader />
+
  .elementLoader {
   width: 100px;
  }

@@ -34,7 +34,8 @@ export interface SoundProducerAnnouncementDocumentType {
  gender: GenderType | string;
 }
 export interface TeamAnnouncementDocumentType {
- teamType: EnumTypeTeam.GROUP | EnumTypeTeam.ORCHESTRA | EnumTypeTeam.ENSEMBLE | string;
+ teamType: EnumTypeTeam | string;
+ cooperationTerms: string;
 }
 export interface MusicianAnnouncementDocumentType {
  gender: string | null;

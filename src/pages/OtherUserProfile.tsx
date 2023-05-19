@@ -1,4 +1,4 @@
-import arrowReturnWhite from "../assets/icons/arrowBack.svg";
+import arrowReturnWhite from "../assets/icons/arrowBackWidthStroke.svg";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { AboutProfile } from "../common/components/profile/aboutProfile/AboutProfile";

@@ -6,15 +6,16 @@ import { resetState } from "../modules/user/userSlice";
 import s from "./styles/mainScreenPage.module.scss";
 
 export const MainScreen = () => {
- const dispatch = useAppDispatch();
- useEffect(() => {
-  dispatch(resetState());
-  dispatch(getMyProfileApiThunk());
- }, [dispatch]);
+  const dispatch = useAppDispatch();
 
- return (
-  <div className={s.mainScreen}>
-   <Outlet />
-  </div>
- );
+  useEffect(() => {
+    dispatch(resetState());
+    dispatch(getMyProfileApiThunk());
+  }, [dispatch]);
+
+  return (
+    <div className={s.mainScreen}>
+      <Outlet />
+    </div>
+  );
 };

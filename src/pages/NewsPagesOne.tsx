@@ -11,34 +11,30 @@ import { RouteNames } from "../core/router/RouteNames";
 import { ChipsGenreItem } from "../common/ui-elements/chips/ChipsGenreItem";
 import { ChipsToolItem } from "../common/ui-elements/chips/ChipsToolItem";
 import { getThisPageURL } from "../helpers/getThisPageURL";
-import { NewsResultType } from "../modules/timeLine/types/responseNewsType";
-import { useDeleteNewsMutation } from "../modules/timeLine/getNewsListQuery";
+import { useDeleteNewsMutation, useOneNewsQuery } from "../modules/timeLine/getNewsListQuery";
 import { selectTypeNews } from "../modules/timeLine/service/optionСategoryBD";
 import { PreLoader } from "../common/components/preLoader/PreLoader";
 import s from "./styles/newsPagesOne.module.scss";
 
+interface OutletType {
+ myProfileKey: string[];
+}
+
 export const NewsPagesOne = () => {
+ const { id_news } = useParams();
+ const { data: dataNews } = useOneNewsQuery(id_news || "");
+
  const [deleteNews] = useDeleteNewsMutation();
- const [data, , , , , myProfileKey]: [
-  NewsResultType[],
-  undefined,
-  undefined,
-  undefined,
-  undefined,
-  string[]
- ] = useOutletContext();
+ const { myProfileKey }: OutletType = useOutletContext();
 
  const navigate = useNavigate();
- const { id_news } = useParams();
-
- const dataOneNews = data?.find((x) => `${x.id}` === id_news);
 
  const deleteThisNews = () => {
   id_news && deleteNews(id_news);
   navigate(-1);
  };
 
- const objectSkills = dataOneNews && [...dataOneNews.genres, ...dataOneNews.instruments];
+ const objectSkills = dataNews && [...dataNews.genres, ...dataNews.instruments];
 
  const complain = () => {
   window.location.href = "mailto:support@3-tone.ru";
@@ -54,7 +50,7 @@ export const NewsPagesOne = () => {
   },
  ];
 
- if (dataOneNews && myProfileKey.includes(dataOneNews.form.formId)) {
+ if (dataNews && myProfileKey.includes(dataNews.form.formId)) {
   options = [
    ...options,
    {
@@ -73,7 +69,6 @@ export const NewsPagesOne = () => {
    ...options,
   ];
  }
-
  return (
   <StylesFullScreen>
    <HeaderStylesWrapper
@@ -82,25 +77,24 @@ export const NewsPagesOne = () => {
     share={shareIcons}
     tsxElement={<LongMenu moreButtonCircle={moreButtonCircle} options={options} />}
    />
-   {!dataOneNews ? (
+   {!dataNews ? (
     <PreLoader />
    ) : (
     <section className={s.timeline}>
-     {<HeaderCardsNews author={dataOneNews.form} menu={false} timeLinePost={dataOneNews} />}
+     {<HeaderCardsNews author={dataNews.form} menu={false} timeLinePost={dataNews} />}
 
      <div className={s.bodyNews}>
-      {dataOneNews.attachments.map((elem, index) => (
+      {dataNews.attachments.map((elem, index) => (
        <img key={index} src={elem.uri} alt={elem.name} />
       ))}
 
-      <pre className={s.textInfo}>{dataOneNews.body}</pre>
+      <pre className={s.textInfo}>{dataNews.body}</pre>
      </div>
 
      <div className={s.footerNews}>
-      <span className={s.theme}>{selectTypeNews[dataOneNews.type]}</span>
+      <span className={s.theme}>{selectTypeNews[dataNews.type]}</span>
 
       {objectSkills?.map((x: any) => {
-       console.log("x", x);
        if (Object.keys(x).includes("icon")) {
         return <ChipsToolItem itemLabel={x} key={x.id} />;
        } else if (Object.keys(x).includes("color")) {

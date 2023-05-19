@@ -40,6 +40,8 @@ export const News = () => {
  };
 
  return (
-  <Outlet context={[data?.results, isLoading, isFetching, setPageFu, refetchFu, myProfileKey]} />
+  <Outlet
+   context={{ data: data?.results, isLoading, isFetching, setPageFu, refetchFu, myProfileKey }}
+  />
  );
 };

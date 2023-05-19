@@ -1,5 +1,5 @@
 import { Controller } from "react-hook-form";
-import SelectElementForCityAsync from "../mui-element/selectElementForCity/SelectElementForCityAsync";
+import { SelectElementForCityAsync } from "../mui-element/SelectElementForCityAsync/SelectElementForCityAsync";
 import s from "./formFields.module.scss";
 
 export interface ControllersCityAsyncType {
@@ -25,10 +25,7 @@ export const ControllersCityAsync = ({
     rules={{
      required: required ? "Обязательное поле" : false,
     }}
-    render={({
-     field: { onChange, value, ref, ...field },
-     formState: { errors, defaultValues },
-    }) => {
+    render={({ field: { onChange, value, ref, ...field }, formState: { errors } }) => {
      return (
       <div className={s.wrapperBlockInput}>
        <SelectElementForCityAsync

@@ -4,12 +4,14 @@ import { Link, useLocation } from "react-router-dom";
 import { styleSxTabsComponent } from "./styleSxTabsComponent";
 import { RouteNames } from "../../../../core/router/RouteNames";
 
+const incoming = `${RouteNames.NOTIFICATION}/${RouteNames.IN_COMING_NOTIFICATION}`;
+
 export const TabsComponent = () => {
  const [value, setValue] = React.useState("");
  let location = useLocation();
 
  useEffect(() => {
-  location.pathname === "/notification/incoming" ? setValue("incoming") : setValue("");
+  location.pathname === incoming ? setValue("incoming") : setValue("");
  }, [location]);
 
  const handleChange = (event: React.SyntheticEvent, newValue: string) => {
@@ -35,7 +37,6 @@ export const TabsComponent = () => {
    />
    <Tab
     to={RouteNames.IN_COMING_NOTIFICATION}
-    //to="incoming"
     value={RouteNames.IN_COMING_NOTIFICATION}
     component={Link}
     label="Входящие"

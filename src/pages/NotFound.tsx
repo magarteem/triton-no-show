@@ -1,7 +1,11 @@
-import s from './styles/tempStyle.module.scss';
+import s from "./styles/tempStyle.module.scss";
 
 export const NotFound = () => {
-  return (
-    <div className={s.tempStyle}>NotFound<br />404</div>
-  )
-}
+ return (
+  <div className={s.tempStyle}>
+   Страница не найдена
+   <br />
+   Ошибка 404
+  </div>
+ );
+};

@@ -9,17 +9,16 @@ export const TabsComponentOtherProfilePosts = () => {
  let location = useLocation();
 
  useEffect(() => {
-  location.pathname === "/ads/ads-list"
-   ? setValue("ads-list")
-   : location.pathname === "/ads/questionnaire-list"
-   ? setValue("questionnaire-list")
+  location.pathname.includes(RouteNames.OTHER_USER_VACANCY)
+   ? setValue(RouteNames.OTHER_USER_VACANCY)
+   : location.pathname.includes(RouteNames.OTHER_USER_ADS)
+   ? setValue(RouteNames.OTHER_USER_ADS)
+   : location.pathname.includes(RouteNames.OTHER_USER_QUESTIONNAIRE)
+   ? setValue(RouteNames.OTHER_USER_QUESTIONNAIRE)
    : setValue("");
- }, []);
+ }, [location]);
 
- const handleChange = (
-  event: React.SyntheticEvent,
-  newValue: string
- ) => {
+ const handleChange = (event: React.SyntheticEvent, newValue: string) => {
   setValue(newValue);
  };
 
@@ -62,9 +61,7 @@ export const TabsComponentOtherProfilePosts = () => {
     component={Link}
     label="Анкеты"
     sx={styleSxTabsComponent.tab}
-    onClick={() =>
-     setValue(RouteNames.OTHER_USER_QUESTIONNAIRE)
-    }
+    onClick={() => setValue(RouteNames.OTHER_USER_QUESTIONNAIRE)}
    />
   </Tabs>
  );

@@ -15,7 +15,6 @@ import { ControllerTypeNews } from "../../common/hookFormControllers/ControllerT
 import { getNewsListQuery } from "./getNewsListQuery";
 import { useAppDispatch } from "../../core/redux/app/hooks";
 import { useOutletContext } from "react-router";
-import { NewsResultType } from "./types/responseNewsType";
 import s from "./style/filterFormsTimline.module.scss";
 
 interface FilterFormsTimeLineType {
@@ -25,6 +24,10 @@ interface FilterFormsTimeLineType {
  setFilterStateFu: (data: any) => void;
 }
 
+interface OutletType {
+ setPageFu: (paramsQuery?: FilterParamsRequestType) => void;
+}
+
 export const FilterFormsTimeLine = ({
  filerstate,
  defaultFilter,
@@ -32,12 +35,7 @@ export const FilterFormsTimeLine = ({
  setFilterStateFu,
 }: FilterFormsTimeLineType) => {
  const dispatch = useAppDispatch();
- const [data, isLoading, isFetching, setPageFu]: [
-  NewsResultType[],
-  boolean,
-  boolean,
-  (paramsQuery: FilterParamsRequestType) => void
- ] = useOutletContext();
+ const { setPageFu }: OutletType = useOutletContext();
 
  const { control, handleSubmit, reset, setValue, watch } = useForm<FilterFormsTimeLineFieldsType>({
   mode: "onBlur",
@@ -106,7 +104,6 @@ export const FilterFormsTimeLine = ({
       required={false}
      />
      <ControllerGenreAsync control={control} name="genre" required={false} />
-     {/*<ControllerGenreAsyncNew control={control} name="genre" required={false} />*/}
     </div>
 
     <div className={s.btnWrapper}>

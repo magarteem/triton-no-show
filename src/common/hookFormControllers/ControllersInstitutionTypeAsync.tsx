@@ -5,58 +5,58 @@ import { SelectElementMui } from "../mui-element/SelectElementMui";
 import s from "./formFields.module.scss";
 
 const reselect = (data: InstitutionTypeGlobalType[]) => {
-  const dataResult = data.map((x: InstitutionTypeGlobalType) => {
-    return {
-      id: x.id,
-      name: x.type,
-    };
-  });
+ const dataResult = data.map((x: InstitutionTypeGlobalType) => {
+  return {
+   id: x.id,
+   name: x.type,
+  };
+ });
 
-  return dataResult;
+ return dataResult;
 };
 
 export interface ControllersInstitutionTypeAsyncType {
-  control: any;
-  name: string;
-  placeholder: string;
-  required?: boolean;
+ control: any;
+ name: string;
+ placeholder: string;
+ required?: boolean;
 }
 
 export const ControllersInstitutionTypeAsync = ({
-  control,
-  name,
-  placeholder,
-  required = false,
+ control,
+ name,
+ placeholder,
+ required = false,
 }: ControllersInstitutionTypeAsyncType) => {
-  const { data, isLoading } = useGetInstitutionTypeDataQuery();
+ const { data, isLoading } = useGetInstitutionTypeDataQuery();
 
-  if (isLoading) return null;
+ if (isLoading) return null;
 
-  return (
-    <div className={s.selectField}>
-      <Controller
-        name={name}
-        control={control}
-        rules={{
-          required: required ? "Обязательное поле" : false,
-        }}
-        render={({ field: { onChange, value, ref, ...field }, formState: { errors } }) => {
-          return (
-            <div className={s.wrapperBlockInput}>
-              <SelectElementMui
-                ItemRef={ref}
-                value={value}
-                placeholder={placeholder}
-                required={required}
-                options={!!data ? reselect(data) : []}
-                onChange={onChange}
-                errors={errors[name]}
-                {...field}
-              />
-            </div>
-          );
-        }}
-      />
-    </div>
-  );
+ return (
+  <div className={s.selectField}>
+   <Controller
+    name={name}
+    control={control}
+    rules={{
+     required: required ? "Обязательное поле" : false,
+    }}
+    render={({ field: { onChange, value, ref, ...field }, formState: { errors } }) => {
+     return (
+      <div className={s.wrapperBlockInput}>
+       <SelectElementMui
+        ItemRef={ref}
+        value={value}
+        placeholder={placeholder}
+        required={required}
+        options={!!data ? reselect(data) : []}
+        onChange={onChange}
+        errors={errors[name]}
+        {...field}
+       />
+      </div>
+     );
+    }}
+   />
+  </div>
+ );
 };

@@ -16,6 +16,7 @@ export enum RouteNames {
  ADS_LIST = "ads-list",
  ADS_QUESTIONNAIRE_LIST = "questionnaire-list",
  ADS_CHANGE_THIS_ADS = "change-this-ads",
+ ADS_CHANGE_THIS_ADS_ANNOUNCEMENT = "change-this-announcement-ads",
  ADS_TABS = "ads-tabs",
 
  CREATE_ADS = "/create-ads",

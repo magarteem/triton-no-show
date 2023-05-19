@@ -6,6 +6,7 @@ export const selectParamsForCreateAds = (
  data: FormsCreatedVacancyType,
  idMyActiveForms: string
 ): RequestAdsType => {
+ console.log(data);
  const tempContact = [
   { contactType: "phone", value: data.phone },
   { contactType: "email", value: data.email },
@@ -44,8 +45,8 @@ export const selectParamsForCreateAds = (
         }
       : null,
     skills: data.master ? [data.master.id] : [],
-    education: "string",
-    cooperationTerms: "string",
+    education: "",
+    cooperationTerms: data.commitAbout,
    };
    return {
     ...paramsMain,
@@ -58,6 +59,7 @@ export const selectParamsForCreateAds = (
   case EnumTypeDocumentType.TEAM: {
    const teamAnnouncementDocument = {
     teamType: data.whoAreLooking?.id || "Undefined",
+    cooperationTerms: data.commitAbout,
    };
    return {
     ...paramsMain,

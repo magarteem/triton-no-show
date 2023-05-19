@@ -17,4 +17,3 @@ export const FirstToStepsLayout = () => {
   </div>
  );
 };
-// Outlet context не используется ?

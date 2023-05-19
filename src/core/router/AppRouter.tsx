@@ -112,6 +112,10 @@ export const AppRouter = () => {
        path={`${RouteNames.ADS_CHANGE_THIS_ADS}/:change_id_ads`}
        element={<ChangeThisAds />}
       />
+      <Route
+       path={`${RouteNames.ADS_CHANGE_THIS_ADS_ANNOUNCEMENT}/:change_id_ads`}
+       element={<ChangeThisAds />}
+      />
      </Route>
 
      <Route path={RouteNames.CREATE_ADS} element={<CreateNewAds />} />

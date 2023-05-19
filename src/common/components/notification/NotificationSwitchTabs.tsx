@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Outlet, useLocation } from "react-router-dom";
 import { TabsComponent } from "./tabsComponent/TabsComponent";
 import { HeaderStylesWrapper } from "../../layout/headerStylesWrapper/HeaderStylesWrapper";
@@ -10,14 +10,16 @@ import {
 } from "../../../modules/notification/notificationQuery";
 import { RouteNames } from "../../../core/router/RouteNames";
 import { PreLoader } from "../preLoader/PreLoader";
-import { useHandleTouch } from "../../../modules/notification/hook/useHandleTouchMove";
+import { useSwipeHandleTouchTemp } from "../../../hook/useSwipeHandleTouchTemp";
 
-const routOut = RouteNames.NOTIFICATION;
-const routeIn = `${RouteNames.NOTIFICATION}/${RouteNames.IN_COMING_NOTIFICATION}`;
+const routL = RouteNames.NOTIFICATION;
+const routR = `${RouteNames.NOTIFICATION}/${RouteNames.IN_COMING_NOTIFICATION}`;
 
 export const NotificationSwitchTabs = () => {
- const touchFu = useHandleTouch();
- let location = useLocation().pathname;
+ const refs = useRef<HTMLDivElement | null>(null);
+ // const touchFu1 = useSwipeHandleTouch(routL, routR);
+ useSwipeHandleTouchTemp(refs, routL, routR);
+ const { pathname } = useLocation();
  const [outgoingPage, setOutgoingPage] = useState({ page: 0 });
  const [incomingPage, setIncoming] = useState({ page: 0 });
 
@@ -26,7 +28,7 @@ export const NotificationSwitchTabs = () => {
   isLoading: isLoadingOutgoing,
   isFetching: isFetchingOutgoing,
  } = useListOutgoingQuery(outgoingPage, {
-  skip: location !== routOut,
+  skip: pathname !== routL,
  });
 
  const {
@@ -34,17 +36,17 @@ export const NotificationSwitchTabs = () => {
   isLoading: isLoadingIncoming,
   isFetching: isFetchingIncoming,
  } = useListIncomingQuery(incomingPage, {
-  skip: location !== routeIn,
+  skip: pathname !== routR,
  });
 
  const setPageFu = () => {
-  if (location === routOut) {
+  if (pathname === routL) {
    dataOutgoing && setOutgoingPage({ page: dataOutgoing.currentPage + 1 });
   } else dataIncoming && setIncoming({ page: dataIncoming.currentPage + 1 });
  };
 
- const handleTouchStart = (e: React.TouchEvent) => touchFu("start", e);
- const handleTouchMove = (e: React.TouchEvent) => touchFu("move", e);
+ // const handleTouchStart = (e: MouseEvent | TouchEvent) => touchFu1("start", e);
+ // const handleTouchMove = (e: MouseEvent | TouchEvent) => touchFu1("move", e);
 
  return (
   <>
@@ -54,15 +56,19 @@ export const NotificationSwitchTabs = () => {
    </StylesFullScreen>
    <TabsComponent />
    <StylesFullScreen>
-    <div onTouchStart={handleTouchStart} onTouchMove={handleTouchMove}>
-     {isLoadingOutgoing || isLoadingIncoming ? (
-      <PreLoader />
-     ) : (
+    {isLoadingOutgoing || isLoadingIncoming ? (
+     <PreLoader />
+    ) : (
+     <div
+      ref={refs}
+      className="toutch"
+      // onTouchStart={handleTouchStart} onTouchMove={handleTouchMove}
+     >
       <RibbonLayout setPageFu={setPageFu} isFetching={isFetchingOutgoing || isFetchingIncoming}>
-       <Outlet context={[dataOutgoing, isLoadingOutgoing, dataIncoming, isLoadingIncoming]} />
+       <Outlet context={{ dataOutgoing, dataIncoming }} />
       </RibbonLayout>
-     )}
-    </div>
+     </div>
+    )}
    </StylesFullScreen>
   </>
  );

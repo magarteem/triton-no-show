@@ -47,9 +47,7 @@ interface FilterFormsAdsType {
   searchQuery: string | null;
   handleClose: () => void;
   setPageFu: (args: AdsFilterParamsRequestType | VacancyFilterParamsRequestType) => void;
-
   filterState: FormsFilterType;
-  defaultFilter: FormsFilterType;
   setFilterStateFu: (data: any) => void;
 }
 
@@ -58,7 +56,6 @@ export const FilterFormsAds = ({
   searchQuery,
   setPageFu,
   filterState,
-  defaultFilter,
   setFilterStateFu,
 }: FilterFormsAdsType) => {
   const navigate = useNavigate();

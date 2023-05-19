@@ -19,13 +19,11 @@ export const GroupeElement = ({
  x,
 }: GroupeElementType) => {
  const touchCheck = (e: any, index: number) => {
-  console.log("onClick touchCheck index", index);
   classesHiddenCount !== index ? setClassesHiddenCount(index) : setClassesHiddenCount(null);
   e.preventDefault();
  };
  const touchCheckTouch = (e: any, index: number) => {
   e.preventDefault();
-  console.log("onTouchCancel touchCheckTouch index", index);
   classesHiddenCount !== index ? setClassesHiddenCount(index) : setClassesHiddenCount(null);
  };
 
@@ -33,7 +31,6 @@ export const GroupeElement = ({
   <div
    className={s.openMenu}
    onClick={(e) => touchCheck(e, index)}
-   // onTouchEnd={(e) => touchCheckTouch(e, index)}
    onTouchCancel={(e) => touchCheckTouch(e, index)}
   >
    <img

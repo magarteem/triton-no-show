@@ -4,10 +4,7 @@ import { AddNewNewsForm } from "../modules/timeLine/AddNewNewsForm";
 
 export const AddNewNews = () => {
  return (
-  <FormLayoutCreateADS
-   textLabel="Создать  новость"
-   arrowCanselImgIcon={arrowCanselImgIcon}
-  >
+  <FormLayoutCreateADS textLabel="Создать  новость" arrowCanselImgIcon={arrowCanselImgIcon}>
    <AddNewNewsForm />
   </FormLayoutCreateADS>
  );

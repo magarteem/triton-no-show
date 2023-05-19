@@ -48,7 +48,7 @@ export const getNewsListQuery = createApi({
     currentCache.results.push(...newItems.results);
    },
 
-   forceRefetch({ currentArg, previousArg, endpointState, state }) {
+   forceRefetch({ currentArg, previousArg, endpointState }) {
     return rulesQueryInfiniteScroll(previousArg, currentArg, endpointState);
    },
   }),
@@ -90,7 +90,7 @@ export const getNewsListQuery = createApi({
    },
   }),
 
-  oneNews: build.mutation<void, string>({
+  oneNews: build.query<NewsResultType, string>({
    query: (string) => ({
     url: `news/${string}`,
    }),
@@ -132,7 +132,7 @@ export const {
  useSendNewNewsMutation,
  useInfinityScrollNewsQuery,
  useDeleteNewsMutation,
- useOneNewsMutation,
+ useOneNewsQuery,
 } = getNewsListQuery;
 
 //export const itemAborted = createEntityAdapter({

@@ -1,5 +1,13 @@
 import { Autocomplete, CircularProgress, TextField } from "@mui/material";
-import React, { ChangeEvent, useEffect, useState, forwardRef } from "react";
+import React, {
+ ChangeEvent,
+ useEffect,
+ useState,
+ forwardRef,
+ useRef,
+ ForwardedRef,
+ useImperativeHandle,
+} from "react";
 import { useGetCityDataAsyncQuery } from "../../../api/getDataForForm/getCityQuery";
 import { InterfaceGlobalSelectTypeCity } from "../../../modules/user/types/userSliceType";
 import { CityResultsType, CityGlobalType } from "../../../types/PROFILE/cityGlobalType";
@@ -23,12 +31,12 @@ const reselect = (data: CityGlobalType) => {
 };
 
 export interface ParamsCityQuery {
- page: number;
- pageSize: number | undefined;
  query: string;
+ page: number;
+ pageSize?: number;
 }
 
-interface SelectElementForCityAsyncType {
+interface SelectElementForCityAsyncPendingTestType {
  required?: boolean;
  helperText?: string;
  errors?: any;
@@ -38,7 +46,7 @@ interface SelectElementForCityAsyncType {
  setValue?: any;
 }
 
-export default function SelectElementForCityAsync({
+export default function SelectElementForCityAsyncPendingTestPendingTest({
  required = true,
  helperText = "",
  errors,
@@ -47,15 +55,16 @@ export default function SelectElementForCityAsync({
  onChange,
  setValue,
  ...props
-}: SelectElementForCityAsyncType) {
- const [query, setQuery] = useState<ParamsCityQuery>({ page: 0, pageSize: 3, query: "" });
+}: SelectElementForCityAsyncPendingTestType) {
+ const listBoxRef = useRef<HTMLDivElement | null>(null);
+ const [query, setQuery] = useState<ParamsCityQuery>({ page: 0, query: "" });
  const debouncedValue = useDebounce<ParamsCityQuery>(query, 500);
 
  const { data, isLoading, isFetching } = useGetCityDataAsyncQuery(debouncedValue);
 
  useEffect(() => {
-  data && setOptions([...reselect(data)]);
-  //data && setOptions([...options, ...reselect(data)]);
+  //data && setOptions([...reselect(data)]);
+  data && setOptions([...options, ...reselect(data)]);
  }, [data]);
 
  const [open, setOpen] = useState(false);
@@ -80,19 +89,27 @@ export default function SelectElementForCityAsync({
  }, [loading]);
 
  useEffect(() => {
-  //if (!open) setOptions([]);
+  if (!open) setQuery({ page: 0, query: "" });
  }, [open]);
 
  const asyncFu = async (str: string) => {
-  console.log(str);
   setOptions([]);
   setQuery({
-   ...query,
    query: str,
+   page: 0,
+   pageSize: 20,
   });
  };
 
- const loadMoreResults = () => console.log("loadMoreResults");
+ const loadMoreResults = () => {
+  !!query.query &&
+   setQuery({
+    ...query,
+    page: query.page + 1,
+    pageSize: 20,
+   });
+ };
+
  return (
   <Autocomplete
    ListboxProps={{
@@ -103,7 +120,10 @@ export default function SelectElementForCityAsync({
      }
     },
    }}
-   ListboxComponent={(listboxProps) => <ListboxComponent {...listboxProps} />}
+   // ListboxComponent={(listboxProps) => (
+   //  <ListboxComponent listBoxRef={listBoxRef} listboxProps={listboxProps} />
+   // )}
+   ListboxComponent={ListBox}
    loadingText="Поиск..."
    noOptionsText="Нет результатов"
    onChange={(e, data: any) => {
@@ -124,6 +144,7 @@ export default function SelectElementForCityAsync({
    getOptionLabel={(option) => (option.name ? option.name : "")}
    options={options}
    loading={loading}
+   renderOption={(props: object, option: any, state: object) => <div {...props}>{option.name}</div>}
    renderInput={(params) => (
     <TextField
      onChange={(e) => asyncFu(e.currentTarget.value)}
@@ -149,16 +170,71 @@ export default function SelectElementForCityAsync({
  );
 }
 
-const ListboxComponent = forwardRef(function ListboxComponent({ ...rest }, ref: any) {
+interface ListBoxProps extends React.HTMLAttributes<HTMLUListElement> {}
+type NullableUlElement = HTMLUListElement | null;
+const ListBox = forwardRef(function ListBoxBase(
+ props: ListBoxProps,
+ ref: ForwardedRef<HTMLUListElement>
+) {
+ const { children, ...rest } = props;
+ const innerRef = useRef<HTMLUListElement>(null);
+ useImperativeHandle<NullableUlElement, NullableUlElement>(ref, () => {
+  return innerRef.current;
+ });
+
  return (
-  <ul
-   ref={ref}
-   {...rest}
-   // onScroll={({ target }) =>
-   //  setIsScrollBottom(target.scrollHeight - target.scrollTop === target.clientHeight)
-   // }
-  />
+  <ul {...rest} ref={innerRef} role="list-box">
+   {children}
+  </ul>
  );
 });
 
-//https://codesandbox.io/s/jolly-matsumoto-ugs5d?file=/src/Autocomplete.js
+//interface ListBoxProps extends React.HTMLAttributes<HTMLUListElement> {}
+//type NullableUlElement = HTMLUListElement | null;
+//const ListBox = forwardRef(function ListBoxBase(
+// props: ListBoxProps,
+// ref: ForwardedRef<HTMLUListElement>
+//) {
+// const { children, ...rest } = props;
+// const innerRef = useRef<HTMLUListElement>(null);
+// useImperativeHandle<NullableUlElement, NullableUlElement>(ref, () => innerRef.current);
+
+// return (
+//  <ul {...rest} ref={innerRef} role="list-box">
+//   {children}
+//  </ul>
+// );
+//});
+
+//
+//const ListboxComponent = ({ listBoxRef, listboxProps }: any) => {
+// useEffect(() => {
+//  console.log(listBoxRef.current.getBoundingClientRect());
+// }, []);
+
+// return (
+//  <ul
+//   role="list-box"
+//   ref={listBoxRef}
+//   {...listboxProps}
+//   // onScroll={({ target }) =>
+//   //  setIsScrollBottom(target.scrollHeight - target.scrollTop === target.clientHeight)
+//   // }
+//  />
+// );
+//};
+
+// useLayoutEffect(() => {
+//  console.log(listBoxRef.current.getBoundingClientRect());
+//  console.log(listBoxRef.current);
+// }, []);
+// return (
+//  <ul
+//   ref={listBoxRef}
+//   {...rest}
+//   // onScroll={({ target }) =>
+//   //  setIsScrollBottom(target.scrollHeight - target.scrollTop === target.clientHeight)
+//   // }
+//  />
+// );
+//});

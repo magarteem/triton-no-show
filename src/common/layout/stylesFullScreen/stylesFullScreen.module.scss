@@ -1,10 +1,7 @@
 @import "src/styles/variable";
 
 .stylesFullScreen {
- width: 100%;
-
- // height: calc(100% - 114px); // тест
-
- background-color: #fdfdf5;
- padding: 0 16px;
+  width: 100%;
+  background-color: #fdfdf5;
+  padding: 0 16px;
 }

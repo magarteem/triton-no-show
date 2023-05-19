@@ -23,6 +23,7 @@ const authSlice = createSlice({
   },
   logout(state: InitialStateType) {
    localStorage.removeItem(`auth-token`);
+   // localStorage.removeItem(`active-my-forms`);
    state.isAuth = false;
   },
   resetState(state: InitialStateType) {

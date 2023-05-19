@@ -27,9 +27,9 @@ import { ControllersMetroTest } from "../../common/hookFormControllers/Controlle
 import { ControllerUploadAvatar } from "../../common/hookFormControllers/controllerUploadAvatar/ControllerUploadAvatar";
 import { ControllerAgeRmcPicker } from "../../common/hookFormControllers/ControllerAgeRmcPicker";
 import { ControllerOpeningHoursRmcPicker } from "../../common/hookFormControllers/ControllerOpeningHoursRmcPicker";
-import s from "./style/threeStepFormRegister.module.scss";
 import { ButtonSubmitMui } from "../../common/mui-element/ButtonSubmitMui";
 import { ControllersInstitutionTypeAsync } from "../../common/hookFormControllers/ControllersInstitutionTypeAsync";
+import s from "./style/threeStepFormRegister.module.scss";
 
 interface OutletType {
   loading: boolean;
@@ -37,13 +37,7 @@ interface OutletType {
 export const AddTypeAccountStepUpdateData = () => {
   const navigate = useNavigate();
   const { loading }: OutletType = useOutletContext();
-  const {
-    watch,
-    control,
-    setValue,
-    setFocus,
-    formState: { errors },
-  } = useFormContext();
+  const { watch, control, setValue } = useFormContext();
   const [load, setLoad] = useState(false);
 
   useEffect(() => {
@@ -60,22 +54,6 @@ export const AddTypeAccountStepUpdateData = () => {
   useEffect(() => {
     !!!watchFieldType && navigate(`/${RouteNames.ADD_NEW_ACCOUNT}`);
   }, []);
-
-  // useEffect(() => {
-  //  const firstError = Object.keys(errors).reduce((field: any, a) => {
-  //   console.log("field", field);
-  //   return !!errors[field] ? field : a;
-  //  }, null);
-
-  //  if (firstError) {
-  //   setFocus(firstError);
-  //  }
-  // }, [errors, setFocus]);
-
-  // useEffect(() => {
-  //  console.log("name_field");
-  //  setFocus("name_field");
-  // }, [errors]);
 
   return (
     <FormLayout textLabel="Создание анкеты">

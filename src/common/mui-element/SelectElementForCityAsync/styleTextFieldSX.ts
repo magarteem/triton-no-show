@@ -32,7 +32,8 @@ export const styleTextFieldSX = {
 
    "& input": {
     color: "#1A1C18",
-    padding: "0 14px  !important",
+    //padding: "0 14px  !important",
+    padding: "0px 58px 0 14px !important",
     fontFamily: `Mulish_Regular, sans-serif !important`,
     fontSize: "16px !important",
     fontWeight: "600 !important",

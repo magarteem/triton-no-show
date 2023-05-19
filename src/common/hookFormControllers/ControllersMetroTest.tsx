@@ -1,6 +1,6 @@
 import { Controller } from "react-hook-form";
 import { InterfaceGlobalSelectTypeCity } from "../../modules/user/types/userSliceType";
-import SelectElementForMetroAsync from "../mui-element/selectElementForCity/SelectElementForMetroAsync";
+import SelectElementForMetroAsync from "../mui-element/SelectElementForCityAsync/SelectElementForMetroAsync";
 import s from "./formFields.module.scss";
 
 export interface ControllersMetroTestType {
@@ -28,10 +28,7 @@ export const ControllersMetroTest = ({
     rules={{
      required: required ? "Обязательное поле" : false,
     }}
-    render={({
-     field: { onChange, value, ref, ...field },
-     formState: { errors },
-    }) => (
+    render={({ field: { onChange, value, ref, ...field }, formState: { errors } }) => (
      <div className={s.wrapperBlockInput}>
       <SelectElementForMetroAsync
        cityValue={cityValue}

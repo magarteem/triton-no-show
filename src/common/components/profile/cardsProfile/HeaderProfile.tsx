@@ -30,8 +30,8 @@ export const HeaderProfile = ({
   share,
   profileDataApiData,
 }: HeaderProfileType) => {
-  let location = useLocation();
-  const chechPathOtherUserProfile = location.pathname.includes(RouteNames.OTHER_PROFILE_USER);
+  const { pathname } = useLocation();
+  const chechPathOtherUserProfile = pathname.includes(RouteNames.OTHER_PROFILE_USER);
 
   return (
     <div className={s.headerProfile}>

@@ -1,32 +1,9 @@
-import {
- Autocomplete,
- CircularProgress,
- TextField,
-} from "@mui/material";
-import React, {
- ChangeEvent,
- useEffect,
- useState,
-} from "react";
+import { Autocomplete, TextField } from "@mui/material";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import { useGetMetroForCityMutation } from "../../../api/getDataForForm/getCityQuery";
 import { InterfaceGlobalSelectTypeCity } from "../../../modules/user/types/userSliceType";
-
 import { MetroGlobalType } from "../../../types/PROFILE/metroGlobalType";
 import { styleTextFieldSX } from "./styleTextFieldSX";
-
-//const reselect = (data: CityGlobalType) => {
-// const dataResult = data.results.map(
-//  (x: CityResultsType) => {
-//   return {
-//    id: x.id,
-//    name: x.title,
-//    metros: x.metros.length !== 0 ? x.metros : null,
-//   };
-//  }
-// );
-
-// return dataResult;
-//};
 
 interface SelectElementForMetroAsyncType {
  required?: boolean;
@@ -50,23 +27,15 @@ export default function SelectElementForMetroAsync({
  cityValue,
  ...props
 }: SelectElementForMetroAsyncType) {
- const [searchOptions, setSearchOptions] =
-  useState<MetroGlobalType[]>();
-
+ const [searchOptions, setSearchOptions] = useState<MetroGlobalType[]>();
  const [open, setOpen] = useState(false);
- const [optionsObj, setOptions] = useState<
-  MetroGlobalType[]
- >(options ? options : []);
-
- const [getMetroForThisCity, { data, isLoading }] =
-  useGetMetroForCityMutation();
-
+ const [optionsObj, setOptions] = useState<MetroGlobalType[]>(options ? options : []);
+ const [getMetroForThisCity, { data, isLoading }] = useGetMetroForCityMutation();
  const loading = open && optionsObj.length === 0;
 
  useEffect(() => {
   if (!!inputValue) {
-   !!cityValue?.name &&
-    getMetroForThisCity(cityValue?.name);
+   !!cityValue?.name && getMetroForThisCity(cityValue?.name);
   }
  }, []);
 
@@ -123,18 +92,9 @@ export default function SelectElementForMetroAsync({
     setOpen(false);
    }}
    value={!!inputValue ? inputValue : null}
-   isOptionEqualToValue={(option, value) =>
-    option.id === value.id
-   }
-   getOptionLabel={(option) =>
-    option.title ? option.title : ""
-   }
-   options={
-    !!inputValue && !!searchOptions
-     ? searchOptions
-     : optionsObj
-   }
-   // options={options}
+   isOptionEqualToValue={(option, value) => option.id === value.id}
+   getOptionLabel={(option) => (option.title ? option.title : "")}
+   options={!!inputValue && !!searchOptions ? searchOptions : optionsObj}
    loading={loading}
    renderInput={(params) => (
     <TextField
@@ -149,9 +109,7 @@ export default function SelectElementForMetroAsync({
       ...params.InputProps,
       endAdornment: (
        <React.Fragment>
-        {loading ? (
-         <CircularProgress color="inherit" size={20} />
-        ) : null}
+        {/*{loading ? <CircularProgress color="inherit" size={20} /> : null}*/}
         {params.InputProps.endAdornment}
        </React.Fragment>
       ),

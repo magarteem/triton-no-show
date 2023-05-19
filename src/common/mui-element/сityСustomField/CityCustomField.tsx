@@ -1,127 +1,131 @@
+// fix LIB
+// https://codesandbox.io/embed/magical-dhawan-d1w57?file=/index.js&codemirror=1
+// https://github.com/mui/material-ui/issues/30249
+
 import { Autocomplete, CircularProgress, TextField } from "@mui/material";
-import React, { ChangeEvent, useEffect, useState } from "react";
-import { useGetCityDataAsyncQuery } from "../../../api/getDataForForm/getCityQuery";
-import { InterfaceGlobalSelectTypeCity } from "../../../modules/user/types/userSliceType";
-import { CityGlobalType, CityResultsType } from "../../../types/PROFILE/cityGlobalType";
+import React, { useEffect, useState } from "react";
+import { getCityQuery, useGetCityDataAsyncQuery } from "../../../api/getDataForForm/getCityQuery";
 import { styleTextFieldSX } from "./styleTextFieldSX";
+import { useDebounce } from "../../../hook/useDebiunce";
+import { useAppDispatch } from "../../../core/redux/app/hooks";
+import { CityGlobalType } from "../../../types/PROFILE/cityGlobalType";
+import { ParamsCityQuery, SelectElementForCityAsyncType } from "../SelectElementForCityAsync/type";
+import { ListBox } from "../SelectElementForCityAsync/ListBox";
+import { reselect } from "../SelectElementForCityAsync/reselect";
 
-const reselect = (data: CityGlobalType) => {
-  const dataResult = data.results.map((x: CityResultsType) => {
-    return {
-      id: x.id,
-      name: x.title,
-      metros: x.metros?.length !== 0 ? x.metros : null,
-    };
-  });
+const defaultQuery = { page: 0, query: "" };
 
-  return dataResult;
-};
+export const CityCustomField = ({
+ required = true,
+ helperText = "",
+ errors,
+ inputValue,
+ placeholder,
+ onChange,
+ setValue,
+ ...props
+}: SelectElementForCityAsyncType) => {
+ const dispatch = useAppDispatch();
+ const [query, setQuery] = useState<ParamsCityQuery>(defaultQuery);
+ const debouncedValue = useDebounce<ParamsCityQuery>(query, 500);
+ const [open, setOpen] = useState(false);
 
-interface CityCustomFieldType {
-  required?: boolean;
-  helperText?: string;
-  errors?: any;
-  inputValue?: InterfaceGlobalSelectTypeCity;
-  placeholder: string;
-  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
-}
+ const { data, isLoading, isFetching } = useGetCityDataAsyncQuery(debouncedValue);
+ const loading = isLoading || isFetching;
 
-export default function CityCustomField({
-  required = false,
-  helperText = "",
-  errors,
-  inputValue,
-  placeholder,
-  onChange,
-  ...props
-}: CityCustomFieldType) {
-  const [page, setPage] = useState(0);
-  const [query, setQuery] = useState("");
+ useEffect(() => {
+  let active = true;
+  if (!loading) return undefined;
 
-  //@ts-ignore
-  const { data } = useGetCityDataAsyncQuery({
-    page,
-    query,
-  });
-
-  useEffect(() => {
-    data && setOptions([...options, ...reselect(data)]);
-  }, [data]);
-
-  const [open, setOpen] = useState(false);
-  const [options, setOptions] = useState<InterfaceGlobalSelectTypeCity[]>(
-    data ? reselect(data) : []
-  );
-
-  const loading = open && options.length === 0;
-
-  useEffect(() => {
-    let active = true;
-
-    if (!loading) return undefined;
-
-    (async () => {
-      if (active) {
-        data && setOptions(reselect(data));
-      }
-    })();
-
-    return () => {
-      active = false;
-    };
-  }, [loading]);
-
-  useEffect(() => {
-    if (!open) setOptions([]);
-  }, [open]);
-
-  const asyncFu = async (str: string) => {
-    setOptions([]);
-    setPage(0);
-    setQuery(str);
+  return () => {
+   active = false;
   };
+ }, [loading]);
 
-  return (
-    <Autocomplete
-      onChange={(e, data: any) => {
-        return onChange(data);
-      }}
-      clearIcon={false}
-      fullWidth
-      id="asynchronous-demo"
-      open={open}
-      onOpen={() => {
-        setOpen(true);
-      }}
-      onClose={() => {
-        setOpen(false);
-      }}
-      value={!!inputValue ? inputValue : null}
-      isOptionEqualToValue={(option, value) => option.id === value.id}
-      getOptionLabel={(option) => (option.name ? option.name : "")}
-      options={options}
-      loading={loading}
-      renderInput={(params) => (
-        <TextField
-          onChange={(e) => asyncFu(e.currentTarget.value)}
-          helperText={errors && errors.message}
-          required={required}
-          error={errors}
-          sx={styleTextFieldSX}
-          label={placeholder}
-          {...params}
-          InputProps={{
-            ...params.InputProps,
-            endAdornment: (
-              <React.Fragment>
-                {loading ? <CircularProgress color="inherit" size={20} /> : null}
-                {params.InputProps.endAdornment}
-              </React.Fragment>
-            ),
-          }}
-        />
-      )}
-      {...props}
-    />
+ // useEffect(() => {
+ //  if (!open) setQuery(defaultQuery);
+ // }, [open]);
+
+ const asyncFu = async (str: string) => {
+  dispatch(
+   getCityQuery.util.updateQueryData("getCityDataAsync", defaultQuery, (draft: CityGlobalType) => {
+    return { ...draft, isNextPage: true, results: [], currentPage: 0 };
+   })
   );
-}
+
+  setQuery({
+   query: str,
+   page: 0,
+   pageSize: 20,
+  });
+ };
+
+ const loadMoreResults = () => {
+  data &&
+   setQuery({
+    ...query,
+    page: data ? data.currentPage + 1 : 0,
+    pageSize: 20,
+   });
+ };
+
+ const handleScroll = (event: any) => {
+  const listboxNode = event.currentTarget;
+
+  const position = listboxNode.scrollTop + listboxNode.clientHeight;
+  if (listboxNode.scrollHeight - position <= 1) {
+   loadMoreResults();
+  }
+ };
+
+ return (
+  <Autocomplete
+   options={data ? reselect(data) : []}
+   getOptionLabel={(option) => (option.name ? option.name : "")}
+   ListboxProps={{
+    onScroll: handleScroll,
+   }}
+   ListboxComponent={ListBox}
+   loadingText="Поиск..."
+   noOptionsText="Нет результатов"
+   onChange={(e, data: any) => {
+    //setValue("metroId", null);
+    return onChange(data);
+   }}
+   fullWidth
+   id="asynchronous-demo"
+   open={open}
+   onOpen={() => {
+    setOpen(true);
+   }}
+   onClose={() => {
+    setOpen(false);
+   }}
+   value={!!inputValue ? inputValue : null}
+   isOptionEqualToValue={(option, value) => option.id === value.id}
+   loading={loading}
+   renderOption={(props: object, option: any, state: object) => <div {...props}>{option.name}</div>}
+   renderInput={(params) => (
+    <TextField
+     onChange={(e) => asyncFu(e.currentTarget.value)}
+     helperText={errors && errors.message}
+     required={required}
+     error={errors}
+     sx={styleTextFieldSX}
+     label={placeholder}
+     {...params}
+     InputProps={{
+      ...params.InputProps,
+      endAdornment: (
+       <React.Fragment>
+        {loading ? <CircularProgress color="inherit" size={20} /> : null}
+        {params.InputProps.endAdornment}
+       </React.Fragment>
+      ),
+     }}
+    />
+   )}
+   {...props}
+  />
+ );
+};

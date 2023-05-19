@@ -51,17 +51,17 @@ export const AvatarPhoto = ({ avatarPhoto, profileDataApiData }: AvatarIconsType
   });
   return u;
  };
- const [st, setSt] = useState<any>(myFormsNewListener ? r() : getLocalStorageSwiperActiv());
+ const [localActiveForms, setLocalActiveForms] = useState<any>(
+  myFormsNewListener ? r() : getLocalStorageSwiperActiv()
+ );
 
  const fu = (element: number) => {
-  //const tempData = result[element];
   setLocalStorageSwiperActiv(element);
-  //tempData && setJsonLocalStorage(tempData.id, tempData.type.replace("Form", ""));
-  setSt(element);
+  setLocalActiveForms(element);
  };
 
  useEffect(() => {
-  const tempData = result[st];
+  const tempData = result[localActiveForms] ?? result[0];
   const TypeAccountType = tempData && {
    id: tempData.id,
    nameForms: tempData.type.replace("Form", ""),
@@ -69,7 +69,7 @@ export const AvatarPhoto = ({ avatarPhoto, profileDataApiData }: AvatarIconsType
 
   tempData && setJsonLocalStorage(TypeAccountType.id, TypeAccountType.nameForms);
   dispatch(toggleForm({ tempData, TypeAccountType }));
- }, [st]);
+ }, [localActiveForms]);
 
  const handleClickOpenAvatar = (src: string | null) => {
   if (src) {
@@ -93,7 +93,7 @@ export const AvatarPhoto = ({ avatarPhoto, profileDataApiData }: AvatarIconsType
      </>
     ) : (
      <Swiper
-      initialSlide={st}
+      initialSlide={localActiveForms}
       onRealIndexChange={(element) => {
        return setTimeout(() => {
         typeof element.activeIndex === "number" && fu(element.activeIndex);

@@ -1,5 +1,12 @@
 import { ResponseGlobalType } from "../../api/types/ResponseGlobalType";
 
+//interface MetroObjType {
+//  color: string | null;
+//  id: string;
+//  title: string;
+// }
+// export type MetroType = MetroObjType[] | [];
+
 export interface CityResultsType {
  id: number;
  title: string;

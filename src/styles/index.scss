@@ -30,18 +30,17 @@
 
 html,
 body {
- // word-break: break-all;
- //overscroll-behavior: contain;
  height: 100%;
  font-family: $font_Mulish_normal, system, sans-serif;
  font-size: 16px;
  font-weight: 400;
- // overflow-x: hidden;
  background-color: #fdfdf5;
 
  .App {
   @include flex_direction_column_align_center_position();
   position: relative;
-  height: 100vh;
+
+  min-height: 100vh; // для 100vh <PreLoader />
+  //height: 100vh; - влияет на скрол
  }
 }

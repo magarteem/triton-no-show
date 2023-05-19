@@ -36,19 +36,22 @@ const filter = {
  action: "",
 };
 
+interface OutletType {
+ data: NewsResultType[];
+ isLoading: boolean;
+ isFetching: boolean;
+ setPageFu: (paramsQuery?: FilterParamsRequestType) => void;
+ refetchFu: () => void;
+ myProfileKey: string[];
+}
+
 export const NewsAll = () => {
  const stopeListAds = useAppSelector(
   (state) => state.getNewsListQuery.queries.infinityScrollNews?.data
  ) as ResponseNewsType;
 
- const [data, isLoading, isFetching, setPageFu, refetchFu, myProfileKey]: [
-  NewsResultType[],
-  boolean,
-  boolean,
-  (paramsQuery?: FilterParamsRequestType) => void,
-  () => void,
-  string[]
- ] = useOutletContext();
+ const { data, isLoading, isFetching, setPageFu, refetchFu, myProfileKey }: OutletType =
+  useOutletContext();
 
  const [filerstate, setFilerstate] = useState<FilterFormsTimeLineFieldsType>(defaultFilter);
  const [open, setOpen] = useState(false);

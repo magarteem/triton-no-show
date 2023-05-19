@@ -4,8 +4,6 @@ import noAvatar from "../../../../assets/icons/noAvatar.svg";
 import moreButtonCircle from "../../../../assets/icons/more-button-circle.svg";
 import { Link } from "react-router-dom";
 import Avatar from "@mui/material/Avatar";
-import cn from "classnames";
-import s from "./adsPageOne.module.scss";
 import { StylesFullScreen } from "../../../layout/stylesFullScreen/StylesFullScreen";
 import { HeaderStylesWrapper } from "../../../layout/headerStylesWrapper/HeaderStylesWrapper";
 import { LongMenu } from "../../../mui-element/LongMenu";
@@ -25,6 +23,8 @@ import {
 import { useAppSelector } from "../../../../core/redux/app/hooks";
 import { HeaderPageOneAds } from "./headerPageOneAds/HeaderPageOneAds";
 import { ContactsElement } from "./ContactsElement";
+import cn from "classnames";
+import s from "./adsPageOne.module.scss";
 
 interface AdsPageOneGlobalType {
  data: ResultAdsTypeResponse;
@@ -47,7 +47,12 @@ export const AdsPageOneGlobal = ({ data }: AdsPageOneGlobalType) => {
 
     <section className={s.bodyAdsPageOne}>
      <HeaderPageOneAds data={data} />
-     <div className={s.about}>{data.conditions?.scheduleDescription}</div>
+     <div className={s.about}>
+      {data.conditions?.scheduleDescription ||
+       data.jobDocument?.conditions.scheduleDescription ||
+       data.musicianAnnouncementDocument?.cooperationTerms ||
+       data.teamAnnouncementDocument?.cooperationTerms}
+     </div>
      {data.musicianAnnouncementDocument && (
       <>
        {data.musicianAnnouncementDocument.gender &&
@@ -112,7 +117,7 @@ export const AdsPageOneGlobal = ({ data }: AdsPageOneGlobalType) => {
 
      {data.description && (
       <div className={s.styleAbout}>
-       <span className={s.titleSpan}>Описание:</span>
+       <span className={s.titleSpan}>Требование:</span>
        {data.description}
       </div>
      )}

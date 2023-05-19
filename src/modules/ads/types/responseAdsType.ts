@@ -29,6 +29,7 @@ export interface SoundProducerAnnouncementDocumentType {
 }
 export interface TeamAnnouncementDocumentType {
  teamType: TeamAnnouncementType;
+ cooperationTerms: string;
 }
 export interface MusicianAnnouncementDocumentType {
  gender: string;

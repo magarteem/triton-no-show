@@ -3,7 +3,7 @@ import { CityGlobalType } from "../../types/PROFILE/cityGlobalType";
 import { GenreGlobalType } from "../../types/PROFILE/genreGlobalType";
 import { InstitutionTypeGlobalType } from "../../types/PROFILE/institutionTypeGlobalType";
 import { InstrumentGlobalType } from "../../types/PROFILE/InstrumentGlobalType";
-import { ParamsCityQuery } from "../../common/mui-element/selectElementForCity/SelectElementForCityAsync";
+import { ParamsCityQuery } from "../../common/mui-element/SelectElementForCityAsync/type";
 
 export const getCityQuery = createApi({
  reducerPath: "getCityQuery",
@@ -27,14 +27,38 @@ export const getCityQuery = createApi({
    query: (arg) => {
     const params = {
      page: arg?.page || 0,
-     pageSize: arg?.page || undefined,
-     query: arg?.query,
+     pageSize: arg?.pageSize || undefined,
+     query: arg?.query || undefined,
     };
 
     return {
      url: "city",
      params: params,
     };
+   },
+
+   serializeQueryArgs: ({ endpointName }) => {
+    return endpointName;
+   },
+   merge: (currentCache, newItems) => {
+    currentCache.currentPage = newItems.currentPage;
+    currentCache.isNextPage = newItems.isNextPage;
+    currentCache.results.push(...newItems.results);
+   },
+
+   forceRefetch({ currentArg, previousArg, endpointState }) {
+    const rulesQueryInfiniteScroll = (
+     previousArg: ParamsCityQuery | undefined,
+     currentArg: ParamsCityQuery | undefined,
+     endpointState: any
+    ) => {
+     const notDoubleFetch = endpointState?.data;
+     if (notDoubleFetch?.isNextPage && previousArg && currentArg && currentArg !== previousArg)
+      return true;
+     else return false;
+    };
+
+    return rulesQueryInfiniteScroll(previousArg, currentArg, endpointState);
    },
   }),
   getGenreData: build.query<GenreGlobalType[], void>({

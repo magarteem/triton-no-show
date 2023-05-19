@@ -44,8 +44,8 @@ export const selectParamsForCreateVacancy = (
         }
       : null,
     skills: data.master ? [data.master.id] : ["Undefined"],
-    education: "string????",
-    cooperationTerms: "string????",
+    education: "",
+    cooperationTerms: "",
    };
    return {
     ...paramsMain,
@@ -58,6 +58,7 @@ export const selectParamsForCreateVacancy = (
   case EnumTypeDocumentType.TEAM: {
    const teamAnnouncementDocument = {
     teamType: data.whoAreLooking?.id || "Undefined",
+    cooperationTerms: "",
    };
    return {
     ...paramsMain,

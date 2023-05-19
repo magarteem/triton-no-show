@@ -143,16 +143,6 @@ export const FormChangeProfile = ({ userDataProfile }: FormChangeProfileType) =>
     } else {
       disp();
     }
-    //
-    //dispatch(changeProfileThunk(data))
-    //dispatch(
-    // updateDataMyFormTypeAccountThunk({
-    //  typeAccount,
-    //  bodyDataSend,
-    // })
-    //)
-    //  .then(() => dispatch(changeProfileThunk(data)))
-    // .then(() => navigate(-1));
   };
 
   const watchMisician = watchFieldName === EnumTypeAccount.MUSICIAN;

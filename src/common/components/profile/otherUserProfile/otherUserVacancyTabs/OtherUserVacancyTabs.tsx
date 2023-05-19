@@ -1,45 +1,58 @@
-import { useState } from "react";
-import { useOutletContext } from "react-router-dom";
+import { useRef, useState } from "react";
+import { useLocation, useOutletContext } from "react-router-dom";
 import { otherUserDataQuery } from "../../../../../modules/user/otherUserDataQuery";
 import { RibbonLayout } from "../../../../layout/ribbonLayout/RibbonLayout";
 import { InButton } from "../../../../ui-elements/button/InButton";
 import { AnnouncementFeed } from "../../../ads/announcementFeed/AnnouncementFeed";
 import { PreLoader } from "../../../preLoader/PreLoader";
+import { RouteNames } from "../../../../../core/router/RouteNames";
+import { useSwipeHandleTouchTemp } from "../../../../../hook/useSwipeHandleTouchTemp";
+import s from "../toutchStyleAnimations.module.scss";
 
 const useGetAllTodoQueryState = otherUserDataQuery.endpoints.otherUserVacancy.useQueryState;
 const useGetAllTodoQuerySubscription =
-  otherUserDataQuery.endpoints.otherUserVacancy.useQuerySubscription;
+ otherUserDataQuery.endpoints.otherUserVacancy.useQuerySubscription;
 
 export const OtherUserVacancyTabs = () => {
-  const [id_user]: [string] = useOutletContext();
+ let location = useLocation();
+ const refs = useRef<HTMLDivElement | null>(null);
 
-  const [page, setPage] = useState(0);
-  const { data, isLoading, isFetching, isSuccess } = useGetAllTodoQueryState({
-    formId: id_user,
-    page,
-  });
+ const routL = `${location.pathname.replace(RouteNames.OTHER_USER_VACANCY, "")}`;
+ const routR = `${location.pathname.replace(
+  RouteNames.OTHER_USER_VACANCY,
+  RouteNames.OTHER_USER_ADS
+ )}`;
+ useSwipeHandleTouchTemp(refs, routL, routR);
 
-  useGetAllTodoQuerySubscription({
-    formId: id_user,
-    page,
-  });
+ const [id_user]: [string] = useOutletContext();
 
-  const setPageFu = () => {
-    data && setPage((prev) => data.currentPage + 1);
-  };
+ const [page, setPage] = useState(0);
+ const { data, isLoading, isFetching, isSuccess } = useGetAllTodoQueryState({
+  formId: id_user,
+  page,
+ });
 
-  if (isLoading) return <PreLoader />;
-  if (!isSuccess) return <p>isSuccess</p>;
+ useGetAllTodoQuerySubscription({
+  formId: id_user,
+  page,
+ });
 
-  return (
-    <RibbonLayout setPageFu={setPageFu} isFetching={isFetching}>
-      {data.results.length === 0 && (
-        <InButton textButton="Нет публикаций" isValidInButton={false} />
-      )}
+ const setPageFu = () => {
+  data && setPage((prev) => data.currentPage + 1);
+ };
 
-      {data.results.map((x) => (
-        <AnnouncementFeed x={x} key={x.id} />
-      ))}
-    </RibbonLayout>
-  );
+ if (isLoading) return <PreLoader />;
+ if (!isSuccess) return <p>isSuccess</p>;
+
+ return (
+  <div ref={refs} className={s.minHeight100}>
+   <RibbonLayout setPageFu={setPageFu} isFetching={isFetching}>
+    {data.results.length === 0 && <InButton textButton="Нет публикаций" isValidInButton={false} />}
+
+    {data.results.map((x) => (
+     <AnnouncementFeed x={x} key={x.id} />
+    ))}
+   </RibbonLayout>
+  </div>
+ );
 };
