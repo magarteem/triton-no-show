@@ -23,20 +23,9 @@
  }
 
  .titleSettings {
+  position: relative;
   display: flex;
   align-items: center;
-  //column-gap: 12px;
   height: 100%;
-
-  //a {
-  // cursor: pointer;
-  // @include flex_position();
-  // width: 24px;
-  // height: 24px;
-  // img {
-  //  width: 24px;
-  //  height: 24px;
-  // }
-  //}
  }
 }

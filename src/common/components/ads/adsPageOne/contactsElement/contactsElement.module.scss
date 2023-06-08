@@ -1,0 +1,14 @@
+@import "src/styles/variable";
+
+.styleAbout {
+  font-size: 16px;
+  line-height: 24px;
+  color: #43483e;
+
+  .titleSpan {
+    white-space: nowrap;
+    padding-right: 8px;
+    font-weight: 700;
+    color: #1a1c18;
+  }
+}

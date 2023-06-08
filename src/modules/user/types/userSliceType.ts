@@ -69,6 +69,7 @@ export interface ProfileDataApiDataType {
  rehearsalBaseForm: MusicianTypeResponse[];
  recordingStudioForm: MusicianTypeResponse[];
  teamForm: MusicianTypeResponse[];
+ musicLoverForm: MusicianTypeResponse[];
 }
 
 export interface InitialStateType {
@@ -76,8 +77,9 @@ export interface InitialStateType {
  profileDataApiData: ProfileDataApiDataType;
  isActiveForms: string;
  allMyForms: string[];
- error: string;
+ error: boolean;
  isLoading: boolean;
+ notHaveForms: boolean;
 }
 
 // ===========

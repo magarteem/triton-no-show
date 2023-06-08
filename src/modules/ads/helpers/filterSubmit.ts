@@ -1,9 +1,9 @@
+import { EnumTypeAccount } from "../../../types/PROFILE/enum/EnumTypeAccount";
 import { filterTranslateVacancy } from "../service/filterTranslate";
 import { FormsFilterType } from "../types/formsFilterType";
 
 export const filterSubmit = (data: FormsFilterType, token: "vacancy" | "ads" | "account") => {
-  console.log("data", data)
-
+  console.log("data", data);
 
   const mainObjFilter = {
     query: data.query,
@@ -29,13 +29,66 @@ export const filterSubmit = (data: FormsFilterType, token: "vacancy" | "ads" | "
     searchAnnouncementDocumentType: data.who_is_looking_ads
       ? filterTranslateVacancy[data.who_is_looking_ads.id]
       : undefined,
-
-    //formTypes: data. ,
-    //teamTypes: data. ,
-    //institutionTypeIds: data. ,
-    //neededEmployeeTypes: data. 
+    formTypes: data.who_is_looking_questionnaire_inner?.id,
+    teamTypes: data.teamType?.id,
+    institutionTypeIds: data.typeOfInstitution?.id,
+    neededEmployeeTypes: undefined,
+    musicianTypes: data.working_width_musician?.id,
   };
 
+  //
+  const paramsQueryAdsFu = () => {
+    const paramsQueryAds = {
+      ...mainObjFilter,
+      searchAnnouncementDocumentType: data.who_is_looking_ads
+        ? filterTranslateVacancy[data.who_is_looking_ads.id]
+        : undefined,
+      neededEmployeeTypes: undefined,
+    };
+
+
+    if (data.who_is_looking_ads?.id === "work") {
+      // return {
+      //  ...paramsQueryAds,
+      //  formTypes: data.who_is_looking_questionnaire_inner?.id,
+      //  musicianTypes: data.working_width_musician?.id,
+      // };
+
+      switch (data.who_is_looking_questionnaire_inner?.id) {
+        case "team":
+          return {
+            ...paramsQueryAds,
+            formTypes: data.who_is_looking_questionnaire_inner?.id,
+            teamTypes: data.teamType?.id,
+          };
+        case EnumTypeAccount.MUSICIAN:
+          return {
+            ...paramsQueryAds,
+            formTypes: data.who_is_looking_questionnaire_inner?.id,
+            musicianTypes: data.working_width_musician?.id,
+          };
+        case EnumTypeAccount.INSTITUTION:
+          return {
+            ...paramsQueryAds,
+            formTypes: data.who_is_looking_questionnaire_inner?.id,
+            institutionTypeIds: data.typeOfInstitution?.id,
+          };
+
+        default:
+          return paramsQueryAds;
+      }
+    } else if (data.who_is_looking_ads?.id === EnumTypeAccount.MUSICIAN) {
+      return paramsQueryAds;
+    } else {
+      return {
+        ...paramsQueryAds,
+        teamTypes: data.teamType?.id,
+      };
+    }
+  };
+
+  paramsQueryAdsFu();
+  //
   const paramsQueryAccount = {
     ...mainObjFilter,
     formType: data.who_is_looking_questionnaire?.id,
@@ -49,7 +102,7 @@ export const filterSubmit = (data: FormsFilterType, token: "vacancy" | "ads" | "
   if (token === "vacancy") return paramsQueryVacancy;
   else if (token === "ads") {
     console.log("paramsQueryAds", paramsQueryAds);
-    return paramsQueryAds;
-  }
-  else return paramsQueryAccount;
+    return paramsQueryAdsFu();
+    //return paramsQueryAds;
+  } else return paramsQueryAccount;
 };

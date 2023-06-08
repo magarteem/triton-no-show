@@ -1,6 +1,11 @@
 import { useFormContext } from "react-hook-form";
 import { BtnInGroupeSaveCancelMui } from "../../common/components/navigateButton/BtnInGroupeSaveCancelMui";
-import { requiredADS, teamTypeADS, workingConditionsBD } from "./service/createVacancyBD";
+import {
+ requiredADS,
+ teamTypeADS,
+ workWidthMusicianTypeADS,
+ workingConditionsBD,
+} from "./service/createVacancyBD";
 import { ControllerPhone } from "../../common/hookFormControllers/ControllerPhone";
 import { ControllerEmail } from "../../common/hookFormControllers/ControllerEmail";
 import { ControllerWebSite } from "../../common/hookFormControllers/ControllerWebSite";
@@ -17,6 +22,9 @@ import { EnumTypeDocumentType } from "../../types/PROFILE/enum/EnumTypeDocumentT
 import { ControllerAgeRangeRmcPicker } from "../../common/hookFormControllers/ControllerAgeRangeRmcPicker";
 import s from "./style/createFormADS.module.scss";
 import { ControllersInstitutionTypeAsync } from "../../common/hookFormControllers/ControllersInstitutionTypeAsync";
+import { optionsTypeAccount } from "../authorization/service/BD";
+import { EnumTypeAccount } from "../../types/PROFILE/enum/EnumTypeAccount";
+import { InterfaceGlobalSelectType } from "../../types/interfaseGlobal/interfaseGlobalSelect";
 
 interface CreateFormADSType {
  buttonSubmitText: string;
@@ -30,6 +38,21 @@ export const CreateFormADS = ({ buttonSubmitText }: CreateFormADSType) => {
  const mus = typeAds === EnumTypeDocumentType.MUSICIAN;
  const work = typeAds === EnumTypeDocumentType.WORK;
 
+ // const reSelectedOptions = () => {
+ //  const obj: InterfaceGlobalSelectType[] = [];
+
+ //  optionsTypeAccount.forEach((x) => {
+ //   if (x.id === EnumTypeAccount.MUSICIAN) {
+ //    obj.push({ ...x, name: "Работа с музыкантом" });
+ //   } else if (x.id !== EnumTypeAccount.MUSIC_LOVER) {
+ //    obj.push(x);
+ //   }
+ //  });
+
+ //  return obj;
+ // };
+
+ const watch_questionnaire = watch("who_is_looking_questionnaire")?.id;
  return (
   <>
    <ControllerRandomSelect
@@ -50,12 +73,36 @@ export const CreateFormADS = ({ buttonSubmitText }: CreateFormADSType) => {
    {!!typeAds && (
     <>
      {work && (
-      <ControllersInstitutionTypeAsync
-       name="typeOfInstitution"
-       control={control}
-       placeholder="Место работы"
-       required={true}
-      />
+      <>
+       <ControllerRandomSelect
+        name="who_is_looking_questionnaire"
+        control={control}
+        placeholder="Место работы"
+        options={optionsTypeAccount.filter((x) => x.id !== EnumTypeAccount.MUSIC_LOVER)}
+       />
+
+       {watch_questionnaire === EnumTypeAccount.MUSICIAN ? (
+        <ControllerRandomSelect
+         control={control}
+         placeholder="Работа с музыкантом"
+         name="working_width_musician"
+         options={workWidthMusicianTypeADS}
+        />
+       ) : watch_questionnaire === EnumTypeAccount.TEAM ? (
+        <ControllerRandomSelect
+         control={control}
+         placeholder="Вид коллектива"
+         name="teamType"
+         options={teamTypeADS}
+        />
+       ) : watch_questionnaire === EnumTypeAccount.INSTITUTION ? (
+        <ControllersInstitutionTypeAsync
+         name="typeOfInstitution"
+         control={control}
+         placeholder="Тип заведения"
+        />
+       ) : null}
+      </>
      )}
 
      <ControllerToolsAsync
@@ -78,7 +125,7 @@ export const CreateFormADS = ({ buttonSubmitText }: CreateFormADSType) => {
      <ControllerWorkExperience
       control={control}
       name="work_experience"
-      helperText="Опишите требуемый опыт"
+      helperText={`Опишите ${work ? "свой" : "требуемый"} опыт`}
      />
      {!team && <ControllerMaster control={control} name="master" />}
 
@@ -86,7 +133,6 @@ export const CreateFormADS = ({ buttonSubmitText }: CreateFormADSType) => {
       control={control}
       name="commit"
       placeholder={work ? "О себе" : "Требования"}
-      //placeholder={work ? "О себе" : "Описание"}
      />
 
      <div className={s.requirements}>{work ? <h2>О работе</h2> : <h2>О сотрудничестве</h2>}</div>

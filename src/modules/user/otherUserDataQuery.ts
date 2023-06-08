@@ -1,23 +1,16 @@
 import queryString from "query-string";
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/dist/query/react";
-import { doneParseLocalStorage } from "../../helpers/getJsonParseLocalStorage";
+import { createApi } from "@reduxjs/toolkit/dist/query/react";
+import { getJsonParseLocalStorage } from "../../helpers/getJsonParseLocalStorage";
 import { ResponseAdsType } from "../ads/types/responseAdsType";
 import { ResponseNewsType } from "../timeLine/types/responseNewsType";
 import { MusicianTypeResponse } from "./types/putReqestUpdateMyForm";
 import { AllFormsType } from "./types/responseSearchAllForms";
 import { rulesQueryInfiniteScroll } from "../../helpers/rulesQueryInfiniteScroll";
+import { baseQueryWithReauth } from "../../api/baseQuery";
 
 export const otherUserDataQuery = createApi({
  reducerPath: "otherUserDataQuery",
- baseQuery: fetchBaseQuery({
-  baseUrl: `${process.env.REACT_APP_API_URL_PROFILE}`,
-  prepareHeaders: async (headers) => {
-   headers.set("authorization", `Bearer ${localStorage.getItem(`auth-token`)}`);
-   headers.set("accept", `application/json`);
-   headers.set("form_id", doneParseLocalStorage.id);
-   return headers;
-  },
- }),
+ baseQuery: baseQueryWithReauth,
 
  endpoints: (build) => ({
   //! NEWS
@@ -56,6 +49,8 @@ export const otherUserDataQuery = createApi({
      page: page,
      pageSize: 5,
      formId: formId,
+     currentUserFormId:
+      JSON.parse(getJsonParseLocalStorage()).id ?? "00000000-0000-0000-0000-000000000000",
     };
 
     return {
@@ -85,6 +80,8 @@ export const otherUserDataQuery = createApi({
      page: page,
      pageSize: 5,
      formId: formId,
+     currentUserFormId:
+      JSON.parse(getJsonParseLocalStorage()).id ?? "00000000-0000-0000-0000-000000000000",
     };
 
     return {

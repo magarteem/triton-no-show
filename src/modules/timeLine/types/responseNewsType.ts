@@ -10,6 +10,7 @@ export interface FormNewsType {
  city: CityResultsType;
  address: string | null;
  type: string;
+ formType?: string;
 }
 
 export interface NewsResultType {

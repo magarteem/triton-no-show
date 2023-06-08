@@ -5,24 +5,31 @@ import s from "../aboutProfile.module.scss";
 
 interface PortfolioElementType {
  portfolio_photo: PortfolioType[] | null;
- watchMisician: boolean;
- watchTeam: boolean;
+ watchAccountType: {
+  watchMisician: boolean;
+  watchTeam: boolean;
+ };
  inspiration: string | string[];
 }
 
 export const Portfolio = ({
  portfolio_photo,
- watchMisician,
- watchTeam,
+ watchAccountType,
  inspiration,
 }: PortfolioElementType) => {
  if (portfolio_photo?.length === 0 && !inspiration) return null;
- if (portfolio_photo?.length === 0 && !watchMisician && !watchTeam) return null;
+ if (
+  portfolio_photo?.length === 0 &&
+  !watchAccountType.watchMisician &&
+  !watchAccountType.watchTeam
+ )
+  return null;
 
+ console.log("watchAccountType", watchAccountType);
  return (
   <>
    <AboutProfileSkillsLayout skillsCategoryTitle="Портфолио">
-    {(watchMisician || watchTeam) && inspiration && (
+    {(watchAccountType.watchMisician || watchAccountType.watchTeam) && inspiration && (
      <span className={s.styleAbout}>
       <span className={s.titleSpan}>О себе:</span>
       {inspiration}

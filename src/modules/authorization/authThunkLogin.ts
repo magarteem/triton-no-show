@@ -6,6 +6,7 @@ import { LoginRequestType, LoginResponseType } from "../../types/SSO/loginRespon
 export const authThunkLogin = createAsyncThunk<AxiosResponse<LoginResponseType>, LoginRequestType>(
  `authorization/sign-In`,
  async function (data, { rejectWithValue }) {
+  console.log("3 ----  ");
   try {
    const response = await authApi.post(`auth/login`, data);
 

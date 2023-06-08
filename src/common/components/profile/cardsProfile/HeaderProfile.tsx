@@ -64,7 +64,11 @@ export const HeaderProfile = ({
       {chechPathOtherUserProfile ? (
         <AvatarPhotoOtherUserProfile avatarPhoto={avatar} />
       ) : (
-        <AvatarPhoto avatarPhoto={avatar} profileDataApiData={profileDataApiData} />
+        <AvatarPhoto
+          checkHaveAccount={!change}
+          avatarPhoto={avatar}
+          profileDataApiData={profileDataApiData}
+        />
       )}
     </div>
   );

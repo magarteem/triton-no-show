@@ -1,5 +1,5 @@
-import { createContext, ReactNode, useState } from "react";
-import { RouteNames } from "../core/router/RouteNames";
+import { createContext, useEffect, ReactNode, useState } from "react";
+import { useLocation } from "react-router-dom";
 
 interface Props {
  children: ReactNode;
@@ -12,82 +12,45 @@ interface ParePositionScrollType {
 export const ScrollContext = createContext({});
 
 export const ReturnScrollContext = ({ children, ...props }: Props) => {
- const [newsScroll, setNewsScroll] = useState(0);
- const [vacancyScroll, setVacancyScroll] = useState(0);
- const [adsScroll, setAdsScroll] = useState(0);
- const [notification, setNotificationScroll] = useState(0);
+ const { pathname } = useLocation();
+ const [scrollState, setScrollState] = useState<ParePositionScrollType[] | []>([]);
 
- const setScroll = (key: string, scrollY: number) => {
-  console.log(scrollY);
-  switch (key) {
-   case "news":
-    setNewsScroll(scrollY);
-    break;
-   case "vacancyAds":
-    setVacancyScroll(scrollY);
-    break;
-   case "ads":
-    setAdsScroll(scrollY);
-    break;
-   case "notification":
-    setNotificationScroll(scrollY);
-    break;
+ useEffect(() => {
+  scrollState.forEach((x) => {
+   if (x.url === pathname) {
+    window.scrollTo({
+     top: x.positionY,
+     behavior: "smooth",
+    });
+   }
+  });
+ }, [pathname]);
 
-   default:
-    break;
+ const setScroll = (urlPath: string, scrollY: number) => {
+  //console.log("urlPath = ", urlPath, "scrollY = ", scrollY);
+
+  const m = scrollState.findIndex((x) => x.url === urlPath);
+
+  if (m === -1) {
+   setScrollState([...scrollState, { url: urlPath, positionY: scrollY }]);
+   return;
   }
+
+  const set = scrollState.map((x) => {
+   if (x.url === urlPath) {
+    return {
+     ...x,
+     positionY: scrollY,
+    };
+   } else return x;
+  });
+
+  setScrollState(set);
  };
 
  return (
-  <ScrollContext.Provider
-   value={{ newsScroll, vacancyScroll, adsScroll, notification, setScroll }}
-   {...props}
-  >
+  <ScrollContext.Provider value={{ scrollState, setScroll }} {...props}>
    {children}
   </ScrollContext.Provider>
  );
 };
-
-//const ref = useRef<HTMLDivElement | null>(null);
-//<ChipsLayout refLink={ref}>
-
-//interface ChipsLayoutType {
-// children: ReactNode;
-// refLink?: any;
-//}
-//export const ChipsLayout = forwardRef(({ children, refLink }: ChipsLayoutType) => {
-// return (
-//  <div ref={refLink} className={s.сhipsLayout}>
-//   {children}
-//  </div>
-// );
-//});
-
-//export const ReturnScrollContext = ({ children, ...props }: Props) => {
-//  const [newsScroll, setNewsScroll] = useState(300);
-//  const [adsScroll, setAdsScroll] = useState(0);
-//  const [notification, setNotificationScroll] = useState(0);
-
-//  const setScroll = (key: string, scrollY: number) => {
-//   switch (key) {
-//    case "news":
-//     setNewsScroll(scrollY);
-//     break;
-//    case "ads":
-//     setAdsScroll(scrollY);
-//     break;
-//    case "notification":
-//     setNotificationScroll(scrollY);
-//     break;
-
-//    default:
-//     break;
-//   }
-//  };
-
-//  return (
-//   <ScrollContext.Provider value={{ newsScroll, adsScroll, notification, setScroll }} {...props}>
-//    {children}
-//   </ScrollContext.Provider>
-//  );
-// };

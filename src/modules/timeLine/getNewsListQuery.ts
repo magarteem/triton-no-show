@@ -1,23 +1,16 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/dist/query/react";
+import { createApi } from "@reduxjs/toolkit/dist/query/react";
 import { NewsResultType, ResponseNewsType } from "./types/responseNewsType";
 import queryString from "query-string";
 import { FilterParamsRequestType } from "./types/FilterFormsTimeLineFieldsType";
 import apiProfile from "../../api/axiosConfigPROFILE";
 import { AxiosResponse } from "axios";
-import { doneParseLocalStorage } from "../../helpers/getJsonParseLocalStorage";
 import { rulesQueryInfiniteScroll } from "../../helpers/rulesQueryInfiniteScroll";
+import { baseQueryWithReauth } from "../../api/baseQuery";
 
 export const getNewsListQuery = createApi({
  reducerPath: "getNewsListQuery",
- baseQuery: fetchBaseQuery({
-  baseUrl: `${process.env.REACT_APP_API_URL_PROFILE}`,
-  prepareHeaders: async (headers) => {
-   headers.set("authorization", `Bearer ${localStorage.getItem(`auth-token`)}`);
-   headers.set("accept", `application/json`);
-   headers.set("form_id", doneParseLocalStorage.id);
-   return headers;
-  },
- }),
+ baseQuery: baseQueryWithReauth,
+
  tagTypes: ["NEWS"],
  endpoints: (build) => ({
   infinityScrollNews: build.query<ResponseNewsType, FilterParamsRequestType | null | void>({
@@ -134,8 +127,3 @@ export const {
  useDeleteNewsMutation,
  useOneNewsQuery,
 } = getNewsListQuery;
-
-//export const itemAborted = createEntityAdapter({
-//  selectId: (item: NewsResultType) => item.id,
-// });
-// export const itemsSelector = itemAborted.getSelectors();

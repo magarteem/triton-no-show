@@ -37,6 +37,7 @@ export interface GenreType extends InterfaceGlobalSelectType {
 }
 
 export interface ISignUpFormValues extends LoginRequestType {
+
   type_account: InterfaceGlobalSelectType | null;
   name_field: string;
   img_upload: string;
@@ -65,4 +66,6 @@ export interface ISignUpFormValues extends LoginRequestType {
   address: string;
   metroId: MetroGlobalType | null;
   schedule: ScheduleType | null;
+
+  check?: boolean | null;
 }

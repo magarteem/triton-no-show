@@ -10,6 +10,7 @@ import { RouteNames } from "../../core/router/RouteNames";
 import { Input } from "../../common/ui-elements/Input/Input";
 import s from "./style/formLogin.module.scss";
 import { LoginRequestType } from "../../types/SSO/loginResponseType";
+import { useLoginMutation } from "./authQuery";
 
 interface FormLoginType {
  setOpen: (set: boolean) => void;
@@ -35,7 +36,7 @@ export const FormLogin = ({ setOpen }: FormLoginType) => {
 
  const onSubmit = (data: LoginRequestType) => {
   dispatch(authThunkLogin(data));
-  // navigate(RouteNames.HOME, { replace: true });
+  //loginQuery(data);
  };
 
  return (

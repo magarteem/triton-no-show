@@ -4,11 +4,12 @@ import { GenreGlobalType } from "../../types/PROFILE/genreGlobalType";
 import { InstitutionTypeGlobalType } from "../../types/PROFILE/institutionTypeGlobalType";
 import { InstrumentGlobalType } from "../../types/PROFILE/InstrumentGlobalType";
 import { ParamsCityQuery } from "../../common/mui-element/SelectElementForCityAsync/type";
+import { variableApiURL_PROFILE } from "../variableApiURL";
 
 export const getCityQuery = createApi({
  reducerPath: "getCityQuery",
  baseQuery: fetchBaseQuery({
-  baseUrl: `${process.env.REACT_APP_API_URL_PROFILE}`,
+  baseUrl: `${process.env.REACT_APP_API_URL_PROFILE}/${variableApiURL_PROFILE}`,
  }),
  endpoints: (build) => ({
   getMetroForCity: build.mutation<CityGlobalType, string>({

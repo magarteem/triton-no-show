@@ -8,7 +8,7 @@ import s from "./headerStylesWrapper.module.scss";
 interface HeaderStylesWrapperType {
  textLabel?: string;
  cancelImgIcon?: string | ReactNode;
- anyIconsFirst?: { img: string; action: string };
+ anyIconsFirst?: { img: string | ReactNode; action: string };
  anyIconsSecond?: { img: string; action: string };
  tsxElement?: any;
  children?: ReactNode;
@@ -43,37 +43,29 @@ export const HeaderStylesWrapper = ({
      </IconButton>
     )}
 
-    {anyIconsFirst && (
+    {anyIconsFirst && typeof anyIconsFirst.img === "string" ? (
      <Link to={anyIconsFirst.action}>
       <IconButton onClick={onClickAnyIconsFirst}>
        <img src={anyIconsFirst.img} alt={anyIconsFirst.img} />
       </IconButton>
      </Link>
+    ) : (
+     <div>
+      <IconButton onClick={onClickAnyIconsFirst}>{anyIconsFirst?.img}</IconButton>
+     </div>
     )}
     {/*{anyIconsFirst && (
-     <IconButton onClick={onClickAnyIconsFirst}>
-      <img
-       src={anyIconsFirst.img}
-       alt={anyIconsFirst.img}
-      />
-     </IconButton>
-     // <Link
-     //  to={anyIconsFirst.action}
-     //  onClick={onClickAnyIconsSecond}
-     // >
-     //  <img
-     //   src={anyIconsFirst.img}
-     //   alt={anyIconsFirst.img}
-     //  />
-     // </Link>
+     <Link to={anyIconsFirst.action}>
+      <IconButton onClick={onClickAnyIconsFirst}>
+       <img src={anyIconsFirst.img} alt={anyIconsFirst.img} />
+      </IconButton>
+     </Link>
     )}*/}
 
     {anyIconsSecond && (
-     // <Link to={anyIconsSecond.action}>
      <IconButton onClick={onClickAnyIconsSecond}>
       <img src={anyIconsSecond.img} alt={anyIconsSecond.img} />
      </IconButton>
-     // </Link>
     )}
 
     {tsxElement && tsxElement}

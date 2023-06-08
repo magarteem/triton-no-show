@@ -1,5 +1,5 @@
 import arrowReturnWhite from "../assets/icons/arrowBackWidthStroke.svg";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { AboutProfile } from "../common/components/profile/aboutProfile/AboutProfile";
 import { HeaderProfile } from "../common/components/profile/cardsProfile/HeaderProfile";
@@ -15,63 +15,16 @@ import { restructureDateApiForStore } from "../modules/user/helpers/restructypeD
 import { InButton } from "../common/ui-elements/button/InButton";
 import { EnumContactRequestStatusResponse } from "../types/PROFILE/enum/EnumContactRequestStatusResponse";
 import { EnumPrivateType } from "../types/PROFILE/enum/EnumPrivateType";
-import s from "./styles/otherUserProfile.module.scss";
 import { ClosedAboutProfile } from "../common/components/profile/aboutProfile/ClosedAboutProfile";
 import { MusicianTypeResponse } from "../modules/user/types/putReqestUpdateMyForm";
-
-const dataNull: InitialStateUserType = {
- id_user: "",
- name: "",
- email: "",
- phone: "",
- webSite: "",
- city: { id: 1, name: "" },
- age: 0,
- avatar: null,
- gender: { id: "Male", name: "Мужской" },
- type_account: { id: "", name: "" },
- skills: {
-  tool: [],
-  genre: [],
-  workExperience: "",
-  education: "",
-  master: { id: "NoSkill", name: "Диванный" },
-  inspiration: [],
- },
- portfolio_photo: null,
- private_settings: { id: "", name: "" },
- address: "",
- metroId: null,
- institutionType: null,
- from_opening_hours: 0,
- to_opening_hours: 0,
- area: null,
- schedule: null,
- privateType: EnumPrivateType.SHOW_ALL,
- contactRequestStatus: EnumContactRequestStatusResponse.NO_REQUEST,
-};
+import { CheckMyHaveAccountContext } from "../contextProvider/CheckHaveAccountContext";
+import s from "./styles/otherUserProfile.module.scss";
 
 export const OtherUserProfile = () => {
  const { id_user } = useParams();
+ const { notHaveForms }: any = useContext(CheckMyHaveAccountContext);
  const [user, setUser] = useState<InitialStateUserType>();
  const { data, isLoading, isError } = useGetOtherUserProfileForIDQuery(id_user || "");
-
- // useEffect(() => {
- //  for (const key in actions_payload) {
- //   //@ts-ignore
- //   if (actions_payload[key]) {
- //    const reselectData = actionGetDataThisActiveForms(
- //     //@ts-ignore
- //     actions_payload[key],
- //     {
- //      id: "12",
- //      nameForms: "teamForm",
- //     }
- //    );
- //    setUser(reselectData);
- //   }
- //  }
- // }, []);
 
  useEffect(() => {
   for (const key in data) {
@@ -81,8 +34,10 @@ export const OtherUserProfile = () => {
      //@ts-ignore
      data[key],
      {
-      id: "12",
-      nameForms: "teamForm",
+      //@ts-ignore
+      id: data[Object.keys(data)].id,
+      //@ts-ignore
+      nameForms: Object.keys(data)[0].replace("Form", "").toLowerCase(),
      }
     );
     setUser(reselectData);
@@ -90,31 +45,9 @@ export const OtherUserProfile = () => {
   }
  }, [data]);
 
- // const reselectData = actionGetDataThisActiveForms(
- //  actions_payload.musicianForm,
- //  {
- //   id: "12",
- //   nameForms: "teamForm",
- //  }
- // );
-
- // useEffect(() => {
- // fetch(`..../user/${id_user}`).then(res => res.json()).then(data => setUser(data))
- //const dataOneUser = TempData.find(
- // (x) => x.form.formId === id_user
- //);
- //return dataOneUser && setUser(dataOneUser);
- // }, [id_user]);
-
- //if (isLoading) return <PreLoader />;
- // if (!isLoading) {
- //  console.log("data = ", data);
- // }
-
  if (isLoading) return <PreLoader />;
  const dataParse = data && (Object.values(data)[0] as MusicianTypeResponse);
- data && console.log("data =  >>> ", Object.values(data)[0]);
- data && console.log("user =  >>> ", user);
+
  return (
   <>
    <HeaderWrapper srcPhoto={user?.avatar?.uri}>
@@ -130,7 +63,7 @@ export const OtherUserProfile = () => {
    {/*{user && <AboutProfile userDataProfile={user} />}*/}
    {dataParse?.privateType !== EnumPrivateType.HIDE_ALL ||
    dataParse?.contactRequestStatus === EnumContactRequestStatusResponse.MY_FORM
-    ? user && <AboutProfile userDataProfile={user} />
+    ? user && <AboutProfile notHaveForms={notHaveForms} userDataProfile={user} />
     : user && data && <ClosedAboutProfile userDataProfile={Object.values(data)[0]} />}
 
    {isError && (
@@ -223,4 +156,5 @@ const actions_payload: any = {
  rehearsalBaseForm: null,
  recordingStudioForm: null,
  teamForm: null,
+ // musiclover: null,
 };

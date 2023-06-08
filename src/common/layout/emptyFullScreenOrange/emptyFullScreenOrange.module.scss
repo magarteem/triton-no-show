@@ -1,0 +1,22 @@
+@import "src/styles/variable";
+
+.emptyFullScreenOrange {
+  @include flex_direction_column_align_center_position();
+  background: $gradient-secondary;
+  width: 100%;
+  height: 100%;
+  min-height: 100vh;
+
+  .wrapper {
+    width: 100%;
+    padding: 0 16px;
+
+    .formFieldsWrapper {
+      margin: 20px 0;
+      background: #fdfdf5;
+      border-radius: 20px;
+      padding: 16px;
+      max-width: 600px;
+    }
+  }
+}

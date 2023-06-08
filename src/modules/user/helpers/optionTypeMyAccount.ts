@@ -8,6 +8,7 @@ export const optionTypeMyAccount: { [key: string]: string } = {
  rehearsalBase: "Репетиционная точка",
  recordingStudio: "Студия",
  team: "Коллектив",
+ musicLover: "Меломан",
 };
 
 export const optionTypeMyAccountLowerCase: { [key: string]: string } = {
@@ -20,4 +21,5 @@ export const optionTypeMyAccountLowerCase: { [key: string]: string } = {
  rehearsalbase: "Репетиционная точка",
  recordingstudio: "Студия",
  team: "Коллектив",
+ musiclover: "Меломан",
 };

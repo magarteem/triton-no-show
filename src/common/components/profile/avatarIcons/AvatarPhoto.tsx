@@ -5,6 +5,7 @@ import { EffectCoverflow } from "swiper";
 import noAvatar from "../../../../assets/icons/noAvatar.svg";
 import { ProfileDataApiDataType } from "../../../../modules/user/types/userSliceType";
 import { useAppDispatch, useAppSelector } from "../../../../core/redux/app/hooks";
+import { Avatar } from "@mui/material";
 import {
  getLocalStorageSwiperActiv,
  setJsonLocalStorage,
@@ -18,14 +19,20 @@ import { OpenThisAvatar } from "./OpenThisAvatar";
 import "swiper/scss";
 import "swiper/css/effect-coverflow";
 import s from "./avatarPhoto.module.scss";
+import { adsQuery } from "../../../../modules/vacancy/adsQuery";
 
 interface AvatarIconsType {
  avatarPhoto?: string;
  profileDataApiData: ProfileDataApiDataType;
+ checkHaveAccount: boolean;
 }
 
 type MusicianTypeOmitResponseyy = Pick<MusicianTypeResponse, "type" | any>;
-export const AvatarPhoto = ({ avatarPhoto, profileDataApiData }: AvatarIconsType) => {
+export const AvatarPhoto = ({
+ avatarPhoto,
+ profileDataApiData,
+ checkHaveAccount,
+}: AvatarIconsType) => {
  let location = useLocation();
  const dispatch = useAppDispatch();
  const [elemAvatar, setElemAvatar] = useState<string>(noAvatar);
@@ -96,6 +103,10 @@ export const AvatarPhoto = ({ avatarPhoto, profileDataApiData }: AvatarIconsType
       initialSlide={localActiveForms}
       onRealIndexChange={(element) => {
        return setTimeout(() => {
+        if (element.activeIndex !== localActiveForms) {
+         dispatch(adsQuery.util.resetApiState());
+        }
+
         typeof element.activeIndex === "number" && fu(element.activeIndex);
        }, 500);
       }}
@@ -112,23 +123,44 @@ export const AvatarPhoto = ({ avatarPhoto, profileDataApiData }: AvatarIconsType
       slidesPerView={result.length < 4 ? result.length : 4}
       centeredSlides
      >
-      {result?.map((x: MusicianTypeResponse, index: number) => {
-       return (
-        <SwiperSlide
-         key={index}
-         className={s.swiperCard}
-         style={{
-          display: "flex",
-          justifyContent: "center",
-         }}
-         onClick={() => handleClickOpenAvatar(!!x.avatar?.uri ? x.avatar.uri : null)}
-        >
-         <div className={s.wrapperPhoto}>
-          <img src={!!x.avatar?.uri ? x.avatar.uri : noAvatar} alt="avatar" />
-         </div>
-        </SwiperSlide>
-       );
-      })}
+      {!checkHaveAccount ? (
+       result?.map((x: MusicianTypeResponse, index: number) => {
+        return (
+         <SwiperSlide
+          key={index}
+          className={s.swiperCard}
+          style={{
+           display: "flex",
+           justifyContent: "center",
+          }}
+          onClick={() => handleClickOpenAvatar(!!x.avatar?.uri ? x.avatar.uri : null)}
+         >
+          <div className={s.wrapperPhoto}>
+           {/*<Avatar
+            sx={{ height: "100%", width: "100%" }}
+            alt="Avatar"
+            src={!!x.avatar?.uri ? x.avatar.uri : noAvatar}
+           >
+            {x.document.name}
+           </Avatar>*/}
+           <img src={!!x.avatar?.uri ? x.avatar.uri : noAvatar} alt="avatar" />
+          </div>
+         </SwiperSlide>
+        );
+       })
+      ) : (
+       <SwiperSlide
+        className={s.swiperCard}
+        style={{
+         display: "flex",
+         justifyContent: "center",
+        }}
+       >
+        <div className={s.wrapperPhoto}>
+         <img src={noAvatar} alt="avatar" />
+        </div>
+       </SwiperSlide>
+      )}
      </Swiper>
     )}
     <OpenThisAvatar avatar={elemAvatar} openModal={openModal} setOpenModal={setOpenModal} />

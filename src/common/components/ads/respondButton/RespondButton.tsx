@@ -1,8 +1,10 @@
+import { useContext } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../../../core/redux/app/hooks";
 import { RouteNames } from "../../../../core/router/RouteNames";
 import { CircularProgress } from "@mui/material";
 import {
+ notificationQuery,
  useSendAnnouncementReplyMutation,
  useSendVacancyReplyMutation,
 } from "../../../../modules/notification/notificationQuery";
@@ -14,6 +16,7 @@ import { WaitingActionButton } from "../../notification/waitinActionButton/Waiti
 import { ResponseAdsType } from "../../../../modules/ads/types/responseAdsType";
 import { adsQuery } from "../../../../modules/vacancy/adsQuery";
 import s from "./respondButton.module.scss";
+import { CheckMyHaveAccountContext } from "../../../../contextProvider/CheckHaveAccountContext";
 
 interface RespondButtonType {
  idPost: string;
@@ -23,6 +26,7 @@ interface RespondButtonType {
 
 export const RespondButton = ({ idPost, autorThisPost, statusAds }: RespondButtonType) => {
  const myForm = useAppSelector((state) => state.userSliceReducer.isActiveForms);
+ const { notHaveForms, handleOpen }: any = useContext(CheckMyHaveAccountContext);
  const idMyForm = JSON.parse(myForm).id;
  let location = useLocation().pathname;
  const { id_ads } = useParams();
@@ -38,6 +42,7 @@ export const RespondButton = ({ idPost, autorThisPost, statusAds }: RespondButto
  ] = useSendAnnouncementReplyMutation();
 
  const subscribeAds = (key: boolean) => {
+  dispatch(notificationQuery.util.resetApiState());
   dispatch(
    adsQuery.util.updateQueryData(
     `${key ? "listVacancy" : "listAds"}`,
@@ -60,6 +65,11 @@ export const RespondButton = ({ idPost, autorThisPost, statusAds }: RespondButto
  };
 
  const respondAds = () => {
+  if (notHaveForms) {
+   handleOpen();
+   return;
+  }
+
   if (location === `${RouteNames.ADS}/${id_ads}`) {
    sendVacancyReply({
     idPost,

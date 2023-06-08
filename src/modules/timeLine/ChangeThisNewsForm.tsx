@@ -39,30 +39,8 @@ export const ChangeThisNewsForm = ({ changeDataNews }: ChangeNewNewsFormType) =>
   },
  });
 
- const onSubmit = (data: any) => {
-  //myProfile &&
-  //  dispatch(
-  //    updateDataTimeLineThunk({
-  //      date,
-  //      id,
-  //      timeLinePost: {
-  //        ...data,
-  //        genre: data.genre,
-  //        tools: data.tools,
-  //        photo: data.photo,
-  //        text: data.text,
-  //        typeCategory: data.typeCategory,
-  //        city: data.city,
-  //      },
-  //      author,
-  //    })
-  //  );
-  navigate(-1);
- };
-
- const clearPhoto = () => {
-  setValue("photo", [""]);
- };
+ const onSubmit = (data: any) => navigate(-1);
+ const clearPhoto = () => setValue("photo", [""]);
 
  return (
   <form noValidate onSubmit={handleSubmit(onSubmit)} className={s.formWrapCreateNews}>
@@ -89,48 +67,11 @@ export const ChangeThisNewsForm = ({ changeDataNews }: ChangeNewNewsFormType) =>
     </div>
 
     <div className={s.imgWrap}>
-     {/*<img src={cardsItem_1} alt={cardsItem_1} /> // img удалена*/}
      <img onClick={clearPhoto} className={s.clearImgButton} src={clearIcon} alt="clear" />
     </div>
    </section>
 
    <section className={s.selectParams}>
-    {/*<div className={s.selectFieldCustomHeight}>
-     <Controller
-      name="genre"
-      control={control}
-      render={({ field: { onChange, value, ref, ...field } }) => (
-       <SelectGenreElementMui
-        ItemRef={ref}
-        value={value}
-        placeholder="Жанр"
-        options={genreBD}
-        onChange={onChange}
-        errors={errors.genre}
-        {...field}
-       />
-      )}
-     />
-    </div>*/}
-
-    {/*<div className={cn(s.selectFieldCustomHeight, s.addMargin)}>
-          <Controller
-            name="tools"
-            control={control}
-            render={({ field: { onChange, value, ref, ...field }, formState: { errors } }) => (
-              <SelectToolsElementMui
-                ItemRef={ref}
-                value={value}
-                placeholder="Инструмент (род деятельности)"
-                options={groupeOptions}
-                onChange={onChange}
-                errors={errors.tools}
-                {...field}
-              />
-            )}
-          />
-        </div>*/}
-
     <div className={s.selectBlock}>
      <div className={s.selectField}>
       <SelectTypeNews

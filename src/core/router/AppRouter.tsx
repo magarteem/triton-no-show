@@ -47,6 +47,7 @@ import { AddTypeAccountStepUpdateData } from "../../modules/user/AddTypeAccountS
 import { AdsPageOneAnnouncement } from "../../pages/AdsPageOneAnnouncement";
 import { AdsPageOneVacancy } from "../../pages/AdsPageOneVacancy";
 import { OtherUserQuestionnaireTabs } from "../../common/components/profile/otherUserProfile/otherUserQuestionnaireTabs/OtherUserQuestionnaireTabs";
+import { License } from "../../pages/License";
 //import { ChangeThisNews } from "../../pages/ChangeThisNews";
 
 //const Ads = React.lazy(() =>
@@ -180,6 +181,7 @@ export const AppRouter = () => {
    ) : (
     <Route>
      <Route path={RouteNames.REGISTER} element={<Registration />}>
+      <Route path={RouteNames.LICENSE} element={<License />} />
       <Route element={<FirstToStepsLayout />}>
        <Route index element={<FirstStepFormRegister />} />
        <Route path={RouteNames.REG_TYPE_ACCOUNT} element={<SecondStepFormRegister />} />
@@ -201,6 +203,7 @@ export const AppRouter = () => {
     </Route>
    )}
 
+   <Route path={RouteNames.LICENSE_SHOW} element={<License />} />
    <Route path="*" element={<NotFound />} />
   </Routes>
  );

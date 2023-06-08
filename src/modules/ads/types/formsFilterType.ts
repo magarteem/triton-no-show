@@ -12,8 +12,10 @@ export interface FormsFilterType {
  who_is_looking_vacancy_partner: InterfaceGlobalSelectType | null;
  who_is_looking_ads: InterfaceGlobalSelectType | null;
  who_is_looking_questionnaire: InterfaceGlobalSelectType | null;
+ who_is_looking_questionnaire_inner: InterfaceGlobalSelectType | null;
+ working_width_musician: InterfaceGlobalSelectType | null;
  fromAge: null;
  toAge: null;
  master: null;
- query: string;
+ query?: string;
 }

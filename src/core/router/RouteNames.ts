@@ -1,9 +1,11 @@
 export enum RouteNames {
  WELCOME = "/welcome",
+ LICENSE_SHOW = "/license",
 
  REGISTER = "/register",
  REG_TYPE_ACCOUNT = "reg-type-account",
  REG_CREATE_ACCOUNT = "create-account",
+ LICENSE = "license",
 
  LOGIN = "/login",
  HOME = "/",

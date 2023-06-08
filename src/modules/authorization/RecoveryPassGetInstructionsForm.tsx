@@ -23,11 +23,9 @@ export const RecoveryPassGetInstructionsForm = () => {
  });
 
  const onSubmit = (data: RecoveryPassGetInstructionsFormType) => {
-  console.log("isError");
   requestResetPassword({ email: data.email });
  };
 
- console.log("---", isLoading, isError, isSuccess);
  return (
   <form className={s.recoveryPassword} onSubmit={handleSubmit(onSubmit)}>
    <div className={s.styleInput}>

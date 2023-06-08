@@ -8,4 +8,5 @@ export enum EnumTypeAccount {
  MUSICAL_WORKSHOP = "musicalWorkshop",
  SOUND_PRODUCER = "soundProducer",
  RECORDING_STUDIO = "recordingStudio",
+ MUSIC_LOVER = "musicLover",
 }

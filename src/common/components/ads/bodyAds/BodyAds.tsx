@@ -5,15 +5,14 @@ import { GroupeToolsAndGenreChips } from "../groupeToolsAndGenreChips/GroupeTool
 import { ResultAdsTypeResponse } from "../../../../modules/ads/types/responseAdsType";
 import { NavLink } from "react-router-dom";
 import { RouteNames } from "../../../../core/router/RouteNames";
-import s from "./bodyAds.module.scss";
 import { optionTypeMyAccountLowerCase } from "../../../../modules/user/helpers/optionTypeMyAccount";
+import s from "./bodyAds.module.scss";
 
 interface BodyAdsType {
  x: ResultAdsTypeResponse;
 }
 
 export const BodyAds = ({ x }: BodyAdsType) => {
- const t = optionTypeMyAccountLowerCase[x.form.type?.toLowerCase()];
  return (
   <div className={s.bodyAds}>
    <div className={s.flexPositions}>
@@ -22,6 +21,12 @@ export const BodyAds = ({ x }: BodyAdsType) => {
     </NavLink>
 
     <div className={s.city}>
+     <h3>
+      {optionTypeMyAccountLowerCase[x.form.type?.toLowerCase() ?? x.form.formType?.toLowerCase()]}
+     </h3>
+     <p>{`${x.form.name}`}</p>
+    </div>
+    {/*<div className={s.city}>
      <h3>
       {x.form.city.title}
       {x.form.address && (
@@ -36,7 +41,7 @@ export const BodyAds = ({ x }: BodyAdsType) => {
        ? "(" + optionTypeMyAccountLowerCase[x.form.type?.toLowerCase()].toLowerCase() + ")"
        : ""
      }`}</p>
-    </div>
+    </div>*/}
    </div>
 
    {(x.instruments.length > 0 || x.genres.length > 0) && (

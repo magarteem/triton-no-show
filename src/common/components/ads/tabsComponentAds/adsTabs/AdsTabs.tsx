@@ -5,8 +5,9 @@ import { AnnouncementFeed } from "../../announcementFeed/AnnouncementFeed";
 import { ResponseAdsType } from "../../../../../modules/ads/types/responseAdsType";
 import { InButton } from "../../../../ui-elements/button/InButton";
 import { RouteNames } from "../../../../../core/router/RouteNames";
-import { useSwipeHandleTouch } from "../../../../../hook/useSwipeHandleTouch";
+import { useRef } from "react";
 import s from "../toutchStyleAnimations.module.scss";
+import { useSwipeHandleTouch } from "../../../../../hook/useSwipeHandleTouch";
 
 const routL = `${RouteNames.ADS}`;
 const routR = `${RouteNames.ADS}/${RouteNames.ADS_QUESTIONNAIRE_LIST}`;
@@ -20,17 +21,15 @@ interface OutletType {
 }
 
 export const AdsTabs = () => {
- const touchFu = useSwipeHandleTouch(routL, routR);
+ const refs = useRef<HTMLDivElement | null>(null);
+ useSwipeHandleTouch(refs, routL, routR);
  const { isLoadingAds, isFetchingAds, setPageFu, refetchFu, dataAds }: OutletType =
   useOutletContext();
 
  if (isLoadingAds) return <PreLoader />;
 
- const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => touchFu("start", e);
- const handleTouchMove = (e: React.TouchEvent<HTMLDivElement>) => touchFu("move", e);
-
  return (
-  <div className={s.minHeight70} onTouchStart={handleTouchStart} onTouchMove={handleTouchMove}>
+  <div ref={refs} className={s.minHeight70}>
    <RibbonLayout setPageFu={setPageFu} isFetching={isFetchingAds}>
     {dataAds?.results.length > 0 &&
      dataAds?.results.map((x) => <AnnouncementFeed x={x} key={x.id} />)}

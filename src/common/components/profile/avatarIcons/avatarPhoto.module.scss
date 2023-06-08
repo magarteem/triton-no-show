@@ -37,7 +37,7 @@
   .wrapperPhoto {
    position: relative;
    cursor: pointer;
-   width: 80px; //idea off 80
+   width: 80px;
    height: 80px;
    border: 4px solid rgb(255, 255, 255);
    border-radius: 50%;
@@ -48,6 +48,33 @@
     object-fit: cover;
     width: 100%;
     height: 100%;
+
+    &:before {
+     content: " ";
+     display: block;
+     position: absolute;
+     top: -10px;
+     left: -10px;
+     height: 140%;
+     width: 140%;
+     background-color: rgb(230, 230, 230);
+     border: 2px dotted rgb(200, 200, 200);
+     border-radius: 5px;
+    }
+
+    &:after {
+     content: "Не верный URL";
+     display: block;
+     font-size: 16px;
+     font-style: normal;
+     font-family: FontAwesome;
+     color: rgb(100, 100, 100);
+     position: absolute;
+     top: 10px;
+     width: 100%;
+     height: 100%;
+     text-align: center;
+    }
    }
   }
  }

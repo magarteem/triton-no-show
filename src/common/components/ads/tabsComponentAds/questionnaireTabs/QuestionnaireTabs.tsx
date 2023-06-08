@@ -4,8 +4,9 @@ import { RibbonLayout } from "../../../../layout/ribbonLayout/RibbonLayout";
 import { InButton } from "../../../../ui-elements/button/InButton";
 import { PreLoader } from "../../../preLoader/PreLoader";
 import { QuestionnaireCards } from "../../questionnaireCards/QuestionnaireCards";
-import { useSwipeHandleTouch } from "../../../../../hook/useSwipeHandleTouch";
 import { RouteNames } from "../../../../../core/router/RouteNames";
+import { useRef } from "react";
+import { useSwipeHandleTouch } from "../../../../../hook/useSwipeHandleTouch";
 import s from "./questionnaireTabs.module.scss";
 
 const routL = `${RouteNames.ADS}/${RouteNames.ADS_LIST}`;
@@ -19,21 +20,16 @@ interface OutletType {
 }
 
 export const QuestionnaireTabs = () => {
- const touchFu = useSwipeHandleTouch(routL);
+ const refs = useRef<HTMLDivElement | null>(null);
+ useSwipeHandleTouch(refs, routL, "");
+
  const { setPageFu, refetchFu, dataA, isLoadingAccount, isFetchingAccount }: OutletType =
   useOutletContext();
 
  if (isLoadingAccount) return <PreLoader />;
 
- const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => touchFu("start", e);
- const handleTouchMove = (e: React.TouchEvent<HTMLDivElement>) => touchFu("move", e);
-
  return (
-  <div
-   className={s.hiddenAnimationRight}
-   onTouchStart={handleTouchStart}
-   onTouchMove={handleTouchMove}
-  >
+  <div ref={refs} className={s.hiddenAnimationRight}>
    <RibbonLayout setPageFu={setPageFu} isFetching={isFetchingAccount}>
     <h2 className={s.recommendations}>Рекомендации</h2>
     <div className={s.mainQuestionnaire}>

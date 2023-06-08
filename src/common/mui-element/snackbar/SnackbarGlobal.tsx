@@ -13,9 +13,16 @@ export interface SnackbarGlobalType {
  severity: "error" | "info" | "success" | "warning";
  open: boolean;
  setOpen: (data: StateSnackbarType) => void;
+ autoHideDuration?: number | null;
 }
 
-export function SnackbarGlobal({ text, severity, open, setOpen }: SnackbarGlobalType) {
+export function SnackbarGlobal({
+ text,
+ severity,
+ open,
+ setOpen,
+ autoHideDuration = 2000,
+}: SnackbarGlobalType) {
  const handleClose = (event: React.SyntheticEvent | Event, reason: string) => {
   if (reason === "clickaway") return;
   setOpen({
@@ -29,7 +36,7 @@ export function SnackbarGlobal({ text, severity, open, setOpen }: SnackbarGlobal
    <Snackbar
     anchorOrigin={{ vertical: "top", horizontal: "right" }}
     open={open}
-    autoHideDuration={2000}
+    autoHideDuration={autoHideDuration}
     onClose={handleClose}
    >
     {/*//@ts-ignore*/}

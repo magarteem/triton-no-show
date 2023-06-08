@@ -10,14 +10,5 @@ export interface MyTypeFormsAccountProfileType {
  rehearsalBaseForm: MusicianTypeResponse | null;
  recordingStudioForm: MusicianTypeResponse | null;
  teamForm: MusicianTypeResponse | null;
+ musicLoverForm: MusicianTypeResponse | null;
 }
-
-//"institutionForm": null,
-//"musicalWorkshopForm": null,
-//"musicianForm": null,
-//"soundProducerForm": null,
-//"musicianSchoolForm": null,
-//"musicShopForm": null,
-//"rehearsalBaseForm": null,
-//"recordingStudioForm": null,
-//"teamForm": null

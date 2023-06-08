@@ -1,23 +1,14 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/dist/query/react";
-import { doneParseLocalStorage } from "../../helpers/getJsonParseLocalStorage";
+import { createApi } from "@reduxjs/toolkit/dist/query/react";
 import { ResponseIncomingType, ResponseOutgoingType } from "./types/responseNotificationType";
 import { getMyProfileQuery } from "../user/getGetMyProfileQuery";
 import { ResponseSearchAllFormsType } from "../user/types/responseSearchAllForms";
 import { EnumContactRequestStatusResponse } from "../../types/PROFILE/enum/EnumContactRequestStatusResponse";
 import { rulesQueryInfiniteScroll } from "../../helpers/rulesQueryInfiniteScroll";
+import { baseQueryWithReauth } from "../../api/baseQuery";
 
 export const notificationQuery = createApi({
  reducerPath: "notificationQuery",
- baseQuery: fetchBaseQuery({
-  baseUrl: `${process.env.REACT_APP_API_URL_PROFILE}`,
-  prepareHeaders: async (headers) => {
-   headers.set("authorization", `Bearer ${localStorage.getItem(`auth-token`)}`);
-   headers.set("accept", `application/json`);
-   headers.set("form_id", doneParseLocalStorage.id);
-   return headers;
-  },
- }),
-
+ baseQuery: baseQueryWithReauth,
  endpoints: (build) => ({
   listOutgoing: build.query<ResponseOutgoingType, { page: number } | void>({
    query: (outgoingPage) => {

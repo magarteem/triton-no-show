@@ -31,23 +31,11 @@ export const SwiperGalleryPortfolio = ({
   <div className={s.swiper}>
    {/*<h2>{skillsCategoryTitle}</h2>*/}
 
-   <Swiper
-    spaceBetween={1}
-    speed={1500}
-    autoplay
-    modules={[Autoplay]}
-    slidesPerView={"auto"}
-   >
+   <Swiper spaceBetween={1} speed={1500} autoplay modules={[Autoplay]} slidesPerView={"auto"}>
     {inspiration.map((x: PortfolioType, index) => (
      <SwiperSlide key={x.uri} className={s.swiperCard}>
-      <div
-       className={s.wrappImg}
-       onClick={() => handleClickOpen(index)}
-      >
-       <img
-        src={x.uri.replace("net//", "net/")}
-        alt={x.uri.replace("net//", "net/")}
-       />
+      <div className={s.wrappImg} onClick={() => handleClickOpen(index)}>
+       <img src={x.uri.replace("net//", "net/")} alt={x.uri.replace("net//", "net/")} />
       </div>
      </SwiperSlide>
     ))}
@@ -83,21 +71,10 @@ export const SwiperGalleryPortfolio = ({
      },
     }}
    >
-    <Swiper
-     ref={swiperRef}
-     spaceBetween={1}
-     speed={0}
-     autoHeight={true}
-    >
+    <Swiper ref={swiperRef} spaceBetween={1} speed={0} autoHeight={true}>
      {inspiration.map((x, index) => (
-      <SwiperSlide
-       key={index}
-       className={s.swiperCardIsOpenning}
-      >
-       <img
-        src={x.uri.replace("net//", "net/")}
-        alt={x.name}
-       />
+      <SwiperSlide key={index} className={s.swiperCardIsOpenning}>
+       <img src={x.uri.replace("net//", "net/")} alt={x.name} />
       </SwiperSlide>
      ))}
     </Swiper>

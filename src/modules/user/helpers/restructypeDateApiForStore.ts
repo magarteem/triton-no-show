@@ -1,9 +1,7 @@
 import { MyTypeFormsAccountProfileType } from "../types/myTypeFormProfile";
 import { ProfileDataApiDataType } from "../types/userSliceType";
 
-export const restructureDateApiForStore = (
- actions_payload: MyTypeFormsAccountProfileType
-) => {
+export const restructureDateApiForStore = (actions_payload: MyTypeFormsAccountProfileType) => {
  let stateOtherUser: ProfileDataApiDataType = {
   institutionForm: [],
   musicalWorkshopForm: [],
@@ -14,6 +12,7 @@ export const restructureDateApiForStore = (
   rehearsalBaseForm: [],
   recordingStudioForm: [],
   teamForm: [],
+  musicLoverForm: [],
  };
 
  for (const key in actions_payload) {

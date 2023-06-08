@@ -7,12 +7,14 @@ export interface ControllerGenreAsyncType {
  control: any;
  name: string;
  required?: boolean;
+ placeholder?: string;
 }
 
 export const ControllerGenreAsync = ({
  control,
  name,
  required = true,
+ placeholder = "Жанр",
 }: ControllerGenreAsyncType) => {
  const { data } = useGetGenreDataQuery();
 
@@ -30,7 +32,7 @@ export const ControllerGenreAsync = ({
      <SelectGenreElement
       ItemRef={ref}
       value={value}
-      placeholder="Жанр"
+      placeholder={placeholder}
       required={required}
       options={data}
       onChange={onChange}

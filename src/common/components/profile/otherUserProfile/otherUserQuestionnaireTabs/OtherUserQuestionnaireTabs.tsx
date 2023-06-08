@@ -9,7 +9,7 @@ import { QuestionnaireCards } from "../../../ads/questionnaireCards/Questionnair
 import { PreLoader } from "../../../preLoader/PreLoader";
 import { RouteNames } from "../../../../../core/router/RouteNames";
 import { useRef } from "react";
-import { useSwipeHandleTouchTemp } from "../../../../../hook/useSwipeHandleTouchTemp";
+import { useSwipeHandleTouch } from "../../../../../hook/useSwipeHandleTouch";
 import cn from "classnames";
 import s from "../toutchStyleAnimations.module.scss";
 
@@ -25,7 +25,7 @@ export const OtherUserQuestionnaireTabs = () => {
   RouteNames.OTHER_USER_QUESTIONNAIRE,
   RouteNames.OTHER_USER_ADS
  )}`;
- useSwipeHandleTouchTemp(refs, routL, ``);
+ useSwipeHandleTouch(refs, routL, ``);
 
  const [id_user]: [string] = useOutletContext();
 

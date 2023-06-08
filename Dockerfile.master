@@ -1,0 +1,16 @@
+FROM node:16 as build
+
+ENV REACT_APP_API_URL_SSO 'https://sso.3-tone.ru'
+ENV REACT_APP_API_URL_PROFILE 'https://profile.3-tone.ru'
+ENV REACT_APP_API_URL_TESTING_STEND 'false'
+
+WORKDIR /app
+COPY package*.json ./
+RUN yarn install
+COPY . .
+RUN yarn run build
+
+
+FROM nginx:1.19 as run
+COPY ./nginx/nginx.conf.production /etc/nginx/nginx.conf
+COPY --from=build /app/build /usr/share/nginx/html

@@ -3,13 +3,14 @@ import eye_open from "../../assets/icons/eye_open.webp";
 import eye_close from "../../assets/icons/eye_close.webp";
 import { Controller, useFormContext } from "react-hook-form";
 import { InButton } from "../../common/ui-elements/button/InButton";
-import { useNavigate, useOutletContext } from "react-router-dom";
+import { Link, useNavigate, useOutletContext } from "react-router-dom";
 import { RouteNames } from "../../core/router/RouteNames";
 import { RegistrationQuestionLink } from "../../common/components/signIn/registrationQuestion/RegistrationQuestionLink";
 import { Input } from "../../common/ui-elements/Input/Input";
 import { useAppDispatch } from "../../core/redux/app/hooks";
 import { authThunkRegister } from "./authThunkRegister";
 import { LoginResponseType } from "../../types/SSO/loginResponseType";
+import { Checkbox } from "@mui/material";
 import s from "./style/firstStepFormRegister.module.scss";
 
 interface OutletType {
@@ -28,6 +29,7 @@ export const FirstStepFormRegister = () => {
   control,
   watch,
   formState: { errors },
+  setValue,
  } = useFormContext();
 
  const nextStepRegister = async (data: string[]) => {
@@ -48,6 +50,7 @@ export const FirstStepFormRegister = () => {
 
  const [eye, setEye] = useState(false);
  const toggleEye = () => setEye((prev) => !prev);
+ const setCheckValue = () => setValue("check", !watch("check"));
 
  const watchHandler = (watches: string, eye: boolean, toggle: () => void) =>
   watches.length > 0 && (
@@ -118,10 +121,51 @@ export const FirstStepFormRegister = () => {
      />
     </div>
 
+    <div className={s.license}>
+     <Controller
+      name="check"
+      control={control}
+      rules={{
+       required: "Обязательное поле",
+      }}
+      render={({ field: { value } }) => (
+       <div onClick={setCheckValue} className={s.positionText}>
+        <Checkbox
+         checked={value}
+         sx={{
+          padding: "0",
+          "& .MuiSvgIcon-root": {
+           width: "20px !important",
+           height: "20px !important",
+           borderRadius: "20px !important",
+           color: "#fff",
+          },
+
+          "&.Mui-checked": {
+           svg: {
+            color: "#fff",
+           },
+          },
+         }}
+        />
+        <div className={s.licenseOpen}>Соглашение</div>
+       </div>
+      )}
+     />
+
+     {errors.check && errors.check.message && (
+      <span className={s.licenseError}>{`${errors.check.message}`}</span>
+     )}
+
+     <Link to={RouteNames.LICENSE} className={s.licenseLink}>
+      <span className={s.forgotPasswordText}>Открыть</span>
+     </Link>
+    </div>
+
     <div className={s.styleBtn}>
      <InButton
       textButton={loading ? "Отправка..." : "Продолжить"}
-      onClick={() => nextStepRegister(["email", "password"])}
+      onClick={() => nextStepRegister(["email", "password", "check"])}
       type={"button"}
      />
     </div>

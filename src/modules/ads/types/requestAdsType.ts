@@ -1,7 +1,6 @@
 import { ContactsType, GenderType } from "../../../types/PROFILE/accountMainGlobalType";
 import { EnumEmploymentType } from "../../../types/PROFILE/enum/EnumEmploymentType";
 import { EnumTypeTeam } from "../../../types/PROFILE/enum/EnumTypeTeam";
-import { InstitutionTypeGlobalType } from "../../../types/PROFILE/institutionTypeGlobalType";
 
 export type EmploymentType =
  | EnumEmploymentType.NONE
@@ -19,11 +18,13 @@ export interface ConditionsType {
 export interface JobDocumentType {
  neededEmployeeTypes: string[];
  conditions: ConditionsType;
- jobTypes: string[]; // Undefined, MusicianSchool, MusicianStore, RecordingStudio, RehearsalBase, MusicalWorkshop
+ formTypes: string[]; // заменил на jobTypes = Undefined, MusicianSchool, MusicianStore, RecordingStudio, RehearsalBase, MusicalWorkshop
  teamTypes: string[]; //Group, Orchestra, Ensemble
  institutionTypeIds: string[];
  skills: string[];
+ musicianTypes: string[]; // Student, Teacher
 }
+
 export interface SoundProducerAnnouncementDocumentType {
  skills: string[] | null;
  education: string;

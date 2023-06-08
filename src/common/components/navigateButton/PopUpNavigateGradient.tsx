@@ -1,4 +1,4 @@
-import cn from "classnames";
+import { useContext } from "react";
 import { NavLink } from "react-router-dom";
 import { RouteNames } from "../../../core/router/RouteNames";
 import { ReactComponent as Home } from "../../../assets/icons/Home.svg";
@@ -6,6 +6,8 @@ import { ReactComponent as Notification } from "../../../assets/icons/Notificati
 import { ReactComponent as Ads } from "../../../assets/icons/Ads.svg";
 import { ReactComponent as User } from "../../../assets/icons/User.svg";
 import { ReactComponent as NavigateRadialGradientFonts } from "../../../assets/icons/NavigateRadialGradientFonts.svg";
+import { CheckMyHaveAccountContext } from "../../../contextProvider/CheckHaveAccountContext";
+import cn from "classnames";
 import s from "./popUpNavigateGradient.module.scss";
 
 interface LinkActiveType {
@@ -13,7 +15,12 @@ interface LinkActiveType {
 }
 
 export const PopUpNavigateGradient = () => {
+  const { notHaveForms, handleOpen }: any = useContext(CheckMyHaveAccountContext);
   const setActive = ({ isActive }: LinkActiveType) => cn({ [s.active]: isActive });
+
+  const openModalNotFoundAccount = () => {
+    notHaveForms && handleOpen();
+  };
 
   return (
     <div className={cn(s.popUpNavigateGradient)}>
@@ -29,7 +36,11 @@ export const PopUpNavigateGradient = () => {
 
       <span className={s.radialGradientFontsWrapper}>
         <NavigateRadialGradientFonts />
-        <NavLink to={RouteNames.CREATE_ADS} aria-label="create-ads">
+        <NavLink
+          to={notHaveForms ? "" : RouteNames.CREATE_ADS}
+          aria-label="create-ads"
+          onClick={openModalNotFoundAccount}
+        >
           <div className={s.duttonAdd}>
             <div className={s.plas}></div>
           </div>
@@ -41,7 +52,12 @@ export const PopUpNavigateGradient = () => {
           <User className={s.icon} />
         </NavLink>
 
-        <NavLink className={setActive} to={RouteNames.NOTIFICATION} aria-label="notification">
+        <NavLink
+          className={!notHaveForms ? setActive : ""}
+          to={notHaveForms ? "" : RouteNames.NOTIFICATION}
+          aria-label="notification"
+          onClick={openModalNotFoundAccount}
+        >
           <Notification className={s.icon} />
         </NavLink>
       </div>

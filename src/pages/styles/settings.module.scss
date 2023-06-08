@@ -16,19 +16,51 @@
 }
 
 .mainSettings {
- .buttonAction {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 40px;
+ width: 100%;
+ height: 100%;
+ display: flex;
+ flex-direction: column;
 
-  .title {
+ .buttonVariant {
+  flex: 1 0 100%;
+
+  .buttonAction {
    display: flex;
+   align-items: center;
+   justify-content: space-between;
+   height: 40px;
 
-   p {
-    margin-left: 16px;
-    color: #1a1c18;
+   .title {
+    display: flex;
+
+    p {
+     margin-left: 16px;
+     color: #1a1c18;
+    }
    }
+  }
+ }
+
+ .infoApps {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  font-size: 14px;
+  font-weight: 600;
+  padding-bottom: 15px;
+  width: 100%;
+  color: #2b6c00;
+
+  a {
+   color: #2b6c00;
+   text-decoration: underline;
+   text-align: center;
+  }
+  p {
+   padding-top: 5px;
   }
  }
 }

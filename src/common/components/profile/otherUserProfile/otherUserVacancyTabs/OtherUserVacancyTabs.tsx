@@ -6,7 +6,7 @@ import { InButton } from "../../../../ui-elements/button/InButton";
 import { AnnouncementFeed } from "../../../ads/announcementFeed/AnnouncementFeed";
 import { PreLoader } from "../../../preLoader/PreLoader";
 import { RouteNames } from "../../../../../core/router/RouteNames";
-import { useSwipeHandleTouchTemp } from "../../../../../hook/useSwipeHandleTouchTemp";
+import { useSwipeHandleTouch } from "../../../../../hook/useSwipeHandleTouch";
 import s from "../toutchStyleAnimations.module.scss";
 
 const useGetAllTodoQueryState = otherUserDataQuery.endpoints.otherUserVacancy.useQueryState;
@@ -22,7 +22,7 @@ export const OtherUserVacancyTabs = () => {
   RouteNames.OTHER_USER_VACANCY,
   RouteNames.OTHER_USER_ADS
  )}`;
- useSwipeHandleTouchTemp(refs, routL, routR);
+ useSwipeHandleTouch(refs, routL, routR);
 
  const [id_user]: [string] = useOutletContext();
 

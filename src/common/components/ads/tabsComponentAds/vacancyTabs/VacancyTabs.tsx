@@ -5,8 +5,9 @@ import { AnnouncementFeed } from "../../announcementFeed/AnnouncementFeed";
 import { ResponseAdsType } from "../../../../../modules/ads/types/responseAdsType";
 import { InButton } from "../../../../ui-elements/button/InButton";
 import { RouteNames } from "../../../../../core/router/RouteNames";
-import { useSwipeHandleTouch } from "../../../../../hook/useSwipeHandleTouch";
+import { useRef } from "react";
 import s from "../toutchStyleAnimations.module.scss";
+import { useSwipeHandleTouch } from "../../../../../hook/useSwipeHandleTouch";
 
 const routR = `${RouteNames.ADS}/${RouteNames.ADS_LIST}`;
 
@@ -15,25 +16,27 @@ interface OutletType {
  refetchFu: () => void;
  isLoadingVacancy: boolean;
  isFetchingVacancy: boolean;
+ isSuccessVacancy: boolean;
  dataV: ResponseAdsType;
 }
 
 export const VacancyTabs = () => {
- const touchFu = useSwipeHandleTouch(``, routR);
- const { setPageFu, refetchFu, isLoadingVacancy, isFetchingVacancy, dataV }: OutletType =
-  useOutletContext();
+ const refs = useRef<HTMLDivElement | null>(null);
+ useSwipeHandleTouch(refs, "", routR);
 
- if (isLoadingVacancy) return <PreLoader />;
+ const {
+  setPageFu,
+  refetchFu,
+  isLoadingVacancy,
+  isFetchingVacancy,
+  isSuccessVacancy,
+  dataV,
+ }: OutletType = useOutletContext();
 
- const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => touchFu("start", e);
- const handleTouchMove = (e: React.TouchEvent<HTMLDivElement>) => touchFu("move", e);
+ if (isFetchingVacancy && isLoadingVacancy) return <PreLoader />;
 
  return (
-  <div
-   className={s.hiddenAnimationLeft}
-   onTouchStart={handleTouchStart}
-   onTouchMove={handleTouchMove}
-  >
+  <div ref={refs} className={s.hiddenAnimationLeft}>
    <RibbonLayout setPageFu={setPageFu} isFetching={isFetchingVacancy}>
     {dataV?.results.length > 0 && dataV?.results.map((x) => <AnnouncementFeed x={x} key={x.id} />)}
 

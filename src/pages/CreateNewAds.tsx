@@ -12,9 +12,15 @@ import { selectParamsForCreateAds } from "../modules/vacancy/helpers/selectParam
 import { selectParamsForCreateVacancy } from "../modules/vacancy/helpers/selectParamsForCreateVacancy";
 import { FormsCreatedVacancyType } from "../modules/vacancy/types/typeFormsCreatedAds";
 import s from "./styles/createNewAds.module.scss";
+import { EnumTypeAccount } from "../types/PROFILE/enum/EnumTypeAccount";
 
 // для музыкант/коллектив/звукореж - и вакансия и объявление. Для всех остальных - только вакансия
-const rulesShowAds = ["musician", "team", "soundProducer"];
+const rulesShowAds = [
+ EnumTypeAccount.MUSIC_LOVER,
+ EnumTypeAccount.MUSICIAN,
+ EnumTypeAccount.TEAM,
+ EnumTypeAccount.SOUND_PRODUCER,
+];
 
 export const CreateNewAds = () => {
  const navigate = useNavigate();
@@ -56,7 +62,7 @@ export const CreateNewAds = () => {
  const [setNewAds, { data: dataAds }] = useSendAdsPostMutation();
 
  const onSubmitVacancy = (data: FormsCreatedVacancyType) => {
-  setNewVacancy(selectParamsForCreateVacancy(data, parseJson.id)).unwrap();
+  setNewVacancy(selectParamsForCreateVacancy(data, parseJson)).unwrap();
   navigate(-1);
  };
 
@@ -81,11 +87,14 @@ export const CreateNewAds = () => {
    phone: "",
    email: "",
    web_site: "",
+   working_width_musician: null,
+   teamType: null,
+   who_is_looking_questionnaire: null,
   },
  });
 
  const onSubmitAds = (data: FormsCreatedVacancyType) => {
-  setNewAds(selectParamsForCreateAds(data, parseJson.id)).unwrap();
+  setNewAds(selectParamsForCreateAds(data, parseJson)).unwrap();
   navigate(-1);
  };
 

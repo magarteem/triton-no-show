@@ -1,9 +1,9 @@
 import { ReactNode, memo, useEffect, useLayoutEffect, useContext } from "react";
 import { useInView } from "react-intersection-observer";
 import { PreLoader } from "../../components/preLoader/PreLoader";
-import s from "./ribbonLayout.module.scss";
 import { useLocation } from "react-router-dom";
-import { ScrollContextTs } from "../../../contextProvider/ReturnScrollContextTs";
+import { ScrollContext } from "../../../contextProvider/ReturnScrollContext";
+import s from "./ribbonLayout.module.scss";
 
 interface RibbonLayoutType {
  children: ReactNode;
@@ -14,7 +14,7 @@ interface RibbonLayoutType {
 
 export const RibbonLayout = memo(
  ({ children, isFetching, setPageFu, linkRef }: RibbonLayoutType) => {
-  const { scrollState, setScroll }: any = useContext(ScrollContextTs);
+  const { setScroll }: any = useContext(ScrollContext);
   const { pathname } = useLocation();
 
   const { ref, inView, entry } = useInView({

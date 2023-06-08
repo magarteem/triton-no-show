@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { PopUpNavigateGradient } from "../common/components/navigateButton/PopUpNavigateGradient";
 import addIcons from "../assets/icons/addIcons.svg";
 import filterIconsNew from "../assets/icons/filterIconsNew.svg";
@@ -18,6 +18,7 @@ import {
 } from "../modules/timeLine/types/FilterFormsTimeLineFieldsType";
 import { useAppSelector } from "../core/redux/app/hooks";
 import { InButton } from "../common/ui-elements/button/InButton";
+import { CheckMyHaveAccountContext } from "../contextProvider/CheckHaveAccountContext";
 
 const defaultFilter = {
  search_text: "",
@@ -46,6 +47,7 @@ interface OutletType {
 }
 
 export const NewsAll = () => {
+ const { notHaveForms, handleOpen }: any = useContext(CheckMyHaveAccountContext);
  const stopeListAds = useAppSelector(
   (state) => state.getNewsListQuery.queries.infinityScrollNews?.data
  ) as ResponseNewsType;
@@ -56,6 +58,7 @@ export const NewsAll = () => {
  const [filerstate, setFilerstate] = useState<FilterFormsTimeLineFieldsType>(defaultFilter);
  const [open, setOpen] = useState(false);
  const handleClickOpen = () => setOpen(true);
+ const handleClickshowModal = () => notHaveForms && handleOpen();
  const handleClose = () => setOpen(false);
  const setFilterStateFu = (data: FilterFormsTimeLineFieldsType) => setFilerstate(data);
 
@@ -77,8 +80,9 @@ export const NewsAll = () => {
    <StylesFullScreen>
     <HeaderStylesWrapper
      textLabel="Лента"
-     anyIconsFirst={add}
+     anyIconsFirst={{ ...add, action: notHaveForms ? "" : RouteNames.ADD_NEW_NEWS }}
      anyIconsSecond={filter}
+     onClickAnyIconsFirst={handleClickshowModal}
      onClickAnyIconsSecond={handleClickOpen}
     />
 
@@ -129,6 +133,7 @@ export const NewsAll = () => {
       filerstate={filerstate}
       defaultFilter={defaultFilter}
       setFilterStateFu={setFilterStateFu}
+      //refetchFu={refetchFu}
      />
     </FilterModalLayout>
    )}

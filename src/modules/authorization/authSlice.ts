@@ -8,6 +8,7 @@ import { InitialStateType } from "./types/sliceInitialStateType";
 const initialState: InitialStateType = {
  responseLogin: null,
  isAuth: !!localStorage.getItem(`auth-token`),
+ token: localStorage.getItem(`auth-token`),
  thisMyFormsId: "",
  error: null,
  loading: false,
@@ -18,13 +19,20 @@ const authSlice = createSlice({
  initialState,
 
  reducers: {
+  tokenTst(state: InitialStateType, actions: PayloadAction<string | null>) {
+   state.token = actions.payload;
+  },
   autoLoginAfteRegistration(state: InitialStateType) {
    state.isAuth = true;
   },
   logout(state: InitialStateType) {
    localStorage.removeItem(`auth-token`);
-   // localStorage.removeItem(`active-my-forms`);
+   // test
+   localStorage.removeItem(`active-my-forms`);
+   localStorage.removeItem(`active-forms-id`);
+   //
    state.isAuth = false;
+   state.token = null;
   },
   resetState(state: InitialStateType) {
    state.loading = false;
@@ -34,7 +42,6 @@ const authSlice = createSlice({
 
  extraReducers: (builder) => {
   builder
-   // LOG
    .addCase(authThunkLogin.pending.type, (state: InitialStateType) => {
     state.error = null;
     state.loading = true;
@@ -44,6 +51,8 @@ const authSlice = createSlice({
     (state: InitialStateType, actions: PayloadAction<LoginResponseType>) => {
      state.error = null;
      state.loading = false;
+     state.token = actions.payload.token.value;
+
      localStorage.setItem("auth-token", `${actions.payload.token.value}`);
      state.responseLogin = actions.payload;
      state.isAuth = !!actions.payload;
@@ -57,7 +66,6 @@ const authSlice = createSlice({
     }
    )
 
-   // REG
    .addCase(authThunkRegister.pending.type, (state: InitialStateType) => {
     state.error = null;
    })
@@ -76,7 +84,6 @@ const authSlice = createSlice({
     }
    )
 
-   // FORM
    .addCase(authThunkCreateMyTypeForms.pending.type, (state: InitialStateType) => {
     state.error = null;
     state.loading = true;
@@ -97,5 +104,5 @@ const authSlice = createSlice({
  },
 });
 
-export const { autoLoginAfteRegistration, logout, resetState } = authSlice.actions;
+export const { autoLoginAfteRegistration, logout, resetState, tokenTst } = authSlice.actions;
 export default authSlice.reducer;

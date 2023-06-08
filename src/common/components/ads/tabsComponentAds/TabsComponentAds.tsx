@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { memo, useEffect } from "react";
 import { Tab, Tabs } from "@mui/material";
 import { Link, useLocation } from "react-router-dom";
 import { styleSxTabsComponent } from "./styleSxTabsComponent";
@@ -8,7 +8,7 @@ import {
  routeAnonnsemend,
 } from "../../../../modules/ads/service/routesVariableForAds";
 
-export const TabsComponentAds = () => {
+export const TabsComponentAds = memo(() => {
  const [value, setValue] = React.useState("");
  let location = useLocation();
 
@@ -59,4 +59,4 @@ export const TabsComponentAds = () => {
    />
   </Tabs>
  );
-};
+});

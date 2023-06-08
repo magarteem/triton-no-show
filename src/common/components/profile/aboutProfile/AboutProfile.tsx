@@ -1,4 +1,4 @@
-import { Link, useParams } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import { InitialStateUserType } from "../../../../modules/user/types/userSliceType";
 import { BtnUserContact } from "./skills/BtnUserContact";
 import { SkillsLayoutMaster } from "./skills/SkillsLayoutMaster";
@@ -18,14 +18,15 @@ import s from "./aboutProfile.module.scss";
 
 interface AboutProfileType {
  userDataProfile: InitialStateUserType;
+ notHaveForms?: boolean;
 }
 
-export const AboutProfile = ({ userDataProfile }: AboutProfileType) => {
- const { isActiveForms: idMyForm, allMyForms } = useAppSelector((state) => state.userSliceReducer);
- const parseJson = idMyForm && JSON.parse(idMyForm).nameForms;
- const parseJsonId = idMyForm && JSON.parse(idMyForm).id;
+export const AboutProfile = ({ userDataProfile, notHaveForms }: AboutProfileType) => {
+ const { isActiveForms } = useAppSelector((state) => state.userSliceReducer);
+ const { nameForms: parseJson, id: parseJsonId } = isActiveForms && JSON.parse(isActiveForms);
 
  const { id_user } = useParams();
+ const { pathname } = useLocation();
  const {
   skills: { education, genre, inspiration, master, tool, workExperience },
   id_user: id_userForm,
@@ -49,9 +50,20 @@ export const AboutProfile = ({ userDataProfile }: AboutProfileType) => {
   contactRequestStatus,
  } = userDataProfile;
 
- const watchMisician = parseJson === EnumTypeAccount.MUSICIAN;
- const watchTeam = parseJson === EnumTypeAccount.TEAM;
- const watchSoundProduser = parseJson === EnumTypeAccount.SOUND_PRODUCER;
+ // const watchMisician1 = parseJson === EnumTypeAccount.MUSICIAN;
+ // const watchTeam1 = parseJson === EnumTypeAccount.TEAM;
+
+ const checkPath = () => {
+  if (pathname.includes(RouteNames.OTHER_PROFILE_USER)) {
+   const watchMisician = userDataProfile.type_account.name === EnumTypeAccount.MUSICIAN;
+   const watchTeam = userDataProfile.type_account.name === EnumTypeAccount.TEAM;
+   return { watchMisician, watchTeam };
+  } else {
+   const watchMisician = parseJson === EnumTypeAccount.MUSICIAN;
+   const watchTeam = parseJson === EnumTypeAccount.TEAM;
+   return { watchMisician, watchTeam };
+  }
+ };
 
  return (
   <>
@@ -86,16 +98,22 @@ export const AboutProfile = ({ userDataProfile }: AboutProfileType) => {
         : `${RouteNames.OTHER_PROFILE_USER}/${parseJsonId}/${RouteNames.OTHER_USER_POSTS}`
       }
      >
-      {contactRequestStatus === EnumContactRequestStatusResponse.MY_FORM || !id_user
-       ? "Мои публикации"
-       : "Публикации пользователя"}
+      {contactRequestStatus === EnumContactRequestStatusResponse.MY_FORM || !id_user ? (
+       !notHaveForms ? (
+        "Мои публикации"
+       ) : (
+        <Link to={RouteNames.ADD_NEW_ACCOUNT}>Создать аккаунт</Link>
+       )
+      ) : (
+       "Публикации пользователя"
+      )}
      </Link>
     </div>
 
     {tool.length > 0 && (
      <SkillsLayoutTools
       skillsDataItem={tool}
-      skillsCategoryTitle={watchMisician ? "Инструменты" : "Состав"}
+      skillsCategoryTitle={checkPath().watchMisician ? "Инструменты" : "Состав"}
      />
     )}
 
@@ -110,22 +128,30 @@ export const AboutProfile = ({ userDataProfile }: AboutProfileType) => {
      <WorkExperienceCard workExperience={education} skillsCategoryTitle="Образование" />
     )}
 
-    {!watchMisician && !watchTeam && (!!schedule?.Friday || !!inspiration || !!area) && (
-     <About
-      schedule={schedule}
-      watchMisician={watchMisician}
-      watchTeam={watchTeam}
-      inspiration={inspiration}
-      area={area}
-     />
-    )}
+    {pathname.includes(RouteNames.OTHER_PROFILE_USER)
+     ? !checkPath().watchMisician &&
+       !checkPath().watchTeam &&
+       (!!schedule?.Friday || !!inspiration || !!area) && (
+        <About schedule={schedule} inspiration={inspiration} area={area} />
+       )
+     : !notHaveForms &&
+       !checkPath().watchMisician &&
+       !checkPath().watchTeam &&
+       (!!schedule?.Friday || !!inspiration || !!area) && (
+        <About schedule={schedule} inspiration={inspiration} area={area} />
+       )}
 
-    {(portfolio_photo || inspiration) && (
+    {/*{!checkPath().watchMisician &&
+     !checkPath().watchTeam &&
+     (!!schedule?.Friday || !!inspiration || !!area) && (
+      <About schedule={schedule} inspiration={inspiration} area={area} />
+     )}*/}
+
+    {(portfolio_photo || !!inspiration.length) && (
      <Portfolio
       portfolio_photo={portfolio_photo}
       inspiration={inspiration}
-      watchMisician={watchMisician}
-      watchTeam={watchTeam}
+      watchAccountType={checkPath()}
      />
     )}
 

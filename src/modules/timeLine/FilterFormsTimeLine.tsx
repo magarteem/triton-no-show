@@ -22,6 +22,7 @@ interface FilterFormsTimeLineType {
  defaultFilter: FilterFormsTimeLineFieldsType;
  handleClose: () => void;
  setFilterStateFu: (data: any) => void;
+ // refetchFu: () => void;
 }
 
 interface OutletType {
@@ -37,12 +38,21 @@ export const FilterFormsTimeLine = ({
  const dispatch = useAppDispatch();
  const { setPageFu }: OutletType = useOutletContext();
 
- const { control, handleSubmit, reset, setValue, watch } = useForm<FilterFormsTimeLineFieldsType>({
+ const {
+  control,
+  handleSubmit,
+  reset,
+  setValue,
+  watch,
+  formState: { isDirty },
+ } = useForm<FilterFormsTimeLineFieldsType>({
   mode: "onBlur",
   defaultValues: filerstate,
  });
 
- const resetFormFields = () => reset(defaultFilter);
+ const resetFormFields = () => {
+  reset(defaultFilter);
+ };
 
  const onSubmit = (data: FilterFormsTimeLineFieldsType) => {
   const paramsQuery = {
@@ -54,8 +64,10 @@ export const FilterFormsTimeLine = ({
    instrumentIds: data.tools.map((x) => x.id),
   };
   handleClose();
-  dispatch(getNewsListQuery.util.resetApiState());
-  setPageFu(paramsQuery);
+  if (isDirty) {
+   dispatch(getNewsListQuery.util.resetApiState());
+   setPageFu(paramsQuery);
+  }
  };
 
  useEffect(() => {

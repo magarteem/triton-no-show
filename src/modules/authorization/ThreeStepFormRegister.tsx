@@ -27,182 +27,188 @@ import { ControllerTextField } from "../../common/hookFormControllers/Controller
 import { ControllersMetroTest } from "../../common/hookFormControllers/ControllersMetroTest";
 import { ControllerAgeRmcPicker } from "../../common/hookFormControllers/ControllerAgeRmcPicker";
 import { ControllerOpeningHoursRmcPicker } from "../../common/hookFormControllers/ControllerOpeningHoursRmcPicker";
-import s from "./style/threeStepFormRegister.module.scss";
 import { ButtonSubmitMui } from "../../common/mui-element/ButtonSubmitMui";
 import { ControllersInstitutionTypeAsync } from "../../common/hookFormControllers/ControllersInstitutionTypeAsync";
+import s from "./style/threeStepFormRegister.module.scss";
 
 interface OutletType {
-  loading: boolean;
+ loading: boolean;
 }
 
 export const ThreeStepFormRegister = () => {
-  const navigate = useNavigate();
-  const { loading }: OutletType = useOutletContext();
+ const navigate = useNavigate();
+ const { loading }: OutletType = useOutletContext();
 
-  const [load, setLoad] = useState(false);
-  const { watch, control, setValue } = useFormContext();
+ const [load, setLoad] = useState(false);
+ const { watch, control, setValue } = useFormContext();
 
-  const watchFieldType = watch("type_account")?.value;
-  const watchMisician = watchFieldType === EnumTypeAccount.MUSICIAN;
-  const watchTeam = watchFieldType === EnumTypeAccount.TEAM;
-  const watchInstitution = watchFieldType === EnumTypeAccount.INSTITUTION;
-  const watchSoundProduser = watchFieldType === EnumTypeAccount.SOUND_PRODUCER;
+ const watchFieldType = watch("type_account")?.value;
 
-  useEffect(() => {
-    loading && setLoad((prev) => !prev);
-  }, [loading]);
+ const watchMisicLover = watchFieldType === EnumTypeAccount.MUSIC_LOVER;
+ const watchMisician = watchFieldType === EnumTypeAccount.MUSICIAN;
+ const watchTeam = watchFieldType === EnumTypeAccount.TEAM;
+ const watchInstitution = watchFieldType === EnumTypeAccount.INSTITUTION;
+ const watchSoundProduser = watchFieldType === EnumTypeAccount.SOUND_PRODUCER;
 
-  useEffect(() => {
-    !!!watchFieldType && navigate(`${RouteNames.REGISTER}/${RouteNames.REG_TYPE_ACCOUNT}`);
-  }, []);
+ useEffect(() => {
+  loading && setLoad((prev) => !prev);
+ }, [loading]);
 
-  return (
-    <FormLayout textLabel="Создание анкеты">
-      <div className={s.main}>
-        {watchTeam && (
-          <ControllerTypeCollective
-            control={control}
-            name="type_collective"
-            placeholder="Вид коллектива"
-            options={teamTypeADS}
-          />
-        )}
+ console.log("watchFieldType", watchFieldType);
+ useEffect(() => {
+  !!!watchFieldType && navigate(`${RouteNames.REGISTER}/${RouteNames.REG_TYPE_ACCOUNT}`);
+ }, []);
 
-        <ControllerTextField
-          control={control}
-          name="name_field"
-          required={true}
-          placeholder={watchMisician ? "Ваше имя" : "Название"}
-        />
+ return (
+  <FormLayout textLabel="Создание анкеты">
+   <div className={s.main}>
+    {watchTeam && (
+     <ControllerTypeCollective
+      control={control}
+      name="type_collective"
+      placeholder="Вид коллектива"
+      options={teamTypeADS}
+     />
+    )}
 
-        {watchInstitution && (
-          <ControllersInstitutionTypeAsync
-            name="institutionType"
-            control={control}
-            placeholder="Тип заведения"
-            required={true}
-          />
-        )}
+    <ControllerTextField
+     control={control}
+     name="name_field"
+     required={true}
+     placeholder={watchMisician ? "Ваше имя" : "Название"}
+    />
 
-        <ControllerUploadAvatar control={control} name="img_upload" />
+    {watchInstitution && (
+     <ControllersInstitutionTypeAsync
+      name="institutionType"
+      control={control}
+      placeholder="Тип заведения"
+      required={true}
+     />
+    )}
 
-        <ControllersCityAsync
-          name="city"
-          placeholder="Город"
-          control={control}
-          setValue={setValue}
-        />
-        {!watchMisician && !watchTeam && !watchSoundProduser && !!watch("city")?.metros?.length && (
-          <ControllersMetroTest
-            name="metroId"
-            placeholder="Станция метро"
-            control={control}
-            options={watch("city")?.metros}
-          />
-        )}
+    <ControllerUploadAvatar control={control} name="img_upload" />
 
-        {!watchMisician && !watchTeam && !watchSoundProduser && (
-          <ControllerTextField
-            control={control}
-            name="address"
-            required={true}
-            placeholder={"Адрес"}
-          />
-        )}
+    <ControllersCityAsync
+     name="city"
+     // required={watchMisicLover ? false : true}
+     placeholder="Город"
+     control={control}
+     setValue={setValue}
+    />
+    {!watchMisicLover &&
+     !watchMisician &&
+     !watchTeam &&
+     !watchSoundProduser &&
+     !!watch("city")?.metros?.length && (
+      <ControllersMetroTest
+       name="metroId"
+       placeholder="Станция метро"
+       control={control}
+       options={watch("city")?.metros}
+      />
+     )}
 
-        {watchMisician && (
-          <>
-            <ControllerGender control={control} name="gender" required={false} />
-            <ControllerAgeRmcPicker control={control} name="age" />
-          </>
-        )}
+    {!watchMisicLover && !watchMisician && !watchTeam && !watchSoundProduser && (
+     <ControllerTextField control={control} name="address" required={true} placeholder={"Адрес"} />
+    )}
 
-        {(watchMisician || watchTeam) && (
-          <>
-            <ControllerToolsAsync
-              control={control}
-              placeholder={!watchTeam ? "Инструмент (род деятельности)" : "Состав"}
-              name="tool"
-              required={watchTeam ? false : true}
-            />
+    {(watchMisician || watchMisicLover) && (
+     <>
+      {!watchMisicLover && <ControllerGender control={control} name="gender" required={false} />}
+      <ControllerAgeRmcPicker control={control} name="age" />
+     </>
+    )}
 
-            <ControllerGenreAsync control={control} name="genre" />
-          </>
-        )}
+    {(watchMisicLover || watchMisician || watchTeam) && (
+     <>
+      <ControllerToolsAsync
+       control={control}
+       placeholder={!watchTeam ? "Инструмент (род деятельности)" : "Состав"}
+       name="tool"
+       required={watchTeam || watchMisicLover ? false : true}
+      />
 
-        {watchMisician && <ControllerMaster control={control} name="master" />}
+      <ControllerGenreAsync
+       control={control}
+       name="genre"
+       placeholder={watchMisicLover ? "Любимый жанр" : "Жанр"}
+       required={!watchMisicLover}
+      />
+     </>
+    )}
 
-        {(watchMisician || watchTeam) && (
-          <ControllerWorkExperience
-            control={control}
-            name="work_experience"
-            helperText="Опишите требуемый опыт"
-          />
-        )}
+    {watchMisician && <ControllerMaster control={control} name="master" />}
 
-        {watchMisician && <ControllerEducation control={control} name="education" />}
+    {(watchMisician || watchTeam) && (
+     <ControllerWorkExperience
+      control={control}
+      name="work_experience"
+      helperText="Опишите требуемый опыт"
+     />
+    )}
 
-        {(watchMisician || watchTeam) && (
-          <ControllerPrivateSettings control={control} name="private_settings" />
-        )}
+    {watchMisician && <ControllerEducation control={control} name="education" />}
 
-        <div className={s.requirements}>
-          <h2>Портфолио</h2>
-        </div>
+    {(watchMisicLover || watchMisician || watchTeam) && (
+     <ControllerPrivateSettings control={control} name="private_settings" />
+    )}
 
-        <ControllerUploadPortfolio control={control} name="portfolio_photo" />
+    <div className={s.requirements}>
+     <h2>Портфолио</h2>
+    </div>
 
-        {(watchMisician || watchTeam) && (
-          <ControllerTextArea control={control} placeholder="О себе" name="inspiration" />
-        )}
+    <ControllerUploadPortfolio control={control} name="portfolio_photo" />
 
-        <div className={s.requirements}>
-          <h2>Контакты</h2>
-        </div>
+    {(watchMisician || watchTeam) && (
+     <ControllerTextArea control={control} placeholder="О себе" name="inspiration" />
+    )}
 
-        <ControllerPhone control={control} name="phone" />
-        <ControllerEmail control={control} name="email_contact" />
-        <ControllerWebSite control={control} name="web_site" />
+    <div className={s.requirements}>
+     <h2>Контакты</h2>
+    </div>
 
-        {!watchMisician && !watchTeam && (
-          <>
-            <div className={s.requirements}>
-              <h2>Описание</h2>
-            </div>
+    <ControllerPhone control={control} name="phone" />
+    <ControllerEmail control={control} name="email_contact" />
+    <ControllerWebSite control={control} name="web_site" />
 
-            {!watchSoundProduser && (
-              <ControllerOpeningHoursRmcPicker control={control} watch={watch} required={false} />
-            )}
-            {watchInstitution && <ControllerRoomArea control={control} name="area" />}
-            {/*<InputFormEstablishmentDescription control={control} name="establishment_description" />*/}
-            <ControllerTextArea
-              control={control}
-              placeholder="Опишите ваше заведение"
-              name="inspiration"
-            />
-          </>
-        )}
+    {!watchMisicLover && !watchMisician && !watchTeam && (
+     <>
+      <div className={s.requirements}>
+       <h2>Описание</h2>
       </div>
 
-      {load ? (
-        <div className={s.btnFormWrapper}>
-          <ButtonSubmitMui
-            startIcon={
-              <CircularProgress size={25} style={{ marginRight: "10px" }} color="warning" />
-            }
-            textButton="Подождите"
-            isValidInButton={true}
-          />
-        </div>
-      ) : (
-        <div className={s.btnFormWrapper}>
-          <BtnInGroupeSaveCancelMui textCancelButton="Назад" textButton="Создать анкету" />
-        </div>
+      {!watchSoundProduser && (
+       <ControllerOpeningHoursRmcPicker control={control} watch={watch} required={false} />
       )}
+      {watchInstitution && <ControllerRoomArea control={control} name="area" />}
+      {/*<InputFormEstablishmentDescription control={control} name="establishment_description" />*/}
+      <ControllerTextArea
+       control={control}
+       placeholder="Опишите ваше заведение"
+       name="inspiration"
+      />
+     </>
+    )}
+   </div>
 
-      {/*<div className={s.btnFormWrapper}>
+   {load ? (
+    <div className={s.btnFormWrapper}>
+     <ButtonSubmitMui
+      startIcon={<CircularProgress size={25} style={{ marginRight: "10px" }} color="warning" />}
+      textButton="Подождите"
+      isValidInButton={true}
+     />
+    </div>
+   ) : (
+    <div className={s.btnFormWrapper}>
+     <BtnInGroupeSaveCancelMui textCancelButton="Назад" textButton="Создать анкету" />
+    </div>
+   )}
+
+   {/*<div className={s.btnFormWrapper}>
     <BtnInGroupeSaveCancelMui textCancelButton="Назад" textButton="Создать анкету" />
    </div>*/}
-    </FormLayout>
-  );
+  </FormLayout>
+ );
 };

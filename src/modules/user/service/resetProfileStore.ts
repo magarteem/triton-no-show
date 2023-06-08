@@ -45,4 +45,5 @@ export const resetProfileDataApiData = {
  rehearsalBaseForm: [],
  recordingStudioForm: [],
  teamForm: [],
+ musicLoverForm: [],
 };

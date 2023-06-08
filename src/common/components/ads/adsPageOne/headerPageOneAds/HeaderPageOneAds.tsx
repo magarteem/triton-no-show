@@ -20,6 +20,7 @@ export const HeaderPageOneAds = ({ data }: HeaderPageOneAdsType) => {
     <h2>{data?.title}</h2>
     {<p>{salary()?.salary || "Не коммерческое"}</p>}
     <p>{translationEmploymentType[salary()?.employmentType]}</p>
+    <p>{data.city.title}</p>
    </div>
   </div>
  );

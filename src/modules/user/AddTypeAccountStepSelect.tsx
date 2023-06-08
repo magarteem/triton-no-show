@@ -42,7 +42,6 @@ export const AddTypeAccountStepSelect = () => {
       ItemRef={ref}
       placeholder="Выбрать"
       options={convertOptions(optionsTypeAccount)}
-      //options={optionsTypeAccount}
       onChange={onChange}
       errors={errors.type_account}
       customStyles={customStyles}

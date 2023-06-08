@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { Outlet, useLocation } from "react-router-dom";
 import { TabsComponent } from "./tabsComponent/TabsComponent";
 import { HeaderStylesWrapper } from "../../layout/headerStylesWrapper/HeaderStylesWrapper";
@@ -10,15 +10,15 @@ import {
 } from "../../../modules/notification/notificationQuery";
 import { RouteNames } from "../../../core/router/RouteNames";
 import { PreLoader } from "../preLoader/PreLoader";
-import { useSwipeHandleTouchTemp } from "../../../hook/useSwipeHandleTouchTemp";
+import { useSwipeHandleTouch } from "../../../hook/useSwipeHandleTouch";
 
 const routL = RouteNames.NOTIFICATION;
 const routR = `${RouteNames.NOTIFICATION}/${RouteNames.IN_COMING_NOTIFICATION}`;
 
 export const NotificationSwitchTabs = () => {
  const refs = useRef<HTMLDivElement | null>(null);
- // const touchFu1 = useSwipeHandleTouch(routL, routR);
- useSwipeHandleTouchTemp(refs, routL, routR);
+ useSwipeHandleTouch(refs, routL, routR);
+
  const { pathname } = useLocation();
  const [outgoingPage, setOutgoingPage] = useState({ page: 0 });
  const [incomingPage, setIncoming] = useState({ page: 0 });
@@ -45,9 +45,6 @@ export const NotificationSwitchTabs = () => {
   } else dataIncoming && setIncoming({ page: dataIncoming.currentPage + 1 });
  };
 
- // const handleTouchStart = (e: MouseEvent | TouchEvent) => touchFu1("start", e);
- // const handleTouchMove = (e: MouseEvent | TouchEvent) => touchFu1("move", e);
-
  return (
   <>
    <StylesFullScreen>
@@ -59,11 +56,7 @@ export const NotificationSwitchTabs = () => {
     {isLoadingOutgoing || isLoadingIncoming ? (
      <PreLoader />
     ) : (
-     <div
-      ref={refs}
-      className="toutch"
-      // onTouchStart={handleTouchStart} onTouchMove={handleTouchMove}
-     >
+     <div ref={refs}>
       <RibbonLayout setPageFu={setPageFu} isFetching={isFetchingOutgoing || isFetchingIncoming}>
        <Outlet context={{ dataOutgoing, dataIncoming }} />
       </RibbonLayout>

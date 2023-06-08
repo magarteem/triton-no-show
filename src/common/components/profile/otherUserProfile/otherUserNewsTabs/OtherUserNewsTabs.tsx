@@ -6,7 +6,7 @@ import { InButton } from "../../../../ui-elements/button/InButton";
 import { PreLoader } from "../../../preLoader/PreLoader";
 import { CardsNewsItemPreview } from "../../../timeLine/cardsNewsItemPreview/CardsNewsItemPreview";
 import { RouteNames } from "../../../../../core/router/RouteNames";
-import { useSwipeHandleTouchTemp } from "../../../../../hook/useSwipeHandleTouchTemp";
+import { useSwipeHandleTouch } from "../../../../../hook/useSwipeHandleTouch";
 import cn from "classnames";
 import s from "../toutchStyleAnimations.module.scss";
 
@@ -16,7 +16,7 @@ const useGetAllTodoQuerySubscription =
 
 export const OtherUserNewsTabs = () => {
  const refs = useRef<HTMLDivElement | null>(null);
- useSwipeHandleTouchTemp(refs, ``, RouteNames.OTHER_USER_VACANCY);
+ useSwipeHandleTouch(refs, ``, RouteNames.OTHER_USER_VACANCY);
 
  const [id_user]: [string] = useOutletContext();
  const [page, setPage] = useState(0);

@@ -2,6 +2,7 @@ import { InterfaceGlobalSelectType } from "../../../types/interfaseGlobal/interf
 import { EnumEmploymentType } from "../../../types/PROFILE/enum/EnumEmploymentType";
 import { EnumTypeDocumentType } from "../../../types/PROFILE/enum/EnumTypeDocumentType";
 import { EnumTypeTeam } from "../../../types/PROFILE/enum/EnumTypeTeam";
+import { EnumWorkWidthMusicianType } from "../../../types/PROFILE/enum/EnumWorkWidthMusicianType";
 
 //!         Vacancy
 export const requiredVacancy: InterfaceGlobalSelectType[] = [
@@ -22,6 +23,12 @@ export const teamTypeADS: InterfaceGlobalSelectType[] = [
  { id: EnumTypeTeam.ENSEMBLE, name: "Ансамбль" },
  { id: EnumTypeTeam.GROUP, name: "Группа" },
  { id: EnumTypeTeam.ORCHESTRA, name: "Оркестр" },
+];
+
+//!         работа с  музыкантом
+export const workWidthMusicianTypeADS: InterfaceGlobalSelectType[] = [
+ { id: EnumWorkWidthMusicianType.TEACHER, name: "Ищу преподавателя" },
+ { id: EnumWorkWidthMusicianType.STUDENT, name: "Ищу ученика" },
 ];
 
 export const workingConditionsBD: InterfaceGlobalSelectType[] = [

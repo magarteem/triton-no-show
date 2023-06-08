@@ -4,7 +4,7 @@ import { FormsCreatedVacancyType } from "../types/typeFormsCreatedAds";
 
 export const selectParamsForCreateVacancy = (
  data: FormsCreatedVacancyType,
- idMyActiveForms: string
+ idMyActiveForms: { id: string; nameForms: string }
 ): RequestVacancyType => {
  const tempContact = [
   { contactType: "phone", value: data.phone },
@@ -19,7 +19,7 @@ export const selectParamsForCreateVacancy = (
  };
 
  const paramsMain = {
-  formId: idMyActiveForms,
+  formId: idMyActiveForms.id,
   title: `
    Требуется ${data.required?.name.toLowerCase()}`,
   cityId: data.city?.id,

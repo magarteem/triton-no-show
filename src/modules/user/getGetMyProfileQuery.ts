@@ -1,4 +1,4 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/dist/query/react";
+import { createApi } from "@reduxjs/toolkit/dist/query/react";
 import queryString from "query-string";
 import { doneParseLocalStorage } from "../../helpers/getJsonParseLocalStorage";
 import { PortfolioType } from "../../types/PROFILE/accountMainGlobalType";
@@ -7,23 +7,12 @@ import { FilterSearchAllFormsType } from "./types/filterSearchAllFormsType";
 import { ResponseSearchAllFormsType } from "./types/responseSearchAllForms";
 import { ProfileDataApiDataType } from "./types/userSliceType";
 import { rulesQueryInfiniteScroll } from "../../helpers/rulesQueryInfiniteScroll";
-
-//export const itemsAdapter = createEntityAdapter({
-// selectId: (item: AllFormsType) => item.formId,
-//});
-//export const itemSelector = itemsAdapter.getSelectors();
+import { baseQueryWithReauth } from "../../api/baseQuery";
 
 export const getMyProfileQuery = createApi({
  reducerPath: "getMyProfileQuery",
- baseQuery: fetchBaseQuery({
-  baseUrl: `${process.env.REACT_APP_API_URL_PROFILE}`,
-  prepareHeaders: async (headers) => {
-   headers.set("authorization", `Bearer ${localStorage.getItem(`auth-token`)}`);
-   headers.set("accept", `application/json`);
-   headers.set("form_id", doneParseLocalStorage.id);
-   return headers;
-  },
- }),
+ baseQuery: baseQueryWithReauth,
+
  endpoints: (build) => ({
   getMyProfileDataQuery: build.query<GenreGlobalType[], void>({
    query: () => ({
