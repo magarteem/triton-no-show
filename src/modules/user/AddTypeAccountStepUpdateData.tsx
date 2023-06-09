@@ -86,7 +86,13 @@ export const AddTypeAccountStepUpdateData = () => {
 
     <ControllerUploadAvatar control={control} name="img_upload" />
 
-    <ControllersCityAsync name="city" placeholder="Город" control={control} setValue={setValue} />
+    <ControllersCityAsync
+     name="city"
+     placeholder="Город"
+     control={control}
+     setValue={setValue}
+     // required={watchMisicLover ? false : true}
+    />
     {!watchMisicLover &&
      !watchMisician &&
      !watchTeam &&
@@ -115,7 +121,13 @@ export const AddTypeAccountStepUpdateData = () => {
      <>
       <ControllerToolsAsync
        control={control}
-       placeholder={!watchTeam ? "Инструмент (род деятельности)" : "Состав"}
+       placeholder={
+        watchMisicLover
+         ? "Интересующие инструменты"
+         : !watchTeam
+         ? "Инструмент (род деятельности)"
+         : "Состав"
+       }
        name="tool"
        required={watchTeam || watchMisicLover ? false : true}
       />

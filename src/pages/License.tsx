@@ -9,7 +9,14 @@ export const License = () => {
  return (
   <FormLayoutCreateADS textLabel="Соглашение" arrowCanselImgIcon={cancelImgIcon}>
    {data ? (
-    <pre style={{ whiteSpace: "pre-wrap" }} dangerouslySetInnerHTML={{ __html: data.body }} />
+    <pre
+     style={{
+      whiteSpace: "pre-wrap",
+      paddingBottom: "30px",
+      wordBreak: "break-word",
+     }}
+     dangerouslySetInnerHTML={{ __html: data.body }}
+    />
    ) : (
     <PreLoader />
    )}

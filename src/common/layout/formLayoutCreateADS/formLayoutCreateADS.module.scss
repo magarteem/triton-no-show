@@ -16,5 +16,10 @@
 
   display: flex;
   flex-direction: column;
+
+  .fixPosition {
+   position: absolute;
+   top: 60px;
+  }
  }
 }

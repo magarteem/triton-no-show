@@ -124,7 +124,13 @@ export const ThreeStepFormRegister = () => {
      <>
       <ControllerToolsAsync
        control={control}
-       placeholder={!watchTeam ? "Инструмент (род деятельности)" : "Состав"}
+       placeholder={
+        watchMisicLover
+         ? "Интересующие инструменты"
+         : !watchTeam
+         ? "Инструмент (род деятельности)"
+         : "Состав"
+       }
        name="tool"
        required={watchTeam || watchMisicLover ? false : true}
       />

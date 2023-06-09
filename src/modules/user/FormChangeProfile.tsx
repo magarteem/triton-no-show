@@ -210,7 +210,13 @@ export const FormChangeProfile = ({ userDataProfile }: FormChangeProfileType) =>
      <>
       <ControllerToolsAsync
        control={control}
-       placeholder={watchTeam ? "Состав" : "Инструмент (род деятельности)"}
+       placeholder={
+        watchMisicLover
+         ? "Интересующие инструменты"
+         : watchTeam
+         ? "Состав"
+         : "Инструмент (род деятельности)"
+       }
        name="tool"
        required={watchTeam || watchMisicLover ? false : true}
       />

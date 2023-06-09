@@ -36,3 +36,20 @@
   }
  }
 }
+
+.fixPozition {
+ position: sticky;
+ top: 0;
+ background: linear-gradient(270.95deg, #f25731 0%, #e6382d 100%);
+ animation-duration: 0.3s;
+ animation-name: tt;
+}
+
+@keyframes tt {
+ from {
+  transform: translateY(-60px);
+ }
+ to {
+  transform: translateY(0);
+ }
+}

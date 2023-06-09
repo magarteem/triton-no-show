@@ -57,11 +57,14 @@ export const AboutProfile = ({ userDataProfile, notHaveForms }: AboutProfileType
   if (pathname.includes(RouteNames.OTHER_PROFILE_USER)) {
    const watchMisician = userDataProfile.type_account.name === EnumTypeAccount.MUSICIAN;
    const watchTeam = userDataProfile.type_account.name === EnumTypeAccount.TEAM;
-   return { watchMisician, watchTeam };
+   const watchMisicLover =
+    userDataProfile.type_account.name === EnumTypeAccount.MUSIC_LOVER.toLocaleLowerCase();
+   return { watchMisician, watchTeam, watchMisicLover };
   } else {
    const watchMisician = parseJson === EnumTypeAccount.MUSICIAN;
    const watchTeam = parseJson === EnumTypeAccount.TEAM;
-   return { watchMisician, watchTeam };
+   const watchMisicLover = parseJson === EnumTypeAccount.MUSIC_LOVER;
+   return { watchMisician, watchTeam, watchMisicLover };
   }
  };
 
@@ -113,11 +116,22 @@ export const AboutProfile = ({ userDataProfile, notHaveForms }: AboutProfileType
     {tool.length > 0 && (
      <SkillsLayoutTools
       skillsDataItem={tool}
-      skillsCategoryTitle={checkPath().watchMisician ? "Инструменты" : "Состав"}
+      skillsCategoryTitle={
+       checkPath().watchMisicLover
+        ? "Интересующие инструменты"
+        : checkPath().watchMisician
+        ? "Инструменты"
+        : "Состав"
+      }
      />
     )}
 
-    {genre.length > 0 && <SkillsLayoutGenre skillsDataItem={genre} skillsCategoryTitle="Жанр" />}
+    {genre.length > 0 && (
+     <SkillsLayoutGenre
+      skillsDataItem={genre}
+      skillsCategoryTitle={checkPath().watchMisicLover ? "Любимый жанр" : "Жанр"}
+     />
+    )}
     {master && <SkillsLayoutMaster skillsDataItem={master} skillsCategoryTitle="Мастерство" />}
 
     {!!workExperience && (
