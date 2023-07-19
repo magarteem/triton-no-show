@@ -25,14 +25,14 @@ export const Portfolio = ({
  )
   return null;
 
- console.log("watchAccountType", watchAccountType);
  return (
   <>
    <AboutProfileSkillsLayout skillsCategoryTitle="Портфолио">
     {(watchAccountType.watchMisician || watchAccountType.watchTeam) && inspiration && (
      <span className={s.styleAbout}>
       <span className={s.titleSpan}>О себе:</span>
-      {inspiration}
+
+      <pre className={s.tagPreFormatter}>{inspiration}</pre>
      </span>
     )}
 

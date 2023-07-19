@@ -1,25 +1,25 @@
 @import "src/styles/variable";
 
 .formLayoutCreateADS {
- @include flex_direction_column_align_center_position();
- width: 100%;
- min-height: 100vh;
- background: linear-gradient(270.95deg, #ff7134 0%, #e02b2b 100%);
-
- .formFieldsWrapper {
-  background: #fdfdf5;
-  border-radius: 20px 20px 0px 0px;
-  padding: 24px 16px 0;
+  @include flex_direction_column_align_center_position();
   width: 100%;
-  max-width: 600px;
-  flex: 1 0 auto;
+  min-height: 100vh;
+  background: linear-gradient(270.95deg, #ff7134 0%, #e02b2b 100%);
 
-  display: flex;
-  flex-direction: column;
+  .formFieldsWrapper {
+    background-color: var(#{--body-background-default});
+    border-radius: 20px 20px 0px 0px;
+    padding: 24px 16px 0;
+    width: 100%;
+    max-width: 600px;
+    flex: 1 0 auto;
 
-  .fixPosition {
-   position: absolute;
-   top: 60px;
+    display: flex;
+    flex-direction: column;
+
+    .fixPosition {
+      position: absolute;
+      top: 60px;
+    }
   }
- }
 }

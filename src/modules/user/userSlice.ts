@@ -84,7 +84,8 @@ const userSlice = createSlice({
    .addCase(
     updateDataMyFormTypeAccountThunk.rejected.type,
     (state: InitialStateType, actions: PayloadAction<string>) => {
-     state.error = false;
+     state.error = true;
+     state.isLoading = false;
      console.log("err register");
     }
    )

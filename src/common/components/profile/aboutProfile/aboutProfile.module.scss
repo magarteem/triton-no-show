@@ -12,7 +12,7 @@
  h2 {
   font-weight: 700;
   font-size: 18px;
-  color: #212121;
+  color: var(#{--title-color-default});
  }
 
  .linkPublicationsMusician {
@@ -27,33 +27,36 @@
    height: 40px;
    font-weight: 600;
    font-size: 14px;
-   color: #2b6c00;
+   color: var(#{--green-color-text-default});
   }
  }
 
  .styleAbout {
   font-size: 16px;
   line-height: 24px;
-  color: #43483e;
+  color: var(#{--body-text-color-default});
 
   .titleSpan {
+   float: left;
    cursor: pointer;
    white-space: nowrap;
    padding-right: 8px;
    font-weight: 600;
-   color: #1a1c18;
+   color: var(#{--body-text-color-second-default});
   }
 
   .underline {
    text-decoration: underline;
   }
   .siteColor {
-   color: #2b6c00;
+   color: var(#{--green-color-text-default});
   }
- }
 
- .styleAbout.custonPadding {
-  display: block;
-  margin-bottom: 12px;
+  .tagPreFormatter {
+   font-family: "Mulish-Medium", system, sans-serif;
+   white-space: pre-wrap;
+   word-break: break-word;
+   display: inline;
+  }
  }
 }

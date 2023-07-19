@@ -9,7 +9,7 @@ export const styleTextAreaSX = {
 
   "& .MuiFormLabel-root": {
    lineHeight: "inherit",
-   color: "#1A1C18",
+   color: "TextFieldElementMui.main",
 
    "& .MuiFormLabel-asterisk": {
     color: "red",
@@ -17,14 +17,14 @@ export const styleTextAreaSX = {
   },
 
   "& .Mui-focused": {
-   color: "#1A1C18 !important",
+   color: "TextFieldElementMui.main",
   },
 
   "& .MuiInputBase-root": {
    height: "auto",
    borderRadius: "8px",
    padding: "0 14px",
-   color: "#1A1C18",
+   color: "TextFieldElementMui.main",
    fontFamily: `Mulish_Regular, sans-serif !important`,
    fontSize: "16px !important",
    fontWeight: "600 !important",
@@ -48,6 +48,10 @@ export const styleTextAreaSX = {
     color: "red !important",
     border: "1px solid red !important",
    },
+  },
+
+  "& .MuiFormHelperText-root": {
+   color: "TextFieldElementMui.helperText",
   },
  },
 };

@@ -4,9 +4,9 @@ import { useOneAnnouncementPostQuery } from "../modules/vacancy/adsQuery";
 
 export const AdsPageOneAnnouncement = () => {
  const { id_ads } = useParams();
- const { data, isLoading } = useOneAnnouncementPostQuery(id_ads || "", {
+ const { data, isLoading, refetch } = useOneAnnouncementPostQuery(id_ads || "", {
   skip: !id_ads,
  });
 
- return <AdsPageOneGlobal data={data} isLoading={isLoading} />;
+ return <AdsPageOneGlobal data={data} isLoading={isLoading} refetch={refetch} />;
 };

@@ -22,7 +22,7 @@ export const ButtonGroupe = ({ showAdsButton, checked }: ButtonGroupeType) => {
    <Button
     sx={{
      borderRight: "1px solid #bdbdbd !important",
-     color: checked ? "#5F1500  !important" : "#1A1C18 !important",
+     color: checked ? "#5F1500  !important" : "TextFieldElementMui.main",
      fontWeight: 600,
      fontSize: "14px",
 
@@ -30,14 +30,13 @@ export const ButtonGroupe = ({ showAdsButton, checked }: ButtonGroupeType) => {
      textTransform: "none",
     }}
     onClick={() => showAdsButton("Создать вакансию", true)}
-    //onClick={showVacancyButton}
    >
     {checked && <img src={checkedIcons} alt="checkedIcons" style={{ marginRight: "10px" }} />}
     Вакансия
    </Button>
    <Button
     sx={{
-     color: !checked ? "#5F1500  !important" : "#1A1C18 !important",
+     color: !checked ? "#5F1500  !important" : "TextFieldElementMui.main",
      fontWeight: 600,
      fontSize: "14px",
 

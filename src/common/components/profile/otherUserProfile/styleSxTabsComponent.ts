@@ -11,13 +11,14 @@ export const styleSxTabsComponent = {
     padding: 0,
     fontWeight: 600,
     fontSize: " 14px",
+    color: "TabsComponents.colorTitle",
 
     ["@media (max-width:340px)"]: {
      minWidth: "auto !important",
     },
    },
    "& .MuiButtonBase-root.Mui-selected": {
-    color: "#2B6C00",
+    color: "TabsComponents.colorTitleActive",
    },
   },
 

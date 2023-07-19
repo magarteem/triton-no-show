@@ -9,13 +9,13 @@
  h1 {
   font-weight: 700;
   font-size: 22px;
-  color: #43483e;
+  color: var(#{--body-text-color-default});
  }
 
  h5 {
   font-weight: 600;
   font-size: 14px;
-  color: #2b6c00;
+  color: var(#{--green-color-text-default});
  }
 }
 
@@ -29,7 +29,7 @@
  font-weight: 700;
  font-size: 18px;
  line-height: 24px;
- color: #212121;
+ color: var(#{--title-color-default});
 }
 
 .btnWrapper {

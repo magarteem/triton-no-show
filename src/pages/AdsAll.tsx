@@ -1,9 +1,8 @@
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState, useContext } from "react";
 import TextField from "@mui/material/TextField";
-import filterIconsNew1 from "../assets/icons/filterIconsNew.svg";
 import { ReactComponent as FilterIconsNew } from "../assets/icons/filterIconsNew.svg";
 import searchIcon from "../assets/icons/searchIcon.svg";
-import { Outlet, useLocation } from "react-router-dom";
+import { Outlet, useLocation, useOutletContext } from "react-router-dom";
 import { HeaderStylesWrapper } from "../common/layout/headerStylesWrapper/HeaderStylesWrapper";
 import { TabsComponentAds } from "../common/components/ads/tabsComponentAds/TabsComponentAds";
 import { useAppSelector } from "../core/redux/app/hooks";
@@ -12,10 +11,11 @@ import { FilterModalLayout } from "../common/layout/filterModalLayout/FilterModa
 import { FilterFormsAds } from "../modules/ads/FilterFormsAds";
 import {
  AdsFilterParamsRequestType,
+ OutletAdsType,
  VacancyFilterParamsRequestType,
 } from "../modules/vacancy/types/FilterFormsAdsFieldsType";
 import { ResponseAdsType } from "../modules/ads/types/responseAdsType";
-import { useListAdsQuery, useListVacancyQuery } from "../modules/vacancy/adsQuery";
+import { useListAdsQuery } from "../modules/vacancy/adsQuery";
 import { useListAccountQuery } from "../modules/user/getGetMyProfileQuery";
 import { FilterSearchAllFormsType } from "../modules/user/types/filterSearchAllFormsType";
 import { ResponseSearchAllFormsType } from "../modules/user/types/responseSearchAllForms";
@@ -26,87 +26,67 @@ import {
  routeVacancy,
 } from "../modules/ads/service/routesVariableForAds";
 import { useClearResultsqueryAds } from "../modules/ads/hooks/useClearResultsqueryAds";
-import { FormsFilterType } from "../modules/ads/types/formsFilterType";
 import { sxStyle } from "./styles/sx";
+import { filterSubmit } from "../modules/ads/helpers/filterSubmit";
+import { skipFetchQuery } from "../helpers/skipFetchQuery";
+import { useListVacancyQuery } from "../modules/vacancy/adsQueryVacancy";
+import { ColorModeContext } from "../contextProvider/MuiThemeContext";
+import { defaultFilter } from "../modules/ads/service/filterTranslate";
 import cn from "classnames";
 import s from "./styles/adsAll.module.scss";
 
-const defaultFilter = {
- city: null,
- tool: [],
- genre: [],
- gender: null,
- typeOfInstitution: null,
- teamType: null,
- who_is_looking_vacancy: null,
- who_is_looking_vacancy_partner: null,
- who_is_looking_ads: null,
- who_is_looking_questionnaire: null,
- who_is_looking_questionnaire_inner: null,
- working_width_musician: null,
- fromAge: null,
- toAge: null,
- master: null,
- query: "",
-};
-
-const defaultState = { page: 0 };
-const defaultStateRefetch = { page: 0, pageSize: 10 };
-
 export const AdsAll = () => {
+ const { mode } = useContext(ColorModeContext);
  let { pathname } = useLocation();
- const { clearListVacancy, clearListAds, clearListAccount } = useClearResultsqueryAds();
+ const { clearListVacancyPost, clearListAdsPost, clearListAccount } = useClearResultsqueryAds();
+ const { filterON, setfilterON, filterState, setFilterStateFu }: OutletAdsType = useOutletContext();
 
- const [filterState, setfilterState] = useState<FormsFilterType>(defaultFilter);
  const [open, setOpen] = useState(false);
  const handleClickOpen = () => setOpen(true);
  const handleClose = () => setOpen(false);
 
- const [filterActiv, setFilterActiv] = useState(false);
- const changeIsDirty = (isDirty: boolean) => {
-  setFilterActiv(isDirty);
- };
- const setFilterStateFu = (data: FormsFilterType) => setfilterState(data);
-
  //! --- ADS -------------------------------
- const storeListAds = useAppSelector(
-  (state) => state.adsQuery.queries.listAds?.data
- ) as ResponseAdsType;
- const [pageparamsAds, setPageparamsAds] = useState<AdsFilterParamsRequestType>(defaultState);
+ const storeListAds = useAppSelector((state) => state.adsQuery.queries.listAds);
+ const [pageparamsAds, setPageparamsAds] = useState<AdsFilterParamsRequestType>({ page: 0 });
+
  const {
   data: dataAds,
   isLoading: isLoadingAds,
   isFetching: isFetchingAds,
+  originalArgs: originalArgsAds,
  } = useListAdsQuery(pageparamsAds, {
   skip: pathname !== routeAnonnsemend,
- });
-
- //! --- ACCOUNT -------------------------------
- const storeListAccount = useAppSelector(
-  (state) => state.getMyProfileQuery.queries.listAccount?.data
- ) as ResponseSearchAllFormsType;
- const [pageparamsAccount, setPageparamsAccount] = useState<FilterSearchAllFormsType>(defaultState);
- const {
-  data: dataA,
-  isLoading: isLoadingAccount,
-  isFetching: isFetchingAccount,
- } = useListAccountQuery(pageparamsAccount, {
-  skip: pathname !== routeAccount,
  });
 
  //! --- VACANCY -------------------------------
  const storeListVacancy = useAppSelector(
   (state) => state.adsQuery.queries.listVacancy?.data
  ) as ResponseAdsType;
- const [pageparamsVacancy, setPageparamsVacancy] =
-  useState<VacancyFilterParamsRequestType>(defaultState);
+ const [pageparamsVacancy, setPageparamsVacancy] = useState<VacancyFilterParamsRequestType>({
+  page: 0,
+ });
  const {
   data: dataV,
   isLoading: isLoadingVacancy,
   isFetching: isFetchingVacancy,
   isSuccess: isSuccessVacancy,
+  originalArgs: originalArgsVacancy,
  } = useListVacancyQuery(pageparamsVacancy, {
   skip: pathname !== routeVacancy,
+ });
+
+ //! --- ACCOUNT -------------------------------
+ const storeListAccount = useAppSelector(
+  (state) => state.getMyProfileQuery.queries.listAccount?.data
+ ) as ResponseSearchAllFormsType;
+ const [pageparamsAccount, setPageparamsAccount] = useState<FilterSearchAllFormsType>({ page: 0 });
+ const {
+  data: dataA,
+  isLoading: isLoadingAccount,
+  isFetching: isFetchingAccount,
+  originalArgs: originalArgsAccount,
+ } = useListAccountQuery(pageparamsAccount, {
+  skip: pathname !== routeAccount,
  });
 
  //! --- search -------------------------------
@@ -117,6 +97,28 @@ export const AdsAll = () => {
 
  useEffect(() => {
   setValue("");
+
+  if (filterON) {
+   switch (pathname) {
+    case routeVacancy:
+     if (!skipFetchQuery(originalArgsVacancy, filterSubmit(filterState, "vacancy"))) {
+      clearListVacancyPost();
+      setPageFu(filterSubmit(filterState, "vacancy"));
+     }
+     break;
+    case routeAnonnsemend:
+     if (!skipFetchQuery(originalArgsAds, filterSubmit(filterState, "ads"))) {
+      clearListAdsPost();
+      setPageFu(filterSubmit(filterState, "ads"));
+     }
+     break;
+    default:
+     if (!skipFetchQuery(originalArgsAccount, filterSubmit(filterState, "account"))) {
+      clearListAccount();
+      setPageFu(filterSubmit(filterState, "account"));
+     }
+   }
+  }
  }, [pathname]);
 
  const setPageFu = (
@@ -152,14 +154,14 @@ export const AdsAll = () => {
  //! ----------------------------------
  const refetchFu = () => {
   if (pathname === routeVacancy) {
-   clearListVacancy();
-   setPageparamsVacancy(defaultStateRefetch);
+   clearListVacancyPost();
+   setPageparamsVacancy({ page: 0 });
   } else if (pathname === routeAnonnsemend) {
-   clearListAds();
-   setPageparamsAds(defaultStateRefetch);
+   clearListAdsPost();
+   setPageparamsAds({ page: 0 });
   } else {
    clearListAccount();
-   setPageparamsAccount(defaultStateRefetch);
+   setPageparamsAccount({ page: 0 });
   }
  };
 
@@ -181,11 +183,11 @@ export const AdsAll = () => {
    <StylesFullScreen>
     <div className={s.customAddPadding}>
      <HeaderStylesWrapper
-      //anyIconsFirst={{ img: filterIconsNew1, action: pathname }}
       anyIconsFirst={{
-       img: <FilterIconsNew className={cn({ [s.svgNode]: filterActiv })} />,
+       img: <FilterIconsNew className={cn({ [s.svgNode]: filterON })} />,
        action: pathname,
       }}
+      anyIconActivSpecified={filterON}
       onClickAnyIconsFirst={handleClickOpen}
      >
       <div className={s.styleInput}>
@@ -219,7 +221,7 @@ export const AdsAll = () => {
       isFetchingAds,
       setPageFu,
       refetchFu,
-      dataAds: dataAds ?? storeListAds,
+      dataAds: dataAds ?? storeListAds?.data,
       isLoadingVacancy,
       isFetchingVacancy,
       isSuccessVacancy,
@@ -232,7 +234,12 @@ export const AdsAll = () => {
 
     {(open || value) && (
      <FilterModalLayout
-      style={sxStyle.filterModalLayout}
+      style={{
+       ...sxStyle.filterModalLayout,
+       "& .MuiPaper-root": {
+        background: mode === "dark" ? "#2a2a2a" : "#FDFDF5",
+       },
+      }}
       modalOpen={open}
       handleClose={handleClose}
      >
@@ -242,7 +249,11 @@ export const AdsAll = () => {
        searchQuery={debouncedValue}
        filterState={filterState}
        setFilterStateFu={setFilterStateFu}
-       changeIsDirty={changeIsDirty}
+       setfilterON={setfilterON}
+       originalArgsAds={originalArgsAds}
+       originalArgsVacancy={originalArgsVacancy}
+       originalArgsAccount={originalArgsAccount}
+       defaultFilter={defaultFilter}
       />
      </FilterModalLayout>
     )}

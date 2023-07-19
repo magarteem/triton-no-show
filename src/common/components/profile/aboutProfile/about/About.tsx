@@ -33,7 +33,7 @@ export const About = ({ schedule, inspiration, area }: AboutType) => {
       {inspiration && (
         <div className={s.styleAbout}>
           <span className={s.titleSpan}>О себе:</span>
-          {inspiration}
+          <pre className={s.tagPreFormatter}>{inspiration}</pre>
         </div>
       )}
     </AboutProfileSkillsLayout>

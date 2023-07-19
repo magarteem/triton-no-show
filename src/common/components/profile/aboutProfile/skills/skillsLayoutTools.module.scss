@@ -11,7 +11,7 @@
   h2 {
    font-weight: 700;
    font-size: 18px;
-   color: #212121;
+   color: var(#{--title-color-default});
    margin-bottom: 12px;
   }
 
@@ -43,7 +43,6 @@
     @media (max-width: $mediaMaxWidth340px) {
      border-radius: 15px;
      padding: 6px;
-     // font-size: 16px;
     }
 
     img {
@@ -63,6 +62,7 @@
    }
 
    .itemHidden {
+    color: var(#{--body-text-color-second-default});
     cursor: pointer;
     background: none;
    }

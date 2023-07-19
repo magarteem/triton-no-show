@@ -67,6 +67,7 @@ export const SecondStepFormRegister = () => {
      textButton="Далее"
      isValidInButton={!!!watch("type_account")}
      onClick={nextStepRegister}
+     type="button"
     />
    </div>
   </div>

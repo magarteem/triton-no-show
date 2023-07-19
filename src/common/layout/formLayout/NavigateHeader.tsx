@@ -20,10 +20,12 @@ export const NavigateHeader = ({
 }: NavigateHeaderType) => {
  return (
   <div className={cn(s.navigateHeader, { [s.fixPozition]: fixPozition })}>
-   <div className={s.titleNavigation}>
-    <ArrowBtnStepsBack cancelImgIcon={arrowCanselImgIcon} />
-    <p>{textLabel}</p>
-   </div>
+   {window.history.length > 1 && (
+    <div className={s.titleNavigation}>
+     <ArrowBtnStepsBack cancelImgIcon={arrowCanselImgIcon} />
+     <p>{textLabel}</p>
+    </div>
+   )}
 
    <div className={s.closed}>
     {closed && (

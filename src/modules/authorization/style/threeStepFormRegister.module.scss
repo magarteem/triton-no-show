@@ -44,7 +44,7 @@
   h2 {
    font-weight: 700;
    font-size: 18px;
-   color: #212121;
+   color: var(#{--title-color-default});
   }
  }
 }

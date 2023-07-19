@@ -2,6 +2,6 @@
 
 .stylesFullScreen {
  width: 100%;
- background-color: #fdfdf5;
+ background-color: var(#{--body-background-default});
  padding: 0 16px;
 }

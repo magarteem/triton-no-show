@@ -33,11 +33,27 @@
    .title {
     display: flex;
 
+    .forDarkIcons {
+     path {
+      fill: aquamarine;
+     }
+    }
+
     p {
      margin-left: 16px;
-     color: #1a1c18;
+     color: var(#{--body-text-color-second-default});
     }
    }
+  }
+ }
+
+ .buttonAction1 {
+  font-size: 20px;
+  a {
+   font-weight: 600;
+   display: block;
+   margin: 10px;
+   color: rgb(69, 21, 243);
   }
  }
 
@@ -45,17 +61,18 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  position: absolute;
+  //position: absolute;
+  position: fixed;
   bottom: 0;
   left: 0;
   font-size: 14px;
   font-weight: 600;
   padding-bottom: 15px;
   width: 100%;
-  color: #2b6c00;
+  color: var(#{--green-color-text-default});
 
   a {
-   color: #2b6c00;
+   color: var(#{--green-color-text-default});
    text-decoration: underline;
    text-align: center;
   }

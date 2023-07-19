@@ -16,17 +16,16 @@ import cn from "classnames";
 import s from "./mainContent.module.scss";
 import { useAppSelector } from "../../../../../core/redux/app/hooks";
 import { optionTypeMyAccountLowerCase } from "../../../../../modules/user/helpers/optionTypeMyAccount";
-import { teamTypeADS } from "../../../../../modules/vacancy/service/createVacancyBD";
 import { PlaceOfWork } from "../advancedInfoForAds/PlaceOfWork";
 
 interface MainContentType {
  data: ResultAdsTypeResponse;
+ refetch: () => void;
 }
 
-export const MainContent = ({ data }: MainContentType) => {
+export const MainContent = ({ data, refetch }: MainContentType) => {
  const { allMyForms } = useAppSelector((state) => state.userSliceReducer);
 
- console.log("data = ", data);
  const muz = data.musicianAnnouncementDocument;
  const team = data.teamAnnouncementDocument;
  const producer = data.soundProducerAnnouncementDocument;
@@ -36,10 +35,12 @@ export const MainContent = ({ data }: MainContentType) => {
   <section className={s.bodyAdsPageOne}>
    <HeaderPageOneAds data={data} />
    <div className={s.about}>
-    {data.conditions?.scheduleDescription ||
-     job?.conditions.scheduleDescription ||
-     muz?.cooperationTerms ||
-     team?.cooperationTerms}
+    <pre className={s.tagPreFormatter}>
+     {data.conditions?.scheduleDescription ||
+      job?.conditions.scheduleDescription ||
+      muz?.cooperationTerms ||
+      team?.cooperationTerms}
+    </pre>
    </div>
    {muz && (
     <>
@@ -62,7 +63,9 @@ export const MainContent = ({ data }: MainContentType) => {
    {data?.experience && (
     <div className={s.styleAbout}>
      <span className={s.titleSpan}>Опыт работы/выступлений:</span>
-     {typeof data?.experience == "string" && <span>{data?.experience}</span>}
+     {typeof data?.experience == "string" && (
+      <pre className={s.tagPreFormatter}>{data?.experience}</pre>
+     )}
     </div>
    )}
 
@@ -91,7 +94,7 @@ export const MainContent = ({ data }: MainContentType) => {
    {data.description && (
     <div className={s.styleAbout}>
      <span className={s.titleSpan}>{job ? "О себе:" : "Требования:"}</span>
-     {data.description}
+     <pre className={s.tagPreFormatter}>{data.description}</pre>
     </div>
    )}
 
@@ -137,6 +140,7 @@ export const MainContent = ({ data }: MainContentType) => {
      idPost={data.id}
      statusAds={data.announcementStatusResponse}
      autorThisPost={data.form.formId}
+     refetch={refetch}
     />
    )}
   </section>

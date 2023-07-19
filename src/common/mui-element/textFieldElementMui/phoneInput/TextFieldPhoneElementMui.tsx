@@ -1,11 +1,7 @@
 import { ChangeEvent, ReactNode } from "react";
 import { TextField } from "@mui/material";
-import {
- handlePhoneInput,
- handlePhoneKeyDown,
- handlePhonePaste,
-} from "./maskPhone";
-import { stylePhoneSX } from "./stylePhoneSX";
+import { handlePhoneInput, handlePhoneKeyDown, handlePhonePaste } from "./maskPhone";
+import { styleTextFieldSX } from "../textField/styleTextFieldSX";
 
 interface TextFieldPhoneElementMuiType {
  type?: string;
@@ -45,7 +41,7 @@ export default function TextFieldPhoneElementMui({
    onInput={handlePhoneInput}
    onKeyDown={handlePhoneKeyDown}
    onPaste={handlePhonePaste}
-   sx={stylePhoneSX.input}
+   sx={styleTextFieldSX.input}
    fullWidth
    label={placeholder}
    autoComplete="off"

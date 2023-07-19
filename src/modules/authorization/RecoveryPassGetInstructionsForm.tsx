@@ -7,68 +7,64 @@ import { PreLoader } from "../../common/components/preLoader/PreLoader";
 import s from "./style/recoveryPassGetInstructionsForm.module.scss";
 
 export const RecoveryPassGetInstructionsForm = () => {
- const [requestResetPassword, { isLoading, isError, isSuccess }] =
-  useRequestResetPasswordMutation();
+  const [requestResetPassword, { isLoading, isError, isSuccess }] =
+    useRequestResetPasswordMutation();
 
- const {
-  watch,
-  control,
-  handleSubmit,
-  formState: { errors },
- } = useForm<RecoveryPassGetInstructionsFormType>({
-  mode: "onBlur",
-  defaultValues: {
-   email: "",
-  },
- });
+  const {
+    watch,
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<RecoveryPassGetInstructionsFormType>({
+    mode: "onBlur",
+    defaultValues: {
+      email: "",
+    },
+  });
 
- const onSubmit = (data: RecoveryPassGetInstructionsFormType) => {
-  requestResetPassword({ email: data.email });
- };
+  const onSubmit = (data: RecoveryPassGetInstructionsFormType) => {
+    requestResetPassword({ email: data.email });
+  };
 
- return (
-  <form className={s.recoveryPassword} onSubmit={handleSubmit(onSubmit)}>
-   <div className={s.styleInput}>
-    <h2 className={s.title}>Email</h2>
-    <Controller
-     name="email"
-     control={control}
-     rules={{
-      required: "Введите Email",
-      pattern: {
-       value: /\S+@\S+\.\S+/,
-       message: "Это не Email",
-      },
-     }}
-     render={({ field: { onChange } }) => (
-      <Input
-       type="text"
-       placeholder="Email"
-       errors={errors.email && errors.email.message}
-       errorBackgroundOrange={errors.email}
-       onChange={onChange}
-      />
-     )}
-    />
-   </div>
+  return (
+    <form className={s.recoveryPassword} onSubmit={handleSubmit(onSubmit)}>
+      <div className={s.styleInput}>
+        <h2 className={s.title}>Email</h2>
+        <Controller
+          name="email"
+          control={control}
+          rules={{
+            required: "Введите Email",
+            pattern: {
+              value: /\S+@\S+\.\S+/,
+              message: "Это не Email",
+            },
+          }}
+          render={({ field: { onChange } }) => (
+            <Input
+              type="text"
+              placeholder="Email"
+              errors={errors.email && errors.email.message}
+              errorBackgroundOrange={errors.email}
+              onChange={onChange}
+            />
+          )}
+        />
+      </div>
 
-   <div className={s.styleBtn}>
-    {isLoading ? (
-     <PreLoader />
-    ) : isSuccess ? (
-     // <a className={s.buttonAction} href={`mailto:${watch("email")}`}>
-     <InButton type="button" textButton={`Посетить почту ${watch("email")}`} />
-    ) : // </a>
-    isError ? (
-     <InButton textButton="Email не найден" />
-    ) : (
-     <InButton textButton="Отправить" />
-    )}
-   </div>
-
-   {/*<div className={s.styleBtn}>
-    <InButton textButton="Отправить" />
-   </div>*/}
-  </form>
- );
+      <div className={s.styleBtn}>
+        {isLoading ? (
+          <PreLoader />
+        ) : isSuccess ? (
+          // <a className={s.buttonAction} href={`mailto:${watch("email")}`}>
+          <InButton type="button" textButton={`Посетить почту ${watch("email")}`} />
+        ) : // </a>
+        isError ? (
+          <InButton textButton="Email не найден" />
+        ) : (
+          <InButton textButton="Отправить" />
+        )}
+      </div>
+    </form>
+  );
 };

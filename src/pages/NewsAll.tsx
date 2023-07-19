@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext } from "react";
 import { PopUpNavigateGradient } from "../common/components/navigateButton/PopUpNavigateGradient";
-import addIcons from "../assets/icons/addIcons.svg";
-import filterIconsNew from "../assets/icons/filterIconsNew.svg";
+import { ReactComponent as AddIcons } from "../assets/icons/addIcons.svg";
+import { ReactComponent as FilterIconsNew } from "../assets/icons/filterIconsNew.svg";
 import { StylesFullScreen } from "../common/layout/stylesFullScreen/StylesFullScreen";
 import { HeaderStylesWrapper } from "../common/layout/headerStylesWrapper/HeaderStylesWrapper";
 import { useOutletContext } from "react-router-dom";
@@ -19,6 +19,9 @@ import {
 import { useAppSelector } from "../core/redux/app/hooks";
 import { InButton } from "../common/ui-elements/button/InButton";
 import { CheckMyHaveAccountContext } from "../contextProvider/CheckHaveAccountContext";
+import { ColorModeContext } from "../contextProvider/MuiThemeContext";
+import cn from "classnames";
+import s from "./styles/newsAll.module.scss";
 
 const defaultFilter = {
  search_text: "",
@@ -28,15 +31,6 @@ const defaultFilter = {
  genre: [],
 };
 
-const add = {
- img: addIcons,
- action: RouteNames.ADD_NEW_NEWS,
-};
-const filter = {
- img: filterIconsNew,
- action: "",
-};
-
 interface OutletType {
  data: NewsResultType[];
  isLoading: boolean;
@@ -44,16 +38,29 @@ interface OutletType {
  setPageFu: (paramsQuery?: FilterParamsRequestType) => void;
  refetchFu: () => void;
  myProfileKey: string[];
+ originalArgs: any;
+ filterON: boolean;
+ setfilterON: (state: boolean) => void;
 }
 
 export const NewsAll = () => {
+ const { mode } = useContext(ColorModeContext);
  const { notHaveForms, handleOpen }: any = useContext(CheckMyHaveAccountContext);
  const stopeListAds = useAppSelector(
   (state) => state.getNewsListQuery.queries.infinityScrollNews?.data
  ) as ResponseNewsType;
 
- const { data, isLoading, isFetching, setPageFu, refetchFu, myProfileKey }: OutletType =
-  useOutletContext();
+ const {
+  data,
+  isLoading,
+  isFetching,
+  setPageFu,
+  refetchFu,
+  myProfileKey,
+  originalArgs,
+  filterON,
+  setfilterON,
+ }: OutletType = useOutletContext();
 
  const [filerstate, setFilerstate] = useState<FilterFormsTimeLineFieldsType>(defaultFilter);
  const [open, setOpen] = useState(false);
@@ -80,8 +87,12 @@ export const NewsAll = () => {
    <StylesFullScreen>
     <HeaderStylesWrapper
      textLabel="Лента"
-     anyIconsFirst={{ ...add, action: notHaveForms ? "" : RouteNames.ADD_NEW_NEWS }}
-     anyIconsSecond={filter}
+     anyIconsFirst={{ img: <AddIcons />, action: notHaveForms ? "" : RouteNames.ADD_NEW_NEWS }}
+     anyIconsSecond={{
+      img: <FilterIconsNew className={cn({ [s.svgNode]: filterON })} />,
+      action: "",
+     }}
+     anyIconsSecondActivSpecified={filterON}
      onClickAnyIconsFirst={handleClickshowModal}
      onClickAnyIconsSecond={handleClickOpen}
     />
@@ -117,7 +128,7 @@ export const NewsAll = () => {
        overscrollBehavior: "contain",
 
        "& .MuiPaper-root": {
-        background: "#FDFDF5",
+        background: mode === "light" ? "#FDFDF5" : "#2a2a2a",
         borderRadius: "28px 28px 0px 0px",
         width: "100%",
         margin: 0,
@@ -133,12 +144,13 @@ export const NewsAll = () => {
       filerstate={filerstate}
       defaultFilter={defaultFilter}
       setFilterStateFu={setFilterStateFu}
-      //refetchFu={refetchFu}
+      setfilterON={setfilterON}
+      originalArgs={originalArgs}
      />
     </FilterModalLayout>
    )}
 
-   <PopUpNavigateGradient />
+   {/*<PopUpNavigateGradient />*/}
   </>
  );
 };

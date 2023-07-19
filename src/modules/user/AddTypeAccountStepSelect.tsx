@@ -56,6 +56,7 @@ export const AddTypeAccountStepSelect = () => {
      textButton="Далее"
      isValidInButton={!!!watch("type_account")}
      onClick={nextStepRegister}
+     type="button"
     />
    </div>
   </div>

@@ -54,9 +54,9 @@ export const getMyProfileQuery = createApi({
   listAccount: build.query<ResponseSearchAllFormsType, FilterSearchAllFormsType | void | null>({
    query: (arg) => {
     const params = {
-     page: arg?.page || 0,
+     page: arg?.page ?? 0,
      pageSize: 10,
-     query: arg?.query,
+     query: !!arg?.query ? arg.query : undefined,
      formType: arg?.formType, //?? "Musician",
      cityId: arg?.cityIds ?? undefined,
      institutionTypeId: arg?.institutionTypeId,
@@ -65,7 +65,7 @@ export const getMyProfileQuery = createApi({
      gender: arg?.gender ?? undefined, // ?? "Male",
      ageStart: arg?.ageStart ?? undefined,
      ageEnd: arg?.ageEnd ?? undefined,
-     teamType: arg?.teamType ?? undefined,
+     teamType: arg?.teamTypes ?? undefined,
     };
 
     return {

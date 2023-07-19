@@ -6,8 +6,10 @@
  height: 30px;
  width: 30px;
 
- img {
-  // height: 24px;
-  // width: 24px;
+ .imgIcon svg {
+  path {
+   fill: #c7cac4;
+   // stroke: rgba(255, 255, 255, 0.6);
+  }
  }
 }

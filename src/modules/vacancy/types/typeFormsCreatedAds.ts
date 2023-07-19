@@ -25,7 +25,6 @@ export interface FormsCreatedVacancyType {
  whoAreLooking: InterfaceGlobalSelectType | null;
  typeOfInstitution: InterfaceGlobalSelectType | null;
  who_is_looking_questionnaire: InterfaceGlobalSelectType | null;
- who_is_looking_questionnaire_inner: InterfaceGlobalSelectType | null;
  working_width_musician: InterfaceGlobalSelectType | null;
  teamType: InterfaceGlobalSelectType | null;
 }

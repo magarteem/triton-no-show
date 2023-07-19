@@ -72,7 +72,7 @@ export const AddTypeAccountStepUpdateData = () => {
      control={control}
      name="name_field"
      required={true}
-     placeholder={watchMisician ? "Ваше имя" : "Название"}
+     placeholder={watchMisician || watchMisicLover || watchSoundProduser ? "Ваше имя" : "Название"}
     />
 
     {watchInstitution && (
@@ -91,7 +91,7 @@ export const AddTypeAccountStepUpdateData = () => {
      placeholder="Город"
      control={control}
      setValue={setValue}
-     // required={watchMisicLover ? false : true}
+     required={watchMisicLover ? false : true}
     />
     {!watchMisicLover &&
      !watchMisician &&
@@ -186,10 +186,10 @@ export const AddTypeAccountStepUpdateData = () => {
       )}
 
       {watchInstitution && <ControllerRoomArea control={control} name="area" />}
-      {/*<InputFormEstablishmentDescription control={control} name="establishment_description" />*/}
+
       <ControllerTextArea
        control={control}
-       placeholder="Опишите ваше заведение"
+       placeholder={watchSoundProduser ? "О себе" : "Опишите ваше заведение"}
        name="inspiration"
       />
      </>

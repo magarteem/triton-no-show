@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { ButtonSubmitMui } from "../../common/mui-element/ButtonSubmitMui";
 import { FormsFilterType } from "./types/formsFilterType";
@@ -29,8 +29,9 @@ import { ControllerAgeRangeRmcPicker } from "../../common/hookFormControllers/Co
 import { filterSubmit } from "./helpers/filterSubmit";
 import { routeAccount, routeAnonnsemend, routeVacancy } from "./service/routesVariableForAds";
 import { useClearResultsqueryAds } from "./hooks/useClearResultsqueryAds";
-import s from "./style/filterFormsAds.module.scss";
 import { ControllersInstitutionTypeAsync } from "../../common/hookFormControllers/ControllersInstitutionTypeAsync";
+import { skipFetchQuery } from "../../helpers/skipFetchQuery";
+import s from "./style/filterFormsAds.module.scss";
 
 const deff: FormsFilterType = {
  city: null,
@@ -43,7 +44,6 @@ const deff: FormsFilterType = {
  who_is_looking_vacancy_partner: null,
  who_is_looking_ads: null,
  who_is_looking_questionnaire: null,
- who_is_looking_questionnaire_inner: null,
  working_width_musician: null,
  fromAge: null,
  toAge: null,
@@ -56,7 +56,11 @@ interface FilterFormsAdsType {
  setPageFu: (args: AdsFilterParamsRequestType | VacancyFilterParamsRequestType) => void;
  filterState: FormsFilterType;
  setFilterStateFu: (data: any) => void;
- changeIsDirty: (isDirty: boolean) => void;
+ setfilterON: (state: boolean) => void;
+ originalArgsAds: any;
+ originalArgsVacancy: any;
+ originalArgsAccount: any;
+ defaultFilter: FormsFilterType;
 }
 
 export const FilterFormsAds = ({
@@ -65,10 +69,14 @@ export const FilterFormsAds = ({
  setPageFu,
  filterState,
  setFilterStateFu,
- changeIsDirty,
+ setfilterON,
+ originalArgsAds,
+ originalArgsVacancy,
+ originalArgsAccount,
+ defaultFilter,
 }: FilterFormsAdsType) => {
  const navigate = useNavigate();
- const { clearListVacancy, clearListAds, clearListAccount } = useClearResultsqueryAds();
+ const { clearListVacancyPost, clearListAdsPost, clearListAccount } = useClearResultsqueryAds();
  const { pathname } = useLocation();
 
  const {
@@ -77,62 +85,69 @@ export const FilterFormsAds = ({
   watch,
   reset,
   setValue,
-  formState: { isDirty, dirtyFields },
+  formState: { isDirty },
  } = useForm<FormsFilterType>({
   mode: "onBlur",
   defaultValues: filterState,
  });
+
  const who_is_looking_vacancy_partner = watch("who_is_looking_vacancy_partner")?.id;
  const who_is_looking_vacancy = watch("who_is_looking_vacancy")?.id;
  const who_is_looking_ads = watch("who_is_looking_ads")?.id;
  const who_is_looking_questionnaire = watch("who_is_looking_questionnaire")?.id;
- const who_is_looking_questionnaire_inner = watch("who_is_looking_questionnaire_inner")?.id;
 
  useEffect(() => {
   searchQuery && onSubmit({ ...deff, query: searchQuery });
  }, [searchQuery]);
 
- useEffect(() => {
-  changeIsDirty(Object.keys(dirtyFields).length > 0);
- }, [isDirty]);
-
- console.log("--------------");
- console.log(watch("who_is_looking_ads"));
- console.log(isDirty);
- console.log(dirtyFields);
- console.log("who_is_looking_ads", who_is_looking_ads);
  const resetFormFields = () => {
+  //clearListVacancyPost();
+  //clearListAdsPost();
+  //clearListAccount();
+
+  setfilterON(false);
   reset(deff);
+  setSubmitFu(defaultFilter);
  };
 
- const onSubmit = (data: FormsFilterType) => {
-  handleClose();
-  if (isDirty) {
-   switch (pathname) {
-    case routeVacancy:
-     clearListVacancy();
+ const setSubmitFu = (data: FormsFilterType) => {
+  switch (pathname) {
+   case routeVacancy:
+    if (!skipFetchQuery(originalArgsVacancy, filterSubmit(data, "vacancy"))) {
+     clearListVacancyPost();
      setPageFu(filterSubmit(data, "vacancy"));
      navigate(RouteNames.ADS);
-     break;
-    case routeAnonnsemend:
-     clearListAds();
+    }
+    break;
+   case routeAnonnsemend:
+    if (!skipFetchQuery(originalArgsAds, filterSubmit(data, "ads"))) {
+     clearListAdsPost();
      setPageFu(filterSubmit(data, "ads"));
      navigate(RouteNames.ADS_LIST);
-     break;
-    default:
+    }
+    break;
+   default:
+    if (!skipFetchQuery(originalArgsAccount, filterSubmit(data, "account"))) {
      clearListAccount();
      setPageFu(filterSubmit(data, "account"));
      navigate(RouteNames.ADS_QUESTIONNAIRE_LIST);
-   }
+    }
   }
  };
 
- // useEffect(() => {
- //  const subscription = watch((value, { name, type }) => {
- //   setFilterStateFu(value);
- //  });
- //  return () => subscription.unsubscribe();
- // }, [watch]);
+ const onSubmit = (data: FormsFilterType) => {
+  if (isDirty) setfilterON(true);
+  handleClose();
+  setSubmitFu(data);
+ };
+
+ useEffect(() => {
+  // * automatic transfer of data between tabs * //
+  const subscription = watch((value) => {
+   setFilterStateFu(value);
+  });
+  return () => subscription.unsubscribe();
+ }, [watch]);
 
  return (
   <FilterLayoutWrapper handleClose={handleClose}>
@@ -241,7 +256,7 @@ export const FilterFormsAds = ({
        <WatchMusician control={control} watch={watch} />
       ) : who_is_looking_ads === EnumTypeDocumentType.WORK ? (
        <ControllerRandomSelect
-        name="who_is_looking_questionnaire_inner"
+        name="who_is_looking_questionnaire"
         control={control}
         placeholder="Место работы"
         options={optionsTypeAccount}
@@ -250,21 +265,21 @@ export const FilterFormsAds = ({
 
      {pathname === routeAnonnsemend &&
       who_is_looking_ads === EnumTypeDocumentType.WORK &&
-      (who_is_looking_questionnaire_inner === EnumTypeAccount.MUSICIAN ? (
+      (who_is_looking_questionnaire === EnumTypeAccount.MUSICIAN ? (
        <ControllerRandomSelect
         control={control}
         placeholder="Работа с музыкантом"
         name="working_width_musician"
         options={workWidthMusicianTypeADS}
        />
-      ) : who_is_looking_questionnaire_inner === EnumTypeAccount.TEAM ? (
+      ) : who_is_looking_questionnaire === EnumTypeAccount.TEAM ? (
        <ControllerRandomSelect
         control={control}
         placeholder="Вид коллектива"
         name="teamType"
         options={teamTypeADS}
        />
-      ) : who_is_looking_questionnaire_inner === EnumTypeAccount.INSTITUTION ? (
+      ) : who_is_looking_questionnaire === EnumTypeAccount.INSTITUTION ? (
        <ControllersInstitutionTypeAsync
         name="typeOfInstitution"
         control={control}

@@ -13,10 +13,10 @@ export const styleSxAvatar = {
      "& .swiperCardIsOpenning": {
       width: "100% !important",
      },
+    },
 
-     img: {
-      width: "100% !important",
-     },
+    img: {
+     width: "100% !important",
     },
 
     "& .swiper-wrapper": {

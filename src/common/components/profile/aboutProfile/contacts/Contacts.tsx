@@ -26,8 +26,13 @@ export const Contacts = ({ phone, email, webSite }: ContactsType) => {
    )}
 
    {webSite && (
-    <a target="_blank" rel="noreferrer" href={`${webSite}`} className={s.styleAbout}>
-     <span className={s.titleSpan}>Вебсайт:</span>
+    <a
+     target="_blank"
+     rel="noreferrer"
+     href={webSite.includes("http") ? `${webSite}` : `http://${webSite}`}
+     className={s.styleAbout}
+    >
+     <span className={s.titleSpan}>Веб-сайт:</span>
      <span className={cn(s.underline, s.siteColor)}>{webSite}</span>
     </a>
    )}

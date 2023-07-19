@@ -39,7 +39,7 @@ export const SelectTypeNews = ({
         height: "100%",
         "& .MuiFormLabel-root": {
          lineHeight: "inherit",
-         color: "#1A1C18",
+         color: "TextFieldElementMui.main",
 
          "& .MuiFormLabel-asterisk": {
           color: "red",
@@ -107,11 +107,11 @@ export const SelectTypeNews = ({
          },
 
          "& .MuiSvgIcon-root": {
-          color: "#000000",
+          color: "SelectorElementMui.arrow",
          },
 
          "& .MuiSelect-select": {
-          color: "#43483E",
+          color: "TextFieldElementMui.main",
           padding: "0 14px",
           fontFamily: `Mulish_Regular, sans-serif !important`,
           fontSize: "14px !important",

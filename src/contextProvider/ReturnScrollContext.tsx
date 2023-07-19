@@ -27,8 +27,6 @@ export const ReturnScrollContext = ({ children, ...props }: Props) => {
  }, [pathname]);
 
  const setScroll = (urlPath: string, scrollY: number) => {
-  //console.log("urlPath = ", urlPath, "scrollY = ", scrollY);
-
   const m = scrollState.findIndex((x) => x.url === urlPath);
 
   if (m === -1) {

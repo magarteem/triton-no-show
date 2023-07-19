@@ -1,6 +1,6 @@
 import { Outlet, useParams } from "react-router-dom";
 import { useLayoutEffect } from "react";
-import arrow_back from "../assets/icons/arrow_back.svg";
+import { ReactComponent as ArrowBack } from "../assets/icons/arrow_back.svg";
 import { PopUpNavigateGradient } from "../common/components/navigateButton/PopUpNavigateGradient";
 import { TabsComponentOtherProfilePosts } from "../common/components/profile/otherUserProfile/TabsComponentOtherProfilePosts";
 import { HeaderStylesWrapper } from "../common/layout/headerStylesWrapper/HeaderStylesWrapper";
@@ -21,13 +21,7 @@ export const OtherUserРosts = () => {
   return (
     <>
       <StylesFullScreen>
-        <HeaderStylesWrapper
-          cancelImgIcon={arrow_back}
-          // textLabel={`Публикации ${
-          //  thisOtherUsetAllProfile?.name.split(" ")[0]
-          // }`}
-          textLabel="Публикации пользователя"
-        />
+        <HeaderStylesWrapper cancelImgIcon={<ArrowBack />} textLabel="Публикации пользователя" />
       </StylesFullScreen>
 
       <TabsComponentOtherProfilePosts />
@@ -36,7 +30,7 @@ export const OtherUserРosts = () => {
         <Outlet context={[id_user]} />
       </StylesFullScreen>
 
-      <PopUpNavigateGradient />
+      {/*<PopUpNavigateGradient />*/}
     </>
   );
 };

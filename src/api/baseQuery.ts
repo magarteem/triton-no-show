@@ -5,6 +5,7 @@ import type { BaseQueryFn, FetchArgs, FetchBaseQueryError } from "@reduxjs/toolk
 import { RootState } from "../core/redux/app/store";
 import { logout, tokenTst } from "../modules/authorization/authSlice";
 import apiSSO from "./axiosConfigSSO";
+import { clearError, setNewError } from "./errorStoreSlice";
 
 const baseQuery = fetchBaseQuery({
  baseUrl: `${process.env.REACT_APP_API_URL_PROFILE}/${variableApiURL_PROFILE}`,
@@ -48,5 +49,8 @@ export const baseQueryWithReauth: BaseQueryFn<
    api.dispatch(logout());
   }
  }
+
+ if (result?.error) api.dispatch(setNewError(result.error.status));
+
  return result;
 };

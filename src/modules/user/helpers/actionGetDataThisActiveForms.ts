@@ -16,10 +16,16 @@ export const actionGetDataThisActiveForms = (
   email: actionPayload.document?.contacts.find((x) => x.contactType === "email")?.value,
   webSite: actionPayload.document?.contacts.find((x) => x.contactType === "web-site")?.value,
 
-  city: {
-   id: !!actionPayload.document?.city?.id ? actionPayload.document.city.id : 0,
-   name: !!actionPayload.document?.city?.title ? actionPayload.document.city.title : "",
-  },
+  city: actionPayload.document?.city
+   ? {
+      id: actionPayload.document.city.id,
+      name: actionPayload.document.city.title,
+     }
+   : null,
+  //city: {
+  // id: !!actionPayload.document?.city?.id ? actionPayload.document.city.id : 0,
+  // name: !!actionPayload.document?.city?.title ? actionPayload.document.city.title : "",
+  //},
   age: new Date(actionPayload.document?.birthday).getTime() || 0,
   avatar: actionPayload.avatar || null,
   gender: genderBD.find((x) => x.id === actionPayload.document?.gender) || null,

@@ -13,7 +13,7 @@ import {
 import "./styleTools.css";
 import cn from "classnames";
 import { Stack } from "@mui/system";
-import { useEffect, useState } from "react";
+import { useEffect, useContext, useState } from "react";
 import { styleSxTool } from "./styleSxTool";
 import {
  InstrumentGlobalType,
@@ -22,6 +22,7 @@ import {
 import exportIconsSVG from "../../../assets/icons/iconsTools/exportIconsSVG";
 import { ChipsElement } from "./ChipsElement";
 import { GroupeElement } from "./GroupeElement";
+import { ColorModeContext } from "../../../contextProvider/MuiThemeContext";
 
 interface SelectToolsElementType {
  placeholder: string;
@@ -43,6 +44,8 @@ export const SelectToolsElement = ({
  required = false,
  ...props
 }: SelectToolsElementType) => {
+ const { checkThemeDark } = useContext(ColorModeContext);
+
  const [classesHiddenCount, setClassesHiddenCount] = useState<number | null>(0);
  const [personName, setPersonName] = useState<string[]>(value.map((x: any) => x.name));
  const [open, setOpen] = useState(false);
@@ -101,11 +104,20 @@ export const SelectToolsElement = ({
     value={personName}
     onChange={handleChange}
     input={<OutlinedInput label={placeholder} />}
-    MenuProps={{ sx: styleSxTool.MenuProps }}
+    MenuProps={{
+     sx: {
+      ...styleSxTool.MenuProps,
+      "& .MuiPaper-root": {
+       padding: "10px 16px !important",
+       height: "75vh",
+       background: checkThemeDark ? "#2a2a2a" : "",
+      },
+     },
+    }}
     sx={styleSxTool.select}
     renderValue={(selected) => {
      return (
-      <Stack direction="row" spacing={1} sx={styleSxTool.stack}>
+      <Stack direction="row" display={"-webkit-flex"} spacing={1} sx={styleSxTool.stack}>
        {selected.map((values: any) => {
         return (
          <ChipsElement

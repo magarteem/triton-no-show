@@ -1,5 +1,6 @@
 import { Button } from "@mui/material";
-import { ReactNode } from "react";
+import { ReactNode, useContext } from "react";
+import { ColorModeContext } from "../../contextProvider/MuiThemeContext";
 
 interface ButtonSubmitMuiType {
  textButton: string;
@@ -15,6 +16,8 @@ export const ButtonSubmitMui = ({
  startIcon,
  ...props
 }: ButtonSubmitMuiType) => {
+ const { mode } = useContext(ColorModeContext);
+
  return (
   <Button
    startIcon={startIcon}
@@ -30,14 +33,10 @@ export const ButtonSubmitMui = ({
     textTransform: "none",
     fontFamily: `Mulish_Regular, sans-serif !important`,
 
-    "@media screen and (max-width: 400px)": {
-     // padding: "6px 0 !important",
-    },
-
     "&:disabled": {
-     color: "rgba(0, 0, 0, 0.26)",
+     color: "Button.disabled",
      boxShadow: "none",
-     background: "rgba(0, 0, 0, 0.12)",
+     background: mode === "dark" ? "#e3e3dc1f" : "rgba(0, 0, 0, 0.12)",
     },
 
     "&:hover": {

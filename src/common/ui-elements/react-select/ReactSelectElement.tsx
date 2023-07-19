@@ -10,7 +10,9 @@ interface ReactSelectElementType {
  placeholder: string;
  value?: any;
  options: IndividualTempType[];
- onChange: () => void;
+ // onChange: () => void;
+ //test entry string for =>  onChange: any;
+ onChange: any;
  customStyles?: StylesConfig;
  isMulti?: boolean;
  errors?: any;
@@ -31,10 +33,7 @@ export const ReactSelectElement = ({
  return (
   <div className="wrapperSelect">
    <Select
-    className={cn(
-     `custom_style_container_typeAccount_reg`,
-     { styleError: errors }
-    )}
+    className={cn(`custom_style_container_typeAccount_reg`, { styleError: errors })}
     classNamePrefix="custom_style_list_typeAccount_reg"
     placeholder={placeholder}
     isSearchable={false}
@@ -46,9 +45,7 @@ export const ReactSelectElement = ({
     ref={ItemRef}
     {...props}
    />
-   {errors && (
-    <span className="error">{errors.message}</span>
-   )}
+   {errors && <span className="error">{errors.message}</span>}
   </div>
  );
 };

@@ -1,17 +1,17 @@
 @import "src/styles/variable";
 
 .skills {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 24px 0 24px;
+ display: flex;
+ justify-content: space-between;
+ align-items: center;
+ padding: 24px 0 24px;
 
-  .profileData {
-    h2 {
-      font-weight: 700;
-      font-size: 20px;
-      color: #212121;
-      margin-bottom: 20px;
-    }
+ .profileData {
+  h2 {
+   font-weight: 700;
+   font-size: 20px;
+   color: var(#{--title-color-default});
+   margin-bottom: 20px;
   }
+ }
 }

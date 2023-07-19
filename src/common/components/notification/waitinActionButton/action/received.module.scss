@@ -1,44 +1,44 @@
 @import "src/styles/variable";
 
 .received {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+ width: 100%;
+ display: flex;
+ align-items: center;
+ justify-content: space-between;
 
-  @media (min-width: $mediaMaxWidth575px) {
-    justify-content: flex-start;
-    gap: 30px;
-  }
+ @media (min-width: $mediaMaxWidth575px) {
+  justify-content: flex-start;
+  gap: 30px;
+ }
+
+ @media (max-width: $mediaMaxWidth340px) {
+  flex-direction: column;
+  gap: 10px;
+ }
+
+ .status {
+  color: var(#{--green-color-text-default});
 
   @media (max-width: $mediaMaxWidth340px) {
-    flex-direction: column;
-    gap: 10px;
+   align-self: flex-start;
   }
 
-  .status {
-    color: #2b6c00;
+  img {
+   margin-right: 6px;
+  }
+ }
 
-    @media (max-width: $mediaMaxWidth340px) {
-      align-self: flex-start;
-    }
+ .showAuthor {
+  color: var(#{--green-color-text-default});
+  height: 40px;
 
-    img {
-      margin-right: 6px;
-    }
+  @media (max-width: $mediaMaxWidth340px) {
+   width: 100%;
   }
 
-  .showAuthor {
-    color: #2b6c00;
-    height: 40px;
-
-    @media (max-width: $mediaMaxWidth340px) {
-      width: 100%;
-    }
-
-    .btnWrapper {
-      @include flex_horizont_position();
-      height: 40px;
-    }
+  .btnWrapper {
+   @include flex_horizont_position();
+   height: 40px;
   }
+ }
 }

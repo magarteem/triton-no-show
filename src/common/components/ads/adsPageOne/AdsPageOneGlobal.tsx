@@ -1,6 +1,6 @@
-import arrow_back from "../../../../assets/icons/arrow_back.svg";
-import shareIcons from "../../../../assets/icons/shareIcons.svg";
-import moreButtonCircle from "../../../../assets/icons/more-button-circle.svg";
+import { ReactComponent as ArrowBack } from "../../../../assets/icons/arrow_back.svg";
+import { ReactComponent as ShareIcons } from "../../../../assets/icons/shareIcons.svg";
+import { ReactComponent as MoreButtonCircle } from "../../../../assets/icons/more-button-circle.svg";
 import { StylesFullScreen } from "../../../layout/stylesFullScreen/StylesFullScreen";
 import { HeaderStylesWrapper } from "../../../layout/headerStylesWrapper/HeaderStylesWrapper";
 import { LongMenu } from "../../../mui-element/LongMenu";
@@ -10,24 +10,25 @@ import { MainContent } from "./mainContent/MainContent";
 import { PreLoader } from "../../preLoader/PreLoader";
 
 interface AdsPageOneGlobalType {
-  data: ResultAdsTypeResponse | undefined;
-  isLoading: boolean;
+ data: ResultAdsTypeResponse | undefined;
+ isLoading: boolean;
+ refetch: () => void;
 }
 
-export const AdsPageOneGlobal = ({ data, isLoading }: AdsPageOneGlobalType) => {
-  return (
-    <StylesFullScreen>
-      <div>
-        <HeaderStylesWrapper
-          cancelImgIcon={arrow_back}
-          textLabel="Обявления"
-          share={shareIcons}
-          tsxElement={
-            <LongMenu moreButtonCircle={moreButtonCircle} options={useAdsOptionsLongMenu(data)} />
-          }
-        />
-        {isLoading ? <PreLoader /> : data ? <MainContent data={data} /> : null}
-      </div>
-    </StylesFullScreen>
-  );
+export const AdsPageOneGlobal = ({ data, isLoading, refetch }: AdsPageOneGlobalType) => {
+ return (
+  <StylesFullScreen>
+   <div>
+    <HeaderStylesWrapper
+     cancelImgIcon={<ArrowBack />}
+     textLabel="Объявления"
+     share={<ShareIcons />}
+     tsxElement={
+      <LongMenu moreButtonCircle={<MoreButtonCircle />} options={useAdsOptionsLongMenu(data)} />
+     }
+    />
+    {isLoading ? <PreLoader /> : data ? <MainContent data={data} refetch={refetch} /> : null}
+   </div>
+  </StylesFullScreen>
+ );
 };

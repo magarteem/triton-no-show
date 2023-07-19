@@ -12,6 +12,7 @@ import { useRef } from "react";
 import { useSwipeHandleTouch } from "../../../../../hook/useSwipeHandleTouch";
 import cn from "classnames";
 import s from "../toutchStyleAnimations.module.scss";
+import { InButton } from "../../../../ui-elements/button/InButton";
 
 const useGetAllTodoQueryState1 = getMyProfileQuery.endpoints.getOtherUserProfileForID.useQueryState;
 const useGetAllTodoQueryState = otherUserDataQuery.endpoints.getByUser.useQueryState;
@@ -36,18 +37,21 @@ export const OtherUserQuestionnaireTabs = () => {
 
  const get_by_user_Id = dataQ ? Object.values(dataQ)[0].tritoneUserId : "";
 
- const { data, isLoading, isFetching, isSuccess } = useGetAllTodoQueryState(get_by_user_Id);
+ const { data, isLoading, isFetching, isSuccess, isError } =
+  useGetAllTodoQueryState(get_by_user_Id);
  useGetAllTodoQuerySubscription(get_by_user_Id, { skip: !get_by_user_Id });
 
  if (isLoading) return <PreLoader />;
- if (!isSuccess) return <PreLoader />;
+ // if (isError) return <InButton textButton="Ошибка запроса" isValidInButton={true} />;
 
  return (
   <div ref={refs} className={cn(s.hiddenAnimationRight, s.minHeight100)}>
    <RibbonLayout isFetching={isFetching}>
-    {data.map((x: any) => (
-     <QuestionnaireCards key={x.formId} x={x} />
-    ))}
+    {!isError ? (
+     data?.map((x: any) => <QuestionnaireCards key={x.formId} x={x} />)
+    ) : (
+     <InButton textButton="Ошибка запроса" isValidInButton={true} />
+    )}
    </RibbonLayout>
   </div>
  );

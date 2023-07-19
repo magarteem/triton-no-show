@@ -2,7 +2,7 @@
 .item {
  display: flex;
  align-items: center;
- color: #1a1c18;
+ color: var(#{--body-text-color-second-default});
  font-size: 14px;
  background: linear-gradient(0deg, rgba(43, 108, 0, 0.08), rgba(43, 108, 0, 0.08)), #fdfdf5;
  border: 1px solid #66784e;

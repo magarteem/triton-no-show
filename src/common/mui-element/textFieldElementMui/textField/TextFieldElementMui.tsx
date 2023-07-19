@@ -1,6 +1,8 @@
-import React, { ChangeEvent, ReactNode } from "react";
+import { ChangeEvent, ReactNode, useContext } from "react";
 import { TextField } from "@mui/material";
 import { styleTextFieldSX } from "./styleTextFieldSX";
+import { ColorModeContext } from "../../../../contextProvider/MuiThemeContext";
+import s from "./styleForThemeMui.module.scss";
 
 interface TextFieldElementMuiType {
  type?: string;
@@ -34,6 +36,8 @@ export default function TextFieldElementMui({
  onFocus,
  ...props
 }: TextFieldElementMuiType) {
+ const { mode } = useContext(ColorModeContext);
+
  return (
   <TextField
    onFocus={onFocus}
@@ -44,6 +48,7 @@ export default function TextFieldElementMui({
    error={errors}
    type={type}
    value={inputValue}
+   className={mode === "dark" ? s.no_darkTheme : s.darkTheme}
    sx={styleTextFieldSX.input}
    fullWidth
    label={placeholder}

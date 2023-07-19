@@ -15,36 +15,6 @@ import {
 import { SnackbarGlobal, StateSnackbarType } from "../common/mui-element/snackbar/SnackbarGlobal";
 import s from "./styles/registrationPage.module.scss";
 
-const defaultForm = {
-  email: "",
-  password: "",
-  type_account: null,
-  type_collective: null,
-  institutionType: null,
-  name_field: "",
-  img_upload: "",
-  city: null,
-  gender: null,
-  age: null,
-  tool: [],
-  genre: [],
-  master: null,
-  work_experience: "",
-  portfolio_photo: [],
-  education: "",
-  private_settings: null,
-  inspiration: "",
-  web_site: "",
-  email_contact: "",
-  phone: "",
-  area: null,
-  establishment_description: "",
-  from_opening_hours: null,
-  to_opening_hours: null,
-  address: "",
-  check: false,
-};
-
 export const Registration = () => {
   const { error, responseLogin, loading, thisMyFormsId } = useAppSelector(
     (state) => state.authSliceReducer
@@ -58,7 +28,34 @@ export const Registration = () => {
 
   const method = useForm<ISignUpFormValues>({
     mode: "onBlur",
-    defaultValues: defaultForm,
+    defaultValues: {
+      email: "",
+      password: "",
+      type_account: null,
+      type_collective: null,
+      institutionType: null,
+      name_field: "",
+      img_upload: "",
+      city: null,
+      gender: null,
+      age: null,
+      tool: [],
+      genre: [],
+      master: null,
+      work_experience: "",
+      portfolio_photo: [],
+      education: "",
+      private_settings: null,
+      inspiration: "",
+      web_site: "",
+      email_contact: "",
+      phone: "",
+      area: null,
+      from_opening_hours: null,
+      to_opening_hours: null,
+      address: "",
+      check: false,
+    },
   });
 
   useEffect(() => {
@@ -126,7 +123,15 @@ export const Registration = () => {
   return (
     <WrapperFullScreen>
       <FormProvider {...method}>
-        <form noValidate className={s.formRegister} onSubmit={method.handleSubmit(onSubmit)}>
+        <form
+          noValidate
+          className={s.formRegister}
+          // onSubmit={method.handleSubmit(onSubmit)}
+          onSubmit={(e) => {
+            e.stopPropagation();
+            return method.handleSubmit(onSubmit)(e);
+          }}
+        >
           <Outlet context={{ responseLogin, loading, error }} />
         </form>
       </FormProvider>

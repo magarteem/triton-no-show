@@ -6,17 +6,17 @@ import { RouteNames } from "../../../../core/router/RouteNames";
 
 export const TabsComponentOtherProfilePosts = () => {
  const [value, setValue] = React.useState("");
- let location = useLocation();
+ let { pathname } = useLocation();
 
  useEffect(() => {
-  location.pathname.includes(RouteNames.OTHER_USER_VACANCY)
+  pathname.includes(RouteNames.OTHER_USER_VACANCY)
    ? setValue(RouteNames.OTHER_USER_VACANCY)
-   : location.pathname.includes(RouteNames.OTHER_USER_ADS)
+   : pathname.includes(RouteNames.OTHER_USER_ADS)
    ? setValue(RouteNames.OTHER_USER_ADS)
-   : location.pathname.includes(RouteNames.OTHER_USER_QUESTIONNAIRE)
+   : pathname.includes(RouteNames.OTHER_USER_QUESTIONNAIRE)
    ? setValue(RouteNames.OTHER_USER_QUESTIONNAIRE)
    : setValue("");
- }, [location]);
+ }, [pathname]);
 
  const handleChange = (event: React.SyntheticEvent, newValue: string) => {
   setValue(newValue);

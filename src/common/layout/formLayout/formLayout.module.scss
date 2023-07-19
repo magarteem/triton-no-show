@@ -3,19 +3,16 @@
 .formLayout {
  @include flex_direction_column_align_center_position();
  width: 100%;
-
- // background: linear-gradient(
- //  270.95deg,
- //  #ff7134 0%,
- //  #e02b2b 100%
- // );
+ min-height: 100vh;
  background: $backgroundFonts;
 
  .formFieldsWrapper {
-  background: #fdfdf5;
+  background-color: var(#{--body-background-default});
   border-radius: 20px 20px 0px 0px;
   padding: 24px 16px 0;
   width: 100%;
   max-width: 600px;
+
+  flex: 1 0 auto;
  }
 }

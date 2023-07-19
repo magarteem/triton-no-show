@@ -13,7 +13,7 @@
 
     .formFieldsWrapper {
       margin: 20px 0;
-      background: #fdfdf5;
+      background-color: var(#{--body-background-default});
       border-radius: 20px;
       padding: 16px;
       max-width: 600px;

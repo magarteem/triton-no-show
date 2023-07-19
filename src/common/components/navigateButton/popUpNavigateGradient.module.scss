@@ -24,15 +24,10 @@
    cursor: pointer;
    left: 50%;
    transform: translateX(-50%);
-   // left: 145px;
    top: -30px;
    width: 60px;
    height: 60px;
-   background: linear-gradient(
-    270.95deg,
-    #ff7134 0%,
-    #e02b2b 100%
-   );
+   // background: linear-gradient(270.95deg, #ff7134 0%, #e02b2b 100%);
    border-radius: 40px;
 
    .plas {
@@ -50,11 +45,7 @@
      position: absolute;
      content: "";
      display: block;
-     background: linear-gradient(
-      270.95deg,
-      #ff7134 0%,
-      #e02b2b 100%
-     );
+     background: linear-gradient(270.95deg, #ff7134 0%, #e02b2b 100%);
      width: 12px;
      height: 2px;
     }
@@ -62,13 +53,44 @@
      transform: rotate(90deg);
     }
    }
+
+   .plasDarkMode {
+    background-color: #5f1500;
+    border: 2px solid #5f1500;
+    &:before,
+    &:after {
+     background: linear-gradient(270.95deg, rgba(255, 113, 52, 0.8) 0%, rgba(224, 43, 43, 0.8) 100%),
+      linear-gradient(0deg, #ffffff, #ffffff);
+    }
+   }
+  }
+
+  .lightThemeCenterButton {
+   background: linear-gradient(270.95deg, #ff7134 0%, #e02b2b 100%);
+  }
+  .darkThemeCenterButton {
+   background: linear-gradient(270.95deg, rgba(255, 113, 52, 0.8) 0%, rgba(224, 43, 43, 0.8) 100%),
+    linear-gradient(0deg, #ffffff, #ffffff);
   }
  }
+
  .tapLeftBlock,
  .tapRightBlock {
   position: relative;
   @include flex_position();
   flex: 1 0 30%;
+
+  &:before {
+   z-index: -1;
+   position: absolute;
+   display: block;
+   left: -2px;
+   top: 4px;
+   content: "";
+   width: 3px;
+   height: 100%;
+   background-color: #8bc34a;
+  }
 
   a {
    @include flex_position();
@@ -84,49 +106,32 @@
 
  .tapLeftBlock {
   border-top-left-radius: 10px;
-  background: linear-gradient(
-   94deg,
-   rgba(66, 110, 35, 1) 0%,
-   rgba(115, 163, 67, 1) 100%
-  );
+ }
 
-  &:before {
-   z-index: -1;
-   position: absolute;
-   display: block;
-   right: -2px;
-   top: 4px;
-   content: "";
-   width: 3px;
-   height: 100%;
-   background-color: #7aa34a;
-  }
-
+ .lightBacgroundL {
+  background: linear-gradient(94deg, rgba(66, 110, 35, 1) 0%, rgba(115, 163, 67, 1) 100%);
   .specifiedFill {
    stroke: rgb(255, 255, 255);
    fill: #ffffff;
   }
  }
+ .darkBacgroundL {
+  background: linear-gradient(94deg, rgb(122 191 33) 0%, rgb(134 211 58) 100%);
+  .specifiedFill {
+   stroke: #ffffff;
+   fill: #fdfffc;
+  }
+ }
 
  .tapRightBlock {
   border-top-right-radius: 10px;
-  background: linear-gradient(
-   93deg,
-   #8fc155 0%,
-   #bef574 100%
-  );
+ }
 
-  &:before {
-   z-index: -1;
-   position: absolute;
-   display: block;
-   left: -2px;
-   top: 4px;
-   content: "";
-   width: 3px;
-   height: 100%;
-   background-color: #8bc34a;
-  }
+ .lightBacgroundR {
+  background: linear-gradient(93deg, #8fc155 0%, #bef574 100%);
+ }
+ .darkBacgroundR {
+  background: linear-gradient(93deg, rgb(135 214 70) 0%, rgb(137 219 92) 100%);
  }
 
  .active {
@@ -143,6 +148,14 @@
 
    path {
     stroke: rgb(255, 115, 0);
+   }
+  }
+
+  .iconDark {
+   stroke: #133800;
+   fill: #133800;
+   path {
+    stroke: #133800;
    }
   }
 

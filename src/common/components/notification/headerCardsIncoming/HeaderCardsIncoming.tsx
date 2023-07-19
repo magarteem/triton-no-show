@@ -28,14 +28,13 @@ export const HeaderCardsIncoming = ({
     <div className={s.infoAuthor}>
      <h2 className={s.name}>{x.triggerForm?.name}</h2>
      <span className={s.visit}>
-      {`${optionTypeMyAccountLowerCase[x.triggerForm.formType.toLowerCase()]}, ${
-       x.triggerForm.city.title
-      }`}
+      {`${optionTypeMyAccountLowerCase[x.triggerForm.formType.toLowerCase()]}`}
+      {x.triggerForm.city?.title && `${", " + x.triggerForm.city.title}`}
      </span>
      <p className={s.triggetInfo}>
-      {`${x.type === "Contact" ? "" : "на"}`}{" "}
-      <span>{` ${x.type === "Contact" ? "Запрашивает контакты" : x.announcement?.title}`}</span>{" "}
-      {`, от ${dateDeclension(new Date(x.triggerForm.createdDate).getTime(), "D MMMM")}`}{" "}
+      {`${x.type === "Contact" ? "" : "на"}`}
+      <span>{` ${x.type === "Contact" ? "Запрашивает контакты" : x.announcement?.title}`}</span>
+      {`, от ${dateDeclension(new Date(x.triggerForm.createdDate).getTime(), "D MMMM")}`}
      </p>
     </div>
    </Link>

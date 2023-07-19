@@ -1,0 +1,13 @@
+@import "src/styles/variable";
+
+.darkTheme div input {
+ &:disabled {
+  -webkit-text-fill-color: #000;
+ }
+}
+
+.no_darkTheme div input {
+ &:disabled {
+  -webkit-text-fill-color: #fff;
+ }
+}

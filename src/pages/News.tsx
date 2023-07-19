@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../core/redux/app/hooks";
 import { getNewsListQuery, useInfinityScrollNewsQuery } from "../modules/timeLine/getNewsListQuery";
@@ -7,12 +7,12 @@ import { FilterParamsRequestType } from "../modules/timeLine/types/FilterFormsTi
 export const News = () => {
  const dispatch = useAppDispatch();
  const myProfileKey = useAppSelector((state) => state.userSliceReducer.allMyForms);
-
+ const [filterON, setfilterON] = useState(false);
  const [pageparams, setPageparams] = useState<FilterParamsRequestType>({
   page: 0,
  });
 
- const { data, isLoading, isFetching } = useInfinityScrollNewsQuery(pageparams);
+ const { data, isLoading, isFetching, originalArgs } = useInfinityScrollNewsQuery(pageparams);
  const refetchFu = () => {
   dispatch(getNewsListQuery.util.resetApiState());
   setPageparams({
@@ -39,9 +39,26 @@ export const News = () => {
   }
  };
 
+ useEffect(() => {
+  return () => {
+   // reset filer after return this pages if filter is active
+   if (filterON) dispatch(getNewsListQuery.util.resetApiState());
+  };
+ }, [filterON]);
+
  return (
   <Outlet
-   context={{ data: data?.results, isLoading, isFetching, setPageFu, refetchFu, myProfileKey }}
+   context={{
+    data: data?.results,
+    isLoading,
+    isFetching,
+    setPageFu,
+    refetchFu,
+    myProfileKey,
+    originalArgs,
+    filterON,
+    setfilterON,
+   }}
   />
  );
 };

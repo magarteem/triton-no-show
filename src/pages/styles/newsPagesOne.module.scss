@@ -20,7 +20,7 @@
    font-family: $font_Mulish_normal, sans-serif;
    white-space: pre-wrap;
    font-size: 16px;
-   color: #43483e;
+   color: var(#{--body-text-color-default});
    height: auto;
    line-height: 24px;
    letter-spacing: 0.5px;

@@ -19,3 +19,54 @@ $text-text_primary: #242424;
 
 $primary-scale: linear-gradient(270.95deg, #bcf373 0%, #467326 100%);
 $backgroundFonts: linear-gradient(347.98deg, #ba0000 -54.41%, #ff864c 92.25%);
+
+// ? ----------
+//color: var(#{--green-color-text-default});
+$green-color-text-dark: #43a303;
+$green-color-text-light: #2b6c00;
+
+//color: var(#{--name-profile-color-default});
+$name-profile-color-dark: #cfcfcd;
+$name-profile-color-light: #363934;
+
+//color: var(#{--title-color-default});
+$title-color-dark: #fdfdf5;
+$title-color-light: #212121;
+
+//background-color: var(#{--body-background-default});
+$body-background-dark: #1a1c18;
+$body-background-light: #fdfdf5;
+
+//color: var(#{--body-text-color-default});
+$body-text-color-dark: #f5f4f3;
+$body-text-color-light: #43483e;
+
+//color: var(#{--body-text-color-second-default});
+$body-text-color-second-dark: #c7cac4;
+$body-text-color-second-light: #1a1c18;
+
+:root {
+ --green-color-text-dark: #{$green-color-text-dark};
+ --green-color-text-light: #{$green-color-text-light};
+ --green-color-text-default: var(#{--green-color-text-dark});
+
+ --name-profile-color-dark: #{$name-profile-color-dark};
+ --name-profile-color-light: #{$name-profile-color-light};
+ --name-profile-color-default: var(#{--name-profile-color-dark});
+
+ --title-color-dark: #{$title-color-dark};
+ --title-color-light: #{$title-color-light};
+ --title-color-default: var(#{--title-color-dark});
+
+ --body-background-dark: #{$body-background-dark};
+ --body-background-light: #{$body-background-light};
+ --body-background-default: var(#{--body-background-dark});
+
+ --body-text-color-dark: #{$body-text-color-dark};
+ --body-text-color-light: #{$body-text-color-light};
+ --body-text-color-default: var(#{--body-text-color-dark});
+
+ --body-text-color-second-dark: #{$body-text-color-second-dark};
+ --body-text-color-second-light: #{$body-text-color-second-light};
+ --body-text-color-second-default: var(#{--body-text-color-second-dark});
+}

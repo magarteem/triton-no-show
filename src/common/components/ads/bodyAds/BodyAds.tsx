@@ -9,51 +9,41 @@ import { optionTypeMyAccountLowerCase } from "../../../../modules/user/helpers/o
 import s from "./bodyAds.module.scss";
 
 interface BodyAdsType {
- x: ResultAdsTypeResponse;
+  x: ResultAdsTypeResponse;
 }
 
 export const BodyAds = ({ x }: BodyAdsType) => {
- return (
-  <div className={s.bodyAds}>
-   <div className={s.flexPositions}>
-    <NavLink to={`${RouteNames.OTHER_PROFILE_USER}/${x.form.formId}`} className={s.avatarBlock}>
-     <Avatar alt="avatar" src={x.form.avatar?.uri || noAvatar} />
-    </NavLink>
+  return (
+    <div className={s.bodyAds}>
+      <div className={s.flexPositions}>
+        <NavLink to={`${RouteNames.OTHER_PROFILE_USER}/${x.form.formId}`} className={s.avatarBlock}>
+          <Avatar alt="avatar" src={x.form.avatar?.uri || noAvatar} />
+        </NavLink>
 
-    <div className={s.city}>
-     <h3>
-      {optionTypeMyAccountLowerCase[x.form.type?.toLowerCase() ?? x.form.formType?.toLowerCase()]}
-     </h3>
-     <p>{`${x.form.name}`}</p>
-    </div>
-    {/*<div className={s.city}>
-     <h3>
-      {x.form.city.title}
-      {x.form.address && (
-       <>
-        {`${x.form.address && ", "}`}
-        {`${x.form.address}`}
-       </>
+        <div className={s.city}>
+          <h3>
+            {
+              optionTypeMyAccountLowerCase[
+                x.form.type?.toLowerCase() ?? x.form.formType?.toLowerCase()
+              ]
+            }
+          </h3>
+          <p>{`${x.form.name}`}</p>
+        </div>
+      </div>
+
+      {(x.instruments.length > 0 || x.genres.length > 0) && (
+        <div className={s.skills}>
+          <GroupeToolsAndGenreChips tools={x.instruments} genre={x.genres} />
+        </div>
       )}
-     </h3>
-     <p>{`${x.form.name}  ${
-      x.form.type
-       ? "(" + optionTypeMyAccountLowerCase[x.form.type?.toLowerCase()].toLowerCase() + ")"
-       : ""
-     }`}</p>
-    </div>*/}
-   </div>
 
-   {(x.instruments.length > 0 || x.genres.length > 0) && (
-    <div className={s.skills}>
-     <GroupeToolsAndGenreChips tools={x.instruments} genre={x.genres} />
+      <div className={s.about}>
+        <pre className={s.tagPreFormatter}>{x.description}</pre>
+      </div>
+      <div className={s.publicationDate}>{`Опубликовано ${dateDeclension(
+        new Date(x.createdTime).getTime()
+      )}`}</div>
     </div>
-   )}
-
-   <div className={s.about}>{x.description}</div>
-   <div className={s.publicationDate}>{`Опубликовано ${dateDeclension(
-    new Date(x.createdTime).getTime()
-   )}`}</div>
-  </div>
- );
+  );
 };

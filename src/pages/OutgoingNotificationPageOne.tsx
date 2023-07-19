@@ -1,4 +1,5 @@
-import arrow_back from "../assets/icons/arrow_back.svg";
+//import arrow_back from "../assets/icons/arrow_back.svg";
+import { ReactComponent as ArrowBack } from "../assets/icons/arrow_back.svg";
 import shareIcons from "../assets/icons/shareIcons.svg";
 import Avatar from "@mui/material/Avatar";
 import noAvatar from "../assets/icons/noAvatar.svg";
@@ -9,7 +10,7 @@ import { SkillsLayoutTools } from "../common/components/profile/aboutProfile/ski
 import { SkillsLayoutGenre } from "../common/components/profile/aboutProfile/skills/SkillsLayoutGenre";
 import { StylesFullScreen } from "../common/layout/stylesFullScreen/StylesFullScreen";
 import { RouteNames } from "../core/router/RouteNames";
-import { useOneAnnouncementPostQuery, useOneVacancyPostQuery } from "../modules/vacancy/adsQuery";
+import { useOneAnnouncementPostQuery } from "../modules/vacancy/adsQuery";
 import { PreLoader } from "../common/components/preLoader/PreLoader";
 import { HeaderPageOneAds } from "../common/components/ads/adsPageOne/headerPageOneAds/HeaderPageOneAds";
 import { skillGenerator, translationGender } from "../modules/vacancy/service/selectTranslation";
@@ -19,6 +20,7 @@ import { optionTypeMyAccountLowerCase } from "../modules/user/helpers/optionType
 import { useNotificationOptionsLongMenu } from "../modules/notification/hook/useNotificationOptionsLongMenu";
 import cn from "classnames";
 import s from "./styles/incomingNotificationPageOne.module.scss";
+import { useOneVacancyPostQuery } from "../modules/vacancy/adsQueryVacancy";
 
 const undefined = "Undefined";
 
@@ -50,7 +52,7 @@ export const OutgoingNotificationPageOne = () => {
    <StylesFullScreen>
     <div className={s.incomingNotificationPageOne}>
      <HeaderStylesWrapper
-      cancelImgIcon={arrow_back}
+      cancelImgIcon={<ArrowBack />}
       textLabel="Запросы"
       share={shareIcons}
       tsxElement={<LongMenu options={createObjLongMenuMain(dataOneNews, "out")} />}

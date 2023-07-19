@@ -1,9 +1,12 @@
-import * as React from "react";
+import { MouseEvent, useContext, useState, ReactNode } from "react";
 import IconButton from "@mui/material/IconButton";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { Link } from "react-router-dom";
+import { ColorModeContext } from "../../contextProvider/MuiThemeContext";
+import cn from "classnames";
+import s from "./LongMenu/longMenu.module.scss";
 
 export interface OptionLongMenuType {
  label: string;
@@ -12,7 +15,7 @@ export interface OptionLongMenuType {
 }
 
 interface LongMenuType {
- moreButtonCircle?: string;
+ moreButtonCircle?: string | ReactNode;
  options?: OptionLongMenuType[];
 }
 
@@ -33,10 +36,11 @@ const optionsTemp: OptionLongMenuType[] = [
 const ITEM_HEIGHT = 48;
 
 export const LongMenu = ({ moreButtonCircle, options = optionsTemp }: LongMenuType) => {
- const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+ const { mode } = useContext(ColorModeContext);
+ const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
  const open = Boolean(anchorEl);
 
- const handleClick = (event: React.MouseEvent<HTMLElement>) => setAnchorEl(event.currentTarget);
+ const handleClick = (event: MouseEvent<HTMLElement>) => setAnchorEl(event.currentTarget);
 
  const handleClose = () => setAnchorEl(null);
 
@@ -50,7 +54,21 @@ export const LongMenu = ({ moreButtonCircle, options = optionsTemp }: LongMenuTy
     aria-haspopup="true"
     onClick={handleClick}
    >
-    {moreButtonCircle ? <img src={moreButtonCircle} alt="moreButtonCircle" /> : <MoreVertIcon />}
+    {moreButtonCircle ? (
+     moreButtonCircle && typeof moreButtonCircle === "string" ? (
+      <img src={moreButtonCircle} alt="moreButtonCircle" />
+     ) : (
+      <span className={cn({ [s.imgIcon]: mode === "dark" })}>{moreButtonCircle}</span>
+     )
+    ) : (
+     <MoreVertIcon className={cn({ [s.imgIcon]: mode === "dark" })} />
+    )}
+
+    {/*{moreButtonCircle ? (
+     <img src={moreButtonCircle} alt="moreButtonCircle" />
+    ) : (
+     <MoreVertIcon className={cn({ [s.imgIcon]: mode === "dark" })} />
+    )}*/}
    </IconButton>
    <Menu
     id="long-menu"

@@ -6,8 +6,8 @@ import { ResponseAdsType } from "../../../../../modules/ads/types/responseAdsTyp
 import { InButton } from "../../../../ui-elements/button/InButton";
 import { RouteNames } from "../../../../../core/router/RouteNames";
 import { useRef } from "react";
-import s from "../toutchStyleAnimations.module.scss";
 import { useSwipeHandleTouch } from "../../../../../hook/useSwipeHandleTouch";
+import s from "../toutchStyleAnimations.module.scss";
 
 const routL = `${RouteNames.ADS}`;
 const routR = `${RouteNames.ADS}/${RouteNames.ADS_QUESTIONNAIRE_LIST}`;

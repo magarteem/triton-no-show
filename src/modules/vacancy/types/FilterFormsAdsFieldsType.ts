@@ -1,3 +1,6 @@
+import { TeamAnnouncementType } from "../../../types/PROFILE/accountMainGlobalType";
+import { FormsFilterType } from "../../ads/types/formsFilterType";
+
 export interface MainFilterParamsType {
  page: number;
  pageSize?: number;
@@ -17,8 +20,15 @@ export interface VacancyFilterParamsRequestType extends MainFilterParamsType {
 export interface AdsFilterParamsRequestType extends MainFilterParamsType {
  searchAnnouncementDocumentType?: string;
  formTypes?: string;
- teamTypes?: string;
+ teamTypes?: TeamAnnouncementType;
  institutionTypeIds?: string;
  neededEmployeeTypes?: string;
  musicianTypes?: string[];
+}
+
+export interface OutletAdsType {
+ filterON: boolean;
+ setfilterON: (state: boolean) => void;
+ filterState: FormsFilterType;
+ setFilterStateFu: (data: any) => void;
 }

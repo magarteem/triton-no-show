@@ -1,4 +1,5 @@
-import arrowSelect from "../../../assets/icons/arrowSelect.webp";
+//import arrowSelect from "../../../assets/icons/arrowSelect.webp";
+import { ReactComponent as ArrowSelect } from "../../../assets/icons/arrowSelect.svg";
 import { ListItemText } from "@mui/material";
 import { InstrumentGlobalType } from "../../../types/PROFILE/InstrumentGlobalType";
 import { styleSxTool } from "./styleSxTool";
@@ -33,13 +34,18 @@ export const GroupeElement = ({
    onClick={(e) => touchCheck(e, index)}
    onTouchCancel={(e) => touchCheckTouch(e, index)}
   >
-   <img
+   {/*<img
     className={cn({
      [s.iconArrow]: index !== classesHiddenCount,
     })}
     src={arrowSelect}
     alt="arrow"
     style={{ marginRight: "10px" }}
+   />*/}
+   <ArrowSelect
+    className={cn(s.optionItem, {
+     [s.iconArrow]: index !== classesHiddenCount,
+    })}
    />
    <ListItemText sx={styleSxTool.listItem} primary={x.name} />
   </div>

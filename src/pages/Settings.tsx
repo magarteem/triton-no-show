@@ -1,15 +1,13 @@
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { ReactComponent as ArrowCanselImgIcon } from "../assets/icons/clearIcon.svg";
-import moon from "../assets/icons/moon.svg";
-import infoIcon from "../assets/icons/infoIcon.svg";
-import logOutIcon from "../assets/icons/logOutIcon.svg";
 import { useAppDispatch } from "../core/redux/app/hooks";
 import { logout } from "../modules/authorization/authSlice";
 import { InButton } from "../common/ui-elements/button/InButton";
 import { RouteNames } from "../core/router/RouteNames";
 import { ButtonInstallPwa } from "../modules/pwa/ButtonInstallPwa";
 import { PopUpNavigateGradient } from "../common/components/navigateButton/PopUpNavigateGradient";
+import cn from "classnames";
 import s from "./styles/settings.module.scss";
 import { StylesFullScreen } from "../common/layout/stylesFullScreen/StylesFullScreen";
 import { HeaderStylesWrapper } from "../common/layout/headerStylesWrapper/HeaderStylesWrapper";
@@ -17,11 +15,19 @@ import { SwitchMui } from "../common/mui-element/Switch";
 import { usePWAInstall } from "react-use-pwa-install";
 import { usePwaVersionAppQuery } from "../modules/pwa/pwaVersionQuery";
 import { useLoginMutation } from "../modules/authorization/authQuery";
+import { ContextTheme } from "../contextProvider/ThemeContext";
+import { ColorModeContext } from "../contextProvider/MuiThemeContext";
+import { ReactComponent as InfoIcon } from "../assets/icons/infoIcon.svg";
+import { ReactComponent as LogOutIcon } from "../assets/icons/logOutIcon.svg";
+import { ReactComponent as Moon } from "../assets/icons/moon.svg";
 
 export const Settings = () => {
  const install = usePWAInstall();
  const dispatch = useAppDispatch();
  const logoutHandle = () => dispatch(logout());
+
+ const { temeState, changeTheme }: any = useContext(ContextTheme);
+ const { mode, toggleColorMode } = useContext(ColorModeContext);
 
  const { data, isSuccess } = usePwaVersionAppQuery();
  // const [loginQuery, { data: loginData }] = useLoginMutation();
@@ -32,6 +38,11 @@ export const Settings = () => {
  //  };
  //  loginQuery(loginData);
  // }, []);
+
+ function changeTemeFu() {
+  changeTheme(temeState === "light" ? "dark" : "light");
+  toggleColorMode();
+ }
 
  return (
   <StylesFullScreen>
@@ -46,19 +57,21 @@ export const Settings = () => {
 
    <section className={s.mainSettings}>
     <div className={s.buttonVariant}>
-     {/*<div className={s.buttonAction}>
+     <div className={s.buttonAction}>
       <div className={s.title}>
-       <img src={moon} alt="moon" />
+       {/*<img src={moon} alt="moon" />*/}
+       <Moon className={cn({ [s.forDarkIcons]: mode === "dark" })} />
        <p>Ночная тема</p>
       </div>
 
-      <SwitchMui />
-     </div>*/}
+      <SwitchMui onClick={changeTemeFu} temeState={temeState} />
+     </div>
 
      <a className={s.buttonAction} href="mailto:support@3-tone.ru">
       <div className={s.buttonAction}>
        <div className={s.title}>
-        <img src={infoIcon} alt="infoIcon" />
+        {/*<img src={infoIcon} alt="infoIcon" />*/}
+        <InfoIcon className={cn({ [s.forDarkIcons]: mode === "dark" })} />
         <p>Написать в техподдержку</p>
        </div>
       </div>
@@ -68,7 +81,9 @@ export const Settings = () => {
       <div className={s.buttonAction} onClick={install}>
        <div className={s.buttonAction}>
         <div className={s.title}>
-         <img src={logOutIcon} alt="logOutIcon" /> <p> Установить как приложение</p>{" "}
+         {/*<img src={logOutIcon} alt="logOutIcon" />*/}
+         <LogOutIcon className={cn({ [s.forDarkIcons]: mode === "dark" })} />
+         <p> Установить как приложение</p>
         </div>
        </div>
       </div>
@@ -77,12 +92,38 @@ export const Settings = () => {
      <div className={s.buttonAction} onClick={logoutHandle}>
       <div className={s.buttonAction}>
        <div className={s.title}>
-        <img src={logOutIcon} alt="logOutIcon" />
+        {/*<img src={logOutIcon} alt="logOutIcon" />*/}
+        <LogOutIcon className={cn({ [s.forDarkIcons]: mode === "dark" })} />
         <p>Выйти</p>
        </div>
       </div>
      </div>
     </div>
+
+    {/*<div
+     className={s.buttonAction1}
+     style={{ color: "red", display: "flex", flexDirection: "column" }}
+    >
+     <br />
+     <h1>Тест болк = open URL</h1>
+     <a href={`fdfdfdf`} target="_blank">
+      fdfdfdf
+     </a>
+     <a href={`http://fdfdfdf`} target="_blank">
+      http://fdfdfdf
+     </a>
+     <a href={`http://fdfdfdf.ew`} target="_blank">
+      http://fdfdfdf.ew
+     </a>
+     <a href={`fdfdfdf.trtrtr`} target="_blank">
+      fdfdfdf.trtrtr
+     </a>
+     <a href={`https://jsx.su`} target="_blank">
+      https://jsx.su
+     </a>
+     <a href={`https://jsx.su/`}>https://jsx.su/ - no _blank</a>
+     <a href={`jsx.su`}>jsx.su - no _blank</a>
+    </div>*/}
 
     {isSuccess && (
      <div className={s.infoApps}>
@@ -97,15 +138,7 @@ export const Settings = () => {
 
 //return (
 //  <>
-//    <div className={s.settings}>
-//      <Link className={s.styleBtn} onClick={logoutHandle} to={RouteNames.LOGIN}>
-//        <InButton textButton="Выход" />
-//      </Link>
-//      <Link className={s.styleBtn} to={RouteNames.USER}>
-//        <InButton textButton="Назад" />
-//      </Link>
-//      <ButtonInstallPwa />
-//    </div>
+//      <ButtonInstallPwa />//
 //    <PopUpNavigateGradient />
 //  </>
 //);

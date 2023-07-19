@@ -1,13 +1,5 @@
 @import "src/styles/variable";
 
-//.workEducationeData {
-// display: flex;
-// align-items: center;
-// width: 100%;
-// padding: 13px 16px;
-// border: 1px solid #c6d1b8;
-// border-radius: 16px;
-
 .itemImg {
  margin-right: 16px;
  height: 40px;
@@ -22,7 +14,7 @@
  @include flex_direction_column_position();
  justify-content: space-between;
  height: 100%;
- color: #212121;
+ color: var(#{--title-color-default});
  font-size: 14px;
 
  p:first-child {
@@ -30,9 +22,14 @@
   font-weight: 600;
  }
 }
-//}
 
 .textNotes {
  font-size: 16px;
- color: #43483e;
+ color: var(#{--body-text-color-default});
+
+ .tagPreFormatter {
+  font-family: "Mulish-Medium", system, sans-serif;
+  white-space: pre-wrap;
+  word-break: break-word;
+ }
 }

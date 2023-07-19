@@ -23,15 +23,15 @@
 
    .infoAuthor {
     .name {
-     word-break: break-all;
+     word-break: break-word;
      font-weight: 700;
      font-size: 18px;
-     color: #1a1c18;
+     color: var(#{--body-text-color-second-default});
     }
 
     .visit {
      font-size: 14px;
-     color: #1a1c18;
+     color: var(#{--body-text-color-second-default});
     }
    }
   }

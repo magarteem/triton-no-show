@@ -1,19 +1,37 @@
-import { useAppSelector } from "../core/redux/app/hooks";
 import { Outlet } from "react-router-dom";
-import { PopUpNavigateGradient } from "../common/components/navigateButton/PopUpNavigateGradient";
-import { PreLoader } from "../common/components/preLoader/PreLoader";
+import { useEffect, useState } from "react";
+import { useClearResultsqueryAds } from "../modules/ads/hooks/useClearResultsqueryAds";
+import { FormsFilterType } from "../modules/ads/types/formsFilterType";
+import { defaultFilter } from "../modules/ads/service/filterTranslate";
 
 export const Ads = () => {
- const adsData = useAppSelector((state) => state.adsQuery.queries);
- const { allMyForms, profileData } = useAppSelector((state) => state.userSliceReducer);
+  const { clearListVacancyPost, clearListAdsPost, clearListAccount } = useClearResultsqueryAds();
+  const [filterON, setfilterON] = useState(false);
 
- if (adsData.isLoading) return <PreLoader />;
- if (adsData.error) return <h1>Error</h1>;
+  const [filterState, setfilterState] = useState<FormsFilterType>(defaultFilter);
+  const setFilterStateFu = (data: FormsFilterType) => setfilterState(data);
 
- return (
-  <>
-   <Outlet context={[adsData, profileData, allMyForms]} />
-   <PopUpNavigateGradient />
-  </>
- );
+  useEffect(() => {
+    return () => {
+      // reset filer after return this pages if filter is active
+      if (filterON) {
+        clearListVacancyPost();
+        clearListAdsPost();
+        clearListAccount();
+      }
+    };
+  }, [filterON]);
+
+  return (
+    <>
+      <Outlet
+        context={{
+          filterON,
+          setfilterON,
+          filterState,
+          setFilterStateFu,
+        }}
+      />
+    </>
+  );
 };

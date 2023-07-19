@@ -31,7 +31,10 @@ export const SelectElementMui = ({
  required = false,
  ...props
 }: SelectElementMuiType) => {
- const [valueSelect, setValueSelect] = useState<InterfaceGlobalSelectType>(!!value?.id && value);
+ const [valueSelect, setValueSelect] = useState<InterfaceGlobalSelectType>(
+  //!!value?.id && value
+  !!value?.id ? value : null
+ );
  const [open, setOpen] = useState(false);
 
  const set = () => setOpen((prev) => !prev);
@@ -52,14 +55,14 @@ export const SelectElementMui = ({
     height: "100%",
     "& .MuiFormLabel-root": {
      lineHeight: "inherit",
-     color: "#1A1C18",
+     color: "TextFieldElementMui.main",
 
      "& .MuiFormLabel-asterisk": {
       color: "red",
      },
     },
     "& .Mui-focused": {
-     color: "#1A1C18 !important",
+     color: "TextFieldElementMui.main",
     },
    }}
   >
@@ -67,7 +70,7 @@ export const SelectElementMui = ({
     //shrink={open || !!value}
     required={required}
     id="demo-simple-select-error-label"
-    sx={{ color: "#1A1C18 !important" }}
+    sx={{ color: "TextFieldElementMui.main" }}
    >
     {placeholder}
    </InputLabel>
@@ -101,7 +104,7 @@ export const SelectElementMui = ({
     }}
     sx={{
      height: "100%",
-     color: "#1A1C18",
+     color: "TextFieldElementMui.main",
      borderRadius: "8px",
 
      "&.Mui-error .MuiOutlinedInput-notchedOutline": {
@@ -110,11 +113,11 @@ export const SelectElementMui = ({
      },
 
      "& .MuiSvgIcon-root": {
-      color: "#000000",
+      color: "SelectorElementMui.arrow",
      },
 
      "& .MuiSelect-select": {
-      color: "#1A1C18",
+      color: "TextFieldElementMui.main",
       padding: "0 14px",
       fontFamily: `Mulish_Regular, sans-serif !important`,
       fontSize: "16px !important",

@@ -1,0 +1,11 @@
+@import "src/styles/variable";
+
+.colorOrange {
+  background-image: $backgroundFonts;
+}
+.colorRed {
+  background-image: $gradient-secondary;
+}
+.mainWrap {
+  flex: 1 0 100%;
+}

@@ -12,6 +12,6 @@ export interface FilterSearchAllFormsType {
   gender?: GenderType;
   ageStart?: number;
   ageEnd?: number;
-  teamType?: TeamAnnouncementType;
-  formType?: string
+  teamTypes?: TeamAnnouncementType;
+  formType?: string;
 }

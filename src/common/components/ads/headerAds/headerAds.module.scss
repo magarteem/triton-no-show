@@ -15,12 +15,12 @@
     h2 {
       font-weight: 700;
       font-size: 18px;
-      color: #1a1c18;
+      color: var(#{--body-text-color-second-default});
     }
 
     p {
       font-size: 14px;
-      color: #43483e;
+      color: var(#{--body-text-color-default});
     }
   }
 

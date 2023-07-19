@@ -30,42 +30,40 @@ import { InterfaceGlobalSelectTypeCity, ToolsSliceType } from "../../user/types/
 ////====================
 
 export interface ToolsType extends InterfaceGlobalSelectType {
-  icon: string;
+ icon: string;
 }
 export interface GenreType extends InterfaceGlobalSelectType {
-  color: string;
+ color: string;
 }
 
 export interface ISignUpFormValues extends LoginRequestType {
+ type_account: InterfaceGlobalSelectType | null;
+ name_field: string;
+ img_upload: string;
+ city: InterfaceGlobalSelectTypeCity | null;
+ phone: string;
+ web_site: string;
+ gender: InterfaceGlobalSelectType | null;
+ age: number | null | any;
+ tool: ToolsType[];
+ genre: GenreType[];
+ work_experience: string;
+ master: InterfaceGlobalSelectType | null;
+ education: string;
+ private_settings: InterfaceGlobalSelectType | null;
+ inspiration: string | string[];
+ type_collective?: InterfaceGlobalSelectType | null;
+ institutionType?: InterfaceGlobalSelectType | null;
+ portfolio_photo: PortfolioType[] | null;
+ members: ToolsSliceType | null;
+ email_contact: string;
 
-  type_account: InterfaceGlobalSelectType | null;
-  name_field: string;
-  img_upload: string;
-  city: InterfaceGlobalSelectTypeCity | null;
-  phone: string;
-  web_site: string;
-  gender: InterfaceGlobalSelectType | null;
-  age: number | null | any;
-  tool: ToolsType[];
-  genre: GenreType[];
-  work_experience: string;
-  master: InterfaceGlobalSelectType | null;
-  education: string;
-  private_settings: InterfaceGlobalSelectType | null;
-  inspiration: string | string[];
-  type_collective?: InterfaceGlobalSelectType | null;
-  institutionType?: InterfaceGlobalSelectType | null;
-  portfolio_photo: PortfolioType[] | null;
-  members: ToolsSliceType | null;
-  email_contact: string;
+ area: number | null;
+ from_opening_hours: Date | null;
+ to_opening_hours: Date | null;
+ address: string;
+ metroId: MetroGlobalType | null;
+ schedule: ScheduleType | null;
 
-  area: number | null;
-  establishment_description: string;
-  from_opening_hours: Date | null;
-  to_opening_hours: Date | null;
-  address: string;
-  metroId: MetroGlobalType | null;
-  schedule: ScheduleType | null;
-
-  check?: boolean | null;
+ check?: boolean | null;
 }

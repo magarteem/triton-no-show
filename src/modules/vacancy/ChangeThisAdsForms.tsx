@@ -6,15 +6,13 @@ import { CreateFormVacancy } from "../../modules/vacancy/CreateFormVacancy";
 import { CreateFormADS } from "../../modules/vacancy/CreateFormADS";
 import { FormProvider, useForm } from "react-hook-form";
 import { FormsCreatedVacancyType } from "../../modules/vacancy/types/typeFormsCreatedAds";
-import {
- useUpdateThisAdsPostMutation,
- useUpdateThisVacancyPostMutation,
-} from "../../modules/vacancy/adsQuery";
+import { useUpdateThisAdsPostMutation } from "../../modules/vacancy/adsQuery";
 import { selectParamsForCreateVacancy } from "../../modules/vacancy/helpers/selectParamsForCreateVacancy";
 import { selectParamsForCreateAds } from "../../modules/vacancy/helpers/selectParamsForCreateAds";
 import { ResultAdsTypeResponse } from "../ads/types/responseAdsType";
 import { changeComposeFu } from "./helpers/changeComposeFu";
 import s from "./style/changeThisAds.module.scss";
+import { useUpdateThisVacancyPostMutation } from "./adsQueryVacancy";
 
 interface ChangeThisAdsFormsType {
  data: ResultAdsTypeResponse | undefined;

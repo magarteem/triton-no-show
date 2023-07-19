@@ -1,8 +1,9 @@
 import { useLocation, useParams } from "react-router-dom";
-import { useOneAnnouncementPostQuery, useOneVacancyPostQuery } from "../modules/vacancy/adsQuery";
+import { useOneAnnouncementPostQuery } from "../modules/vacancy/adsQuery";
 import { RouteNames } from "../core/router/RouteNames";
 import { ChangeThisAdsForms } from "../modules/vacancy/ChangeThisAdsForms";
 import { PreLoader } from "../common/components/preLoader/PreLoader";
+import { useOneVacancyPostQuery } from "../modules/vacancy/adsQueryVacancy";
 
 export const ChangeThisAds = () => {
  const { change_id_ads } = useParams();

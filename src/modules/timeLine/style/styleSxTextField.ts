@@ -12,7 +12,7 @@ export const styleSxTextArea = {
   height: "auto",
   borderRadius: "8px",
   padding: "0 14px",
-  color: "#43483E",
+  color: "TabsComponents.colorTitle",
   fontFamily: `Mulish_Regular, sans-serif !important`,
 
   "&:focus": {
@@ -22,7 +22,7 @@ export const styleSxTextArea = {
   "& .MuiInputBase-input": {
    "&::-webkit-input-placeholder": {
     fontWeight: 500,
-    color: "#242424",
+    color: "Filter.placeholder",
     opacity: 1,
    },
   },

@@ -50,9 +50,6 @@ export const AboutProfile = ({ userDataProfile, notHaveForms }: AboutProfileType
   contactRequestStatus,
  } = userDataProfile;
 
- // const watchMisician1 = parseJson === EnumTypeAccount.MUSICIAN;
- // const watchTeam1 = parseJson === EnumTypeAccount.TEAM;
-
  const checkPath = () => {
   if (pathname.includes(RouteNames.OTHER_PROFILE_USER)) {
    const watchMisician = userDataProfile.type_account.name === EnumTypeAccount.MUSICIAN;
@@ -154,12 +151,6 @@ export const AboutProfile = ({ userDataProfile, notHaveForms }: AboutProfileType
        (!!schedule?.Friday || !!inspiration || !!area) && (
         <About schedule={schedule} inspiration={inspiration} area={area} />
        )}
-
-    {/*{!checkPath().watchMisician &&
-     !checkPath().watchTeam &&
-     (!!schedule?.Friday || !!inspiration || !!area) && (
-      <About schedule={schedule} inspiration={inspiration} area={area} />
-     )}*/}
 
     {(portfolio_photo || !!inspiration.length) && (
      <Portfolio

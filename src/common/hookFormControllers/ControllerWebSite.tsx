@@ -7,10 +7,7 @@ export interface ControllerWebSiteType {
  name: string;
 }
 
-export const ControllerWebSite = ({
- control,
- name,
-}: ControllerWebSiteType) => {
+export const ControllerWebSite = ({ control, name }: ControllerWebSiteType) => {
  return (
   <div className={s.styleInput}>
    <Controller
@@ -22,15 +19,12 @@ export const ControllerWebSite = ({
       message: "Не менее 3х символов",
      },
     }}
-    render={({
-     field: { onChange, value, ref, ...field },
-     formState: { errors },
-    }) => (
+    render={({ field: { onChange, value, ref, ...field }, formState: { errors } }) => (
      <div className={s.sizeInput}>
       <TextFieldElementMui
        inputValue={value}
        ItemRef={ref}
-       placeholder="Вебсайт"
+       placeholder="Веб-сайт"
        onChange={onChange}
        helperText="Обязательное поле"
        errors={errors[name]}

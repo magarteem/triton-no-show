@@ -1,8 +1,21 @@
 @import "src/styles/variable";
 
 .process {
+ display: flex;
+ align-items: center;
+
+ svg {
+  margin-right: 8px;
+  height: 18px;
+  width: 18px;
+ }
+ .d_mode {
+  path {
+   fill: var(#{--body-text-color-second-default});
+  }
+ }
  span {
-  color: #1a1c18;
+  color: var(#{--body-text-color-second-default});
   opacity: 0.38;
  }
 }

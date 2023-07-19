@@ -10,7 +10,7 @@ export const styleTextFieldSX = {
 
   "& .MuiFormLabel-root": {
    lineHeight: "inherit",
-   color: "#1A1C18 !important",
+   color: "TextFieldElementMui.main",
 
    "& .MuiFormLabel-asterisk": {
     color: "red",
@@ -18,7 +18,7 @@ export const styleTextFieldSX = {
   },
 
   "& .Mui-focused": {
-   color: "#1A1C18 !important",
+   color: "TextFieldElementMui.main",
   },
 
   "& .MuiInputBase-root": {
@@ -31,8 +31,7 @@ export const styleTextFieldSX = {
    },
 
    "& input": {
-    color: "#1A1C18",
-    //padding: "0 14px  !important",
+    color: "TextFieldElementMui.main",
     padding: "0px 58px 0 14px !important",
     fontFamily: `Mulish_Regular, sans-serif !important`,
     fontSize: "16px !important",
@@ -46,6 +45,10 @@ export const styleTextFieldSX = {
 
    "&.Mui-error .MuiOutlinedInput-notchedOutline": {
     border: "1px solid red !important",
+   },
+
+   "& .MuiSvgIcon-root": {
+    color: "SelectorElementMui.arrow",
    },
   },
 

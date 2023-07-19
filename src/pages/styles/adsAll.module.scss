@@ -1,47 +1,31 @@
 @import "src/styles/variable";
 
 .customAddPadding {
- margin-top: 10px;
+  margin-top: 10px;
 
- .styleInput {
-  position: relative;
-  width: 100%;
+  .styleInput {
+    position: relative;
+    width: 100%;
 
-  .sizeInput {
-   min-height: 48px;
+    .sizeInput {
+      min-height: 48px;
 
-   input {
-    height: 48px;
-   }
+      input {
+        height: 48px;
+      }
+    }
+
+    img {
+      position: absolute;
+      left: 11px;
+      top: 13px;
+    }
   }
 
-  img {
-   position: absolute;
-   left: 11px;
-   top: 13px;
+  .svgNode {
+    path {
+      stroke: rgb(255, 77, 0);
+      stroke: "coral";
+    }
   }
- }
-
- .svgNode {
-  path {
-   stroke: rgb(255, 77, 0);
-   stroke: "coral";
-  }
- }
 }
-
-//.listAds {
-// display: flex;
-// flex-direction: column;
-// row-gap: 8px;
-// width: 100%;
-
-// a {
-//  text-decoration: none;
-//  //padding-bottom: 16px;
-// }
-
-// .respond {
-//  padding: 16px 0;
-// }
-//}

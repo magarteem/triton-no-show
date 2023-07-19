@@ -54,7 +54,6 @@ export const ThreeStepFormRegister = () => {
   loading && setLoad((prev) => !prev);
  }, [loading]);
 
- console.log("watchFieldType", watchFieldType);
  useEffect(() => {
   !!!watchFieldType && navigate(`${RouteNames.REGISTER}/${RouteNames.REG_TYPE_ACCOUNT}`);
  }, []);
@@ -75,7 +74,7 @@ export const ThreeStepFormRegister = () => {
      control={control}
      name="name_field"
      required={true}
-     placeholder={watchMisician ? "Ваше имя" : "Название"}
+     placeholder={watchMisician || watchMisicLover || watchSoundProduser ? "Ваше имя" : "Название"}
     />
 
     {watchInstitution && (
@@ -91,7 +90,7 @@ export const ThreeStepFormRegister = () => {
 
     <ControllersCityAsync
      name="city"
-     // required={watchMisicLover ? false : true}
+     required={watchMisicLover ? false : true}
      placeholder="Город"
      control={control}
      setValue={setValue}
@@ -188,10 +187,10 @@ export const ThreeStepFormRegister = () => {
        <ControllerOpeningHoursRmcPicker control={control} watch={watch} required={false} />
       )}
       {watchInstitution && <ControllerRoomArea control={control} name="area" />}
-      {/*<InputFormEstablishmentDescription control={control} name="establishment_description" />*/}
+
       <ControllerTextArea
        control={control}
-       placeholder="Опишите ваше заведение"
+       placeholder={watchSoundProduser ? "О себе" : "Опишите ваше заведение"}
        name="inspiration"
       />
      </>
@@ -211,10 +210,6 @@ export const ThreeStepFormRegister = () => {
      <BtnInGroupeSaveCancelMui textCancelButton="Назад" textButton="Создать анкету" />
     </div>
    )}
-
-   {/*<div className={s.btnFormWrapper}>
-    <BtnInGroupeSaveCancelMui textCancelButton="Назад" textButton="Создать анкету" />
-   </div>*/}
   </FormLayout>
  );
 };

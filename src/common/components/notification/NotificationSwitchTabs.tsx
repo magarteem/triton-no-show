@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { Outlet, useLocation } from "react-router-dom";
 import { TabsComponent } from "./tabsComponent/TabsComponent";
 import { HeaderStylesWrapper } from "../../layout/headerStylesWrapper/HeaderStylesWrapper";

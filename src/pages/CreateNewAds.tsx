@@ -5,7 +5,7 @@ import cancelImgIcon from "../assets/icons/arrowBack.svg";
 import { FormLayoutCreateADS } from "../common/layout/formLayoutCreateADS/FormLayoutCreateADS";
 import { ButtonGroupe } from "../common/mui-element/ButtonGroupe";
 import { useAppSelector } from "../core/redux/app/hooks";
-import { useSendAdsPostMutation, useSendVacancyPostMutation } from "../modules/vacancy/adsQuery";
+import { useSendAdsPostMutation } from "../modules/vacancy/adsQuery";
 import { CreateFormADS } from "../modules/vacancy/CreateFormADS";
 import { CreateFormVacancy } from "../modules/vacancy/CreateFormVacancy";
 import { selectParamsForCreateAds } from "../modules/vacancy/helpers/selectParamsForCreateAds";
@@ -13,6 +13,7 @@ import { selectParamsForCreateVacancy } from "../modules/vacancy/helpers/selectP
 import { FormsCreatedVacancyType } from "../modules/vacancy/types/typeFormsCreatedAds";
 import s from "./styles/createNewAds.module.scss";
 import { EnumTypeAccount } from "../types/PROFILE/enum/EnumTypeAccount";
+import { useSendVacancyPostMutation } from "../modules/vacancy/adsQueryVacancy";
 
 // для музыкант/коллектив/звукореж - и вакансия и объявление. Для всех остальных - только вакансия
 const rulesShowAds = [
@@ -118,7 +119,7 @@ export const CreateNewAds = () => {
     rulesShowAds.includes(parseJson.nameForms) && (
      <FormProvider {...methodAds}>
       <form noValidate className={s.formVacancy} onSubmit={methodAds.handleSubmit(onSubmitAds)}>
-       <CreateFormADS buttonSubmitText="Создать обявление" />
+       <CreateFormADS buttonSubmitText="Создать объявление" />
       </form>
      </FormProvider>
     )
