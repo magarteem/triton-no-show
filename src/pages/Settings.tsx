@@ -100,7 +100,7 @@ export const Settings = () => {
      </div>
     </div>
 
-    {/*<div
+    <div
      className={s.buttonAction1}
      style={{ color: "red", display: "flex", flexDirection: "column" }}
     >
@@ -123,7 +123,7 @@ export const Settings = () => {
      </a>
      <a href={`https://jsx.su/`}>https://jsx.su/ - no _blank</a>
      <a href={`jsx.su`}>jsx.su - no _blank</a>
-    </div>*/}
+    </div>
 
     {isSuccess && (
      <div className={s.infoApps}>

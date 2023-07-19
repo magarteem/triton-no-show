@@ -5,8 +5,8 @@
  "background_color": "#ff7134",
  "display": "standalone",
  "scope": "/",
- "start_url": "/",
- "capture_links": "none",
+ "start_url": "https://triton-no-show.vercel.app/",
+ "capture_links": "new-client",
  "icons": [
   {
    "src": "maskable.png",
