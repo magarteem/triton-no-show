@@ -8,6 +8,7 @@ import { useOutletContext } from "react-router-dom";
 import { PreLoader } from "../common/components/preLoader/PreLoader";
 import { CheckMyHaveAccountContext } from "../contextProvider/CheckHaveAccountContext";
 import { SnackbarWarning } from "../common/mui-element/snackbar/SnackbarWarning";
+import ReactPWAInstallProvider from "react-pwa-install";
 
 interface ProfileInfoType {
  isLoading: boolean;
@@ -35,7 +36,12 @@ export const ProfileInfo = () => {
       />
      </HeaderWrapper>
 
-     {!error && <AboutProfile notHaveForms={notHaveForms} userDataProfile={profileData} />}
+     {!error && (
+      //@ts-ignore
+      <ReactPWAInstallProvider enableLogging>
+       <AboutProfile notHaveForms={notHaveForms} userDataProfile={profileData} />
+      </ReactPWAInstallProvider>
+     )}
     </>
    ) : (
     <PreLoader />
