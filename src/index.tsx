@@ -14,17 +14,17 @@ const container = document.getElementById("root")!;
 const root = createRoot(container);
 
 root.render(
- <Provider store={store}>
-  <BrowserRouter>
-   <ThemeContext>
-    <MuiThemeContext>
-     <ReturnScrollContext>
-      <App />
-     </ReturnScrollContext>
-    </MuiThemeContext>
-   </ThemeContext>
-  </BrowserRouter>
- </Provider>
+  <Provider store={store}>
+    <BrowserRouter>
+      <ThemeContext>
+        <MuiThemeContext>
+          <ReturnScrollContext>
+            <App />
+          </ReturnScrollContext>
+        </MuiThemeContext>
+      </ThemeContext>
+    </BrowserRouter>
+  </Provider>
 );
 
 serviceWorkerRegistration.register();

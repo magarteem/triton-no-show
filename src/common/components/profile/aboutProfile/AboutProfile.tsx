@@ -16,9 +16,6 @@ import { EnumPrivateType } from "../../../../types/PROFILE/enum/EnumPrivateType"
 import { EnumContactRequestStatusResponse } from "../../../../types/PROFILE/enum/EnumContactRequestStatusResponse";
 import s from "./aboutProfile.module.scss";
 
-import ReactPWAInstallProvider, { useReactPWAInstall } from "react-pwa-install";
-import myLogo from "../../../../assets/icons/Play.webp";
-
 interface AboutProfileType {
  userDataProfile: InitialStateUserType;
  notHaveForms?: boolean;
@@ -68,25 +65,6 @@ export const AboutProfile = ({ userDataProfile, notHaveForms }: AboutProfileType
   }
  };
 
- const { pwaInstall, supported, isInstalled } = useReactPWAInstall();
- const handleClick = () => {
-  pwaInstall({
-   title: "Install Web App",
-   logo: myLogo,
-   features: (
-    <ul>
-     <li>Cool feature 1</li>
-     <li>Cool feature 2</li>
-     <li>Even cooler feature</li>
-     <li>Works offline</li>
-    </ul>
-   ),
-   description: "This is a very good app that does a lot of useful stuff. ",
-  })
-   .then(() => alert("App installed successfully or instructions for install shown"))
-   .catch(() => alert("User opted out from installing"));
- };
-
  return (
   <>
    <section className={s.main}>
@@ -98,14 +76,6 @@ export const AboutProfile = ({ userDataProfile, notHaveForms }: AboutProfileType
      address={address}
      type_collective={type_collective?.name || institutionType?.name}
     />
-
-    <div>
-     {supported() && !isInstalled() && (
-      <button type="button" onClick={handleClick}>
-       Install App
-      </button>
-     )}
-    </div>
 
     {id_user &&
      (privateType === EnumPrivateType.HIDE_CONTACTS || privateType === EnumPrivateType.HIDE_ALL) &&
