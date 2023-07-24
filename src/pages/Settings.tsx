@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { ReactComponent as ArrowCanselImgIcon } from "../assets/icons/clearIcon.svg";
 import { useAppDispatch } from "../core/redux/app/hooks";
@@ -40,6 +40,27 @@ export const Settings = () => {
   changeTheme(temeState === "light" ? "dark" : "light");
   toggleColorMode();
  }
+
+ // const [supportsPWA, setSupportsPWA] = useState(false);
+ // const [promptInstall, setPromptInstall] = useState(null);
+
+ // useEffect(() => {
+ //  const handler = (e: any) => {
+ //   e.preventDefault();
+ //   setSupportsPWA(true);
+ //   setPromptInstall(e);
+ //  };
+ //  window.addEventListener("beforeinstallprompt", handler);
+ // }, []);
+
+ // const onInstallClick = () => {
+ //  if (!supportsPWA) {
+ //   alert("Either you have already installed the app or your browser does not support PWA :(");
+ //   return;
+ //  }
+ //  //@ts-ignore
+ //  promptInstall.prompt();
+ // };
 
  return (
   <StylesFullScreen>
@@ -83,7 +104,8 @@ export const Settings = () => {
         </div>
        </div>
       </div>
-     )}*/}
+    // )}*/}
+     {/*// <p onClick={onInstallClick}>dddddddddd</p>*/}
 
      <div className={s.buttonAction} onClick={logoutHandle}>
       <div className={s.buttonAction}>
