@@ -41,26 +41,26 @@ export const Settings = () => {
   toggleColorMode();
  }
 
- // const [supportsPWA, setSupportsPWA] = useState(false);
- // const [promptInstall, setPromptInstall] = useState(null);
+ const [supportsPWA, setSupportsPWA] = useState(false);
+ const [promptInstall, setPromptInstall] = useState(null);
 
- // useEffect(() => {
- //  const handler = (e: any) => {
- //   e.preventDefault();
- //   setSupportsPWA(true);
- //   setPromptInstall(e);
- //  };
- //  window.addEventListener("beforeinstallprompt", handler);
- // }, []);
+ useEffect(() => {
+  const handler = (e: any) => {
+   e.preventDefault();
+   setSupportsPWA(true);
+   setPromptInstall(e);
+  };
+  window.addEventListener("beforeinstallprompt", handler);
+ }, []);
 
- // const onInstallClick = () => {
- //  if (!supportsPWA) {
- //   alert("Either you have already installed the app or your browser does not support PWA :(");
- //   return;
- //  }
- //  //@ts-ignore
- //  promptInstall.prompt();
- // };
+ const onInstallClick = () => {
+  if (!supportsPWA) {
+   alert("Either you have already installed the app or your browser does not support PWA :(");
+   return;
+  }
+  //@ts-ignore
+  promptInstall.prompt();
+ };
 
  return (
   <StylesFullScreen>
@@ -104,8 +104,8 @@ export const Settings = () => {
         </div>
        </div>
       </div>
-    // )}*/}
-     {/*// <p onClick={onInstallClick}>dddddddddd</p>*/}
+     )}*/}
+     <p onClick={onInstallClick}>dddddddddd</p>
 
      <div className={s.buttonAction} onClick={logoutHandle}>
       <div className={s.buttonAction}>
