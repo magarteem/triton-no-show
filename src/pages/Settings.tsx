@@ -41,26 +41,44 @@ export const Settings = () => {
   toggleColorMode();
  }
 
- // const [supportsPWA, setSupportsPWA] = useState(false);
- // const [promptInstall, setPromptInstall] = useState(null);
+ const [iosInstPWA, setIosInstPWA] = useState(false);
+ const [supportsPWA, setSupportsPWA] = useState(false);
+ const [promptInstall, setPromptInstall] = useState<any>(null);
 
- // useEffect(() => {
- //  const handler = (e: any) => {
- //   e.preventDefault();
- //   setSupportsPWA(true);
- //   setPromptInstall(e);
- //  };
- //  window.addEventListener("beforeinstallprompt", handler);
- // }, []);
+ useEffect(() => {
+  const handler = (e: any) => {
+   e.preventDefault();
+   setSupportsPWA(true);
+   setPromptInstall(e);
+  };
+  window.addEventListener("beforeinstallprompt", handler);
+ }, []);
 
- // const onInstallClick = () => {
- //  if (!supportsPWA) {
- //   alert("Either you have already installed the app or your browser does not support PWA :(");
- //   return;
- //  }
- //  //@ts-ignore
- //  promptInstall.prompt();
- // };
+ //a somewhat verbose approach to iOS detection
+ function isThisDeviceRunningiOS() {
+  if (
+   ["iPad Simulator", "iPhone Simulator", "iPod Simulator", "iPad", "iPhone", "iPod"].includes(
+    navigator.platform
+   )
+  )
+   return true;
+  // iPad on iOS 13
+  else if (navigator.userAgent.includes("Mac") && "ontouchend" in document) {
+   return true;
+  } else {
+   return false;
+  }
+ }
+
+ const onInstallClick = () => {
+  if (!supportsPWA) {
+   alert("Either you have already installed the app or your browser does not support PWA :(");
+   return;
+  } else if (isThisDeviceRunningiOS()) {
+   setIosInstPWA((prev) => !prev);
+   return;
+  } else promptInstall.prompt();
+ };
 
  return (
   <StylesFullScreen>
@@ -84,7 +102,6 @@ export const Settings = () => {
 
       <SwitchMui onClick={changeTemeFu} temeState={temeState} />
      </div>
-
      <a className={s.buttonAction} href="mailto:support@3-tone.ru">
       <div className={s.buttonAction}>
        <div className={s.title}>
@@ -94,18 +111,29 @@ export const Settings = () => {
        </div>
       </div>
      </a>
-     {/*
-     {install && (
-      <div className={s.buttonAction} onClick={install}>
+
+     <div className={s.buttonAction} onClick={onInstallClick}>
+      <div className={s.buttonAction}>
+       <div className={s.title}>
+        <LogOutIcon className={cn({ [s.forDarkIcons]: mode === "dark" })} />
+        <p> Установить как приложение 1</p>
+       </div>
+      </div>
+     </div>
+
+     {supportsPWA && (
+      <div className={s.buttonAction} onClick={onInstallClick}>
        <div className={s.buttonAction}>
         <div className={s.title}>
          <LogOutIcon className={cn({ [s.forDarkIcons]: mode === "dark" })} />
-         <p> Установить как приложение</p>
+         <p> Установить как приложение 2</p>
         </div>
        </div>
       </div>
-    // )}*/}
-     {/*// <p onClick={onInstallClick}>dddddddddd</p>*/}
+     )}
+
+     {iosInstPWA && <p>IOS instructions</p>}
+     <p>{` ios devise =  ${isThisDeviceRunningiOS()}`}</p>
 
      <div className={s.buttonAction} onClick={logoutHandle}>
       <div className={s.buttonAction}>

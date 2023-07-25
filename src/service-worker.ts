@@ -83,3 +83,10 @@ self.addEventListener("install", (event) => {
  // forces a service worker to activate immediately (forces update)
  self.skipWaiting();
 });
+
+let deferredPrompt: Event | null = null;
+
+window.addEventListener("beforeinstallprompt", (e) => {
+ deferredPrompt = e;
+ console.log(deferredPrompt);
+});
