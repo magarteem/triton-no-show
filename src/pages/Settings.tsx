@@ -18,6 +18,7 @@ import { ColorModeContext } from "../contextProvider/MuiThemeContext";
 import { ReactComponent as InfoIcon } from "../assets/icons/infoIcon.svg";
 import { ReactComponent as LogOutIcon } from "../assets/icons/logOutIcon.svg";
 import { ReactComponent as Moon } from "../assets/icons/moon.svg";
+import { PWAinstall } from "../modules/pwa/PWAinstall";
 
 export const Settings = () => {
  const dispatch = useAppDispatch();
@@ -25,6 +26,10 @@ export const Settings = () => {
 
  const { temeState, changeTheme }: any = useContext(ContextTheme);
  const { mode, toggleColorMode } = useContext(ColorModeContext);
+
+ const [open, setOpen] = useState(false);
+ const handleClickOpen = () => setOpen(true);
+ const handleClose = () => setOpen(false);
 
  const { data, isSuccess } = usePwaVersionAppQuery();
  // const [loginQuery, { data: loginData }] = useLoginMutation();
@@ -111,16 +116,6 @@ export const Settings = () => {
        </div>
       </div>
      </a>
-
-     <div className={s.buttonAction} onClick={onInstallClick}>
-      <div className={s.buttonAction}>
-       <div className={s.title}>
-        <LogOutIcon className={cn({ [s.forDarkIcons]: mode === "dark" })} />
-        <p> Установить как приложение 1</p>
-       </div>
-      </div>
-     </div>
-
      {supportsPWA && (
       <div className={s.buttonAction} onClick={onInstallClick}>
        <div className={s.buttonAction}>
@@ -131,9 +126,11 @@ export const Settings = () => {
        </div>
       </div>
      )}
-
      {iosInstPWA && <p>IOS instructions</p>}
+
      <p>{` ios devise =  ${isThisDeviceRunningiOS()}`}</p>
+
+     {(iosInstPWA || supportsPWA) && <PWAinstall />}
 
      <div className={s.buttonAction} onClick={logoutHandle}>
       <div className={s.buttonAction}>
