@@ -6,12 +6,15 @@ import cn from "classnames";
 import s from "../../pages/styles/settings.module.scss";
 import { ReactComponent as LogOutIcon } from "../../assets/icons/logOutIcon.svg";
 import { isThisDeviceRunningiOS } from "./isThisDeviceRunningiOS";
+import { PwaInstall } from "../../contextProvider/PwaInstallContext";
 
 interface PWAinstallType {
  handleClickOpen: () => void;
 }
 
 export const PWAinstall = () => {
+ const { supportsPWA, promptInstall, setSupportsPWA, setPromptInstall, Pwa, notHaveForms }: any =
+  useContext(PwaInstall);
  const { mode } = useContext(ColorModeContext);
 
  const [open, setOpen] = useState(false);
@@ -19,8 +22,6 @@ export const PWAinstall = () => {
  const handleClose = () => setOpen(false);
 
  const [iosInstPWA, setIosInstPWA] = useState(false);
- const [supportsPWA, setSupportsPWA] = useState(false);
- const [promptInstall, setPromptInstall] = useState<any>(null);
 
  useEffect(() => {
   const handler = (e: any) => {

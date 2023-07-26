@@ -20,6 +20,7 @@ import { ReactComponent as LogOutIcon } from "../assets/icons/logOutIcon.svg";
 import { ReactComponent as Moon } from "../assets/icons/moon.svg";
 import { PWAinstall } from "../modules/pwa/PWAinstall";
 import { isThisDeviceRunningiOS } from "../modules/pwa/isThisDeviceRunningiOS";
+import { PwaInstall } from "../contextProvider/PwaInstallContext";
 
 export const Settings = () => {
  const dispatch = useAppDispatch();
@@ -27,6 +28,9 @@ export const Settings = () => {
 
  const { temeState, changeTheme }: any = useContext(ContextTheme);
  const { mode, toggleColorMode } = useContext(ColorModeContext);
+
+ const { supportsPWA, promptInstall, setSupportsPWA, setPromptInstall, Pwa, notHaveForms }: any =
+  useContext(PwaInstall);
 
  const [open, setOpen] = useState(false);
  const handleClickOpen = () => setOpen(true);
@@ -48,8 +52,6 @@ export const Settings = () => {
  }
 
  const [iosInstPWA, setIosInstPWA] = useState(false);
- const [supportsPWA, setSupportsPWA] = useState(false);
- const [promptInstall, setPromptInstall] = useState<any>(null);
 
  useEffect(() => {
   const handler = (e: any) => {

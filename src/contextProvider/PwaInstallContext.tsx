@@ -39,7 +39,10 @@ export const PwaInstallContext = ({ children, ...props }: Props) => {
 
  const Pwa = isThisDeviceRunningiOS();
  return (
-  <PwaInstall.Provider value={{ supportsPWA, promptInstall, Pwa, notHaveForms }} {...props}>
+  <PwaInstall.Provider
+   value={{ supportsPWA, promptInstall, Pwa, notHaveForms, setSupportsPWA, setPromptInstall }}
+   {...props}
+  >
    {children}
   </PwaInstall.Provider>
  );
