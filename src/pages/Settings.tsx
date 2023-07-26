@@ -19,6 +19,7 @@ import { ReactComponent as InfoIcon } from "../assets/icons/infoIcon.svg";
 import { ReactComponent as LogOutIcon } from "../assets/icons/logOutIcon.svg";
 import { ReactComponent as Moon } from "../assets/icons/moon.svg";
 import { PWAinstall } from "../modules/pwa/PWAinstall";
+import { isThisDeviceRunningiOS } from "../modules/pwa/isThisDeviceRunningiOS";
 
 export const Settings = () => {
  const dispatch = useAppDispatch();
@@ -58,22 +59,6 @@ export const Settings = () => {
   };
   window.addEventListener("beforeinstallprompt", handler);
  }, []);
-
- //a somewhat verbose approach to iOS detection
- function isThisDeviceRunningiOS() {
-  if (
-   ["iPad Simulator", "iPhone Simulator", "iPod Simulator", "iPad", "iPhone", "iPod"].includes(
-    navigator.platform
-   )
-  )
-   return true;
-  // iPad on iOS 13
-  else if (navigator.userAgent.includes("Mac") && "ontouchend" in document) {
-   return true;
-  } else {
-   return false;
-  }
- }
 
  const onInstallClick = () => {
   if (!supportsPWA) {
@@ -116,7 +101,8 @@ export const Settings = () => {
        </div>
       </div>
      </a>
-     {supportsPWA && (
+
+     {(supportsPWA || isThisDeviceRunningiOS()) && (
       <div className={s.buttonAction} onClick={onInstallClick}>
        <div className={s.buttonAction}>
         <div className={s.title}>
@@ -126,11 +112,12 @@ export const Settings = () => {
        </div>
       </div>
      )}
+
      {iosInstPWA && <p>IOS instructions</p>}
 
      <p>{` ios devise =  ${isThisDeviceRunningiOS()}`}</p>
 
-     {(iosInstPWA || supportsPWA) && <PWAinstall />}
+     <PWAinstall />
 
      <div className={s.buttonAction} onClick={logoutHandle}>
       <div className={s.buttonAction}>

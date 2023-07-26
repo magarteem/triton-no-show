@@ -9,22 +9,25 @@ import "./styles/index.scss";
 import "./styles/reset.scss";
 import { ThemeContext } from "./contextProvider/ThemeContext";
 import { MuiThemeContext } from "./contextProvider/MuiThemeContext";
+import { PwaInstallContext } from "./contextProvider/PwaInstallContext";
 
 const container = document.getElementById("root")!;
 const root = createRoot(container);
 
 root.render(
-  <Provider store={store}>
-    <BrowserRouter>
-      <ThemeContext>
-        <MuiThemeContext>
-          <ReturnScrollContext>
-            <App />
-          </ReturnScrollContext>
-        </MuiThemeContext>
-      </ThemeContext>
-    </BrowserRouter>
-  </Provider>
+ <Provider store={store}>
+  <BrowserRouter>
+   <PwaInstallContext>
+    <ThemeContext>
+     <MuiThemeContext>
+      <ReturnScrollContext>
+       <App />
+      </ReturnScrollContext>
+     </MuiThemeContext>
+    </ThemeContext>
+   </PwaInstallContext>
+  </BrowserRouter>
+ </Provider>
 );
 
 serviceWorkerRegistration.register();
