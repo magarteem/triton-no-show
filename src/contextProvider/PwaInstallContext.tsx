@@ -13,7 +13,7 @@ export const PwaInstallContext = ({ children, ...props }: Props) => {
  useEffect(() => {
   const handler = (e: any) => {
    e.preventDefault();
-   setSupportsPWA(true);
+   setSupportsPWA((prev) => !prev);
    setPromptInstall(e);
   };
   window.addEventListener("beforeinstallprompt", handler);
