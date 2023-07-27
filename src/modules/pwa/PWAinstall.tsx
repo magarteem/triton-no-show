@@ -14,7 +14,7 @@ export const PWAinstall = () => {
  const { supportsPWA, promptInstall, isThisDeviceRunningiOS }: any = useContext(PwaInstall);
  const { mode } = useContext(ColorModeContext);
 
- const [iosInstPWA, setIosInstPWA] = useState(!false);
+ const [iosInstPWA, setIosInstPWA] = useState(false);
  const handleClose = () => setIosInstPWA(false);
 
  const onInstallClick = () => {
