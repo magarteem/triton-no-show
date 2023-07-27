@@ -29,7 +29,18 @@ export const PWAinstall = () => {
 
  return (
   <>
-   {(supportsPWA || isThisDeviceRunningiOS()) && (
+   {supportsPWA && (
+    <div className={s.buttonAction} onClick={onInstallClick}>
+     <div className={s.buttonAction}>
+      <div className={s.title}>
+       <LogOutIcon className={cn({ [s.forDarkIcons]: mode === "dark" })} />
+       <p> Установить как приложение</p>
+      </div>
+     </div>
+    </div>
+   )}
+
+   {isThisDeviceRunningiOS() && (
     <div className={s.buttonAction} onClick={onInstallClick}>
      <div className={s.buttonAction}>
       <div className={s.title}>
