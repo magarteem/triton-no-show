@@ -12,7 +12,6 @@ import { StylesFullScreen } from "../common/layout/stylesFullScreen/StylesFullSc
 import { HeaderStylesWrapper } from "../common/layout/headerStylesWrapper/HeaderStylesWrapper";
 import { SwitchMui } from "../common/mui-element/Switch";
 import { usePwaVersionAppQuery } from "../modules/pwa/pwaVersionQuery";
-import { useLoginMutation } from "../modules/authorization/authQuery";
 import { ContextTheme } from "../contextProvider/ThemeContext";
 import { ColorModeContext } from "../contextProvider/MuiThemeContext";
 import { ReactComponent as InfoIcon } from "../assets/icons/infoIcon.svg";
@@ -29,48 +28,31 @@ export const Settings = () => {
  const { temeState, changeTheme }: any = useContext(ContextTheme);
  const { mode, toggleColorMode } = useContext(ColorModeContext);
 
- const { supportsPWA, promptInstall, setSupportsPWA, setPromptInstall, Pwa, notHaveForms }: any =
-  useContext(PwaInstall);
+ // const { supportsPWA, promptInstall, setSupportsPWA, setPromptInstall, Pwa, notHaveForms }: any =
+ //  useContext(PwaInstall);
 
- const [open, setOpen] = useState(false);
- const handleClickOpen = () => setOpen(true);
- const handleClose = () => setOpen(false);
+ // const [open, setOpen] = useState(false);
+ // const handleClickOpen = () => setOpen(true);
+ // const handleClose = () => setOpen(false);
 
  const { data, isSuccess } = usePwaVersionAppQuery();
- // const [loginQuery, { data: loginData }] = useLoginMutation();
- // useEffect(() => {
- //  const loginData = {
- //   email: "ttt@ttt.ttt",
- //   password: "ttt",
- //  };
- //  loginQuery(loginData);
- // }, []);
 
  function changeTemeFu() {
   changeTheme(temeState === "light" ? "dark" : "light");
   toggleColorMode();
  }
 
- const [iosInstPWA, setIosInstPWA] = useState(false);
+ // const [iosInstPWA, setIosInstPWA] = useState(false);
 
- useEffect(() => {
-  const handler = (e: any) => {
-   e.preventDefault();
-   setSupportsPWA(true);
-   setPromptInstall(e);
-  };
-  window.addEventListener("beforeinstallprompt", handler);
- }, []);
-
- const onInstallClick = () => {
-  if (!supportsPWA) {
-   alert("Either you have already installed the app or your browser does not support PWA :(");
-   return;
-  } else if (isThisDeviceRunningiOS()) {
-   setIosInstPWA((prev) => !prev);
-   return;
-  } else promptInstall.prompt();
- };
+ // const onInstallClick = () => {
+ //  if (!supportsPWA) {
+ //   alert("Either you have already installed the app or your browser does not support PWA :(");
+ //   return;
+ //  } else if (isThisDeviceRunningiOS()) {
+ //   // setIosInstPWA((prev) => !prev);
+ //   return;
+ //  } else promptInstall.prompt();
+ // };
 
  return (
   <StylesFullScreen>
@@ -104,7 +86,7 @@ export const Settings = () => {
       </div>
      </a>
 
-     {(supportsPWA || isThisDeviceRunningiOS()) && (
+     {/*{(supportsPWA || isThisDeviceRunningiOS()) && (
       <div className={s.buttonAction} onClick={onInstallClick}>
        <div className={s.buttonAction}>
         <div className={s.title}>
@@ -113,11 +95,11 @@ export const Settings = () => {
         </div>
        </div>
       </div>
-     )}
+     )}*/}
 
-     {iosInstPWA && <p>IOS instructions</p>}
+     {/*{iosInstPWA && <p>IOS instructions</p>}*/}
 
-     <p>{` ios devise =  ${isThisDeviceRunningiOS()}`}</p>
+     {/*<p>{` ios devise =  ${isThisDeviceRunningiOS()}`}</p>*/}
 
      <PWAinstall />
 

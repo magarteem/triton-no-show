@@ -1,5 +1,4 @@
 import { createContext, ReactNode, useEffect, useState } from "react";
-import { useAppSelector } from "../core/redux/app/hooks";
 
 interface Props {
  children: ReactNode;
@@ -8,8 +7,6 @@ interface Props {
 export const PwaInstall = createContext({});
 
 export const PwaInstallContext = ({ children, ...props }: Props) => {
- const notHaveForms = useAppSelector((state) => state.userSliceReducer.notHaveForms);
-
  const [supportsPWA, setSupportsPWA] = useState(false);
  const [promptInstall, setPromptInstall] = useState<any>(null);
 
@@ -37,10 +34,13 @@ export const PwaInstallContext = ({ children, ...props }: Props) => {
   }
  };
 
- const Pwa = isThisDeviceRunningiOS();
  return (
   <PwaInstall.Provider
-   value={{ supportsPWA, promptInstall, Pwa, notHaveForms, setSupportsPWA, setPromptInstall }}
+   value={{
+    supportsPWA,
+    promptInstall,
+    isThisDeviceRunningiOS,
+   }}
    {...props}
   >
    {children}
