@@ -1,47 +1,40 @@
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { FilterModalLayout } from "../../common/layout/filterModalLayout/FilterModalLayout";
 import { sxStyle } from "../../pages/styles/sx";
 import { ColorModeContext } from "../../contextProvider/MuiThemeContext";
-import clearIcon from "../../assets/icons/clearIcon.svg";
-import cn from "classnames";
-import s from "./pwa.module.scss";
 import { ReactComponent as LogOutIcon } from "../../assets/icons/logOutIcon.svg";
-import { PwaInstall } from "../../contextProvider/PwaInstallContext";
+import { PWAinstallContextType, PwaInstall } from "../../contextProvider/PwaInstallContext";
 import iosAddToHomeScreen from "../../assets/icons/iosAddToHomeScreen.webp";
 import pwaIconMaskable from "../../assets/icons/pwaIconMaskable.webp";
+import cn from "classnames";
+import s from "./pwa.module.scss";
 
 export const PWAinstall = () => {
- const { supportsPWA, promptInstall, isThisDeviceRunningiOS }: any = useContext(PwaInstall);
  const { mode } = useContext(ColorModeContext);
-
+ let { supportsPWA, promptInstall, isThisDeviceRunningiOS, setSupportsPWA }: PWAinstallContextType =
+  useContext(PwaInstall);
  const [iosInstPWA, setIosInstPWA] = useState(false);
  const handleClose = () => setIosInstPWA(false);
 
- const onInstallClick = () => {
-  if (!supportsPWA) {
-   alert("Либо вы уже установили приложение, либо ваш браузер не поддерживает PWA.");
-   return;
-  } else if (isThisDeviceRunningiOS()) {
-   setIosInstPWA((prev) => !prev);
-   return;
-  } else promptInstall.prompt();
+ const onInstallClickForAndroid = async () => {
+  if (supportsPWA && promptInstall) {
+   promptInstall.prompt();
+   const { outcome } = await promptInstall.userChoice;
+   if (outcome === "accepted") {
+    setSupportsPWA(false);
+   }
+  } else alert("Либо вы уже установили приложение, либо ваш браузер не поддерживает PWA.");
  };
+
+ const onInstallClickForIOS = () => isThisDeviceRunningiOS() && setIosInstPWA(true);
 
  return (
   <>
-   {supportsPWA && (
-    <div className={s.buttonAction} onClick={onInstallClick}>
-     <div className={s.buttonAction}>
-      <div className={s.title}>
-       <LogOutIcon className={cn({ [s.forDarkIcons]: mode === "dark" })} />
-       <p> Установить как приложение</p>
-      </div>
-     </div>
-    </div>
-   )}
-
-   {isThisDeviceRunningiOS() && (
-    <div className={s.buttonAction} onClick={onInstallClick}>
+   {(supportsPWA || isThisDeviceRunningiOS()) && (
+    <div
+     className={s.buttonAction}
+     onClick={supportsPWA ? onInstallClickForAndroid : onInstallClickForIOS}
+    >
      <div className={s.buttonAction}>
       <div className={s.title}>
        <LogOutIcon className={cn({ [s.forDarkIcons]: mode === "dark" })} />
@@ -65,7 +58,7 @@ export const PWAinstall = () => {
      <div className={s.iosPwaInstall}>
       <div className={s.header}>
        <img src={pwaIconMaskable} alt="pwaIconMaskable" />
-       <h1>Install Progressiver</h1>
+       <h1>Установить приложение</h1>
       </div>
       <div className={s.mainPwa}>
        <h3>
@@ -79,25 +72,9 @@ export const PWAinstall = () => {
         2) выберите <span>добавить на главный экран</span>:
        </p>
       </div>
-      <button className={s.closeButton} onClick={handleClose}>
-       <img src={clearIcon} alt="back" />
-      </button>
      </div>
     </FilterModalLayout>
    )}
   </>
  );
-
- //<FilterModalLayout
- // style={{
- //  ...sxStyle.filterModalLayout,
- //  "& .MuiPaper-root": {
- //   background: mode === "dark" ? "#2a2a2a" : "#FDFDF5",
- //  },
- // }}
- // modalOpen={open}
- // handleClose={handleClose}
- //>
- // <p>ffdddddddddf</p>
- //</FilterModalLayout>
 };

@@ -1,22 +1,40 @@
 import { createContext, ReactNode, useEffect, useState } from "react";
+import { IBeforeInstallPromptEvent } from "../modules/pwa/type";
+
+export interface PWAinstallContextType {
+ supportsPWA: boolean;
+ promptInstall: IBeforeInstallPromptEvent | null;
+ isThisDeviceRunningiOS: () => any;
+ setSupportsPWA: (supp: boolean) => void;
+}
 
 interface Props {
  children: ReactNode;
 }
 
-export const PwaInstall = createContext({});
+export const PwaInstall = createContext<PWAinstallContextType>({
+ supportsPWA: false,
+ promptInstall: null,
+ isThisDeviceRunningiOS: () => {},
+ setSupportsPWA: () => false,
+});
 
 export const PwaInstallContext = ({ children, ...props }: Props) => {
  const [supportsPWA, setSupportsPWA] = useState(false);
- const [promptInstall, setPromptInstall] = useState<any>(null);
+ const [promptInstall, setPromptInstall] = useState<IBeforeInstallPromptEvent | null>(null);
 
  useEffect(() => {
   const handler = (e: any) => {
    e.preventDefault();
-   setSupportsPWA((prev) => !prev);
+   setSupportsPWA(true);
    setPromptInstall(e);
   };
+
   window.addEventListener("beforeinstallprompt", handler);
+
+  return () => {
+   window.removeEventListener("beforeinstallprompt", handler);
+  };
  }, []);
 
  const isThisDeviceRunningiOS = () => {
@@ -40,6 +58,7 @@ export const PwaInstallContext = ({ children, ...props }: Props) => {
     supportsPWA,
     promptInstall,
     isThisDeviceRunningiOS,
+    setSupportsPWA,
    }}
    {...props}
   >
