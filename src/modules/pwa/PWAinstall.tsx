@@ -26,11 +26,12 @@ export const PWAinstall = () => {
   } else alert("Либо вы уже установили приложение, либо ваш браузер не поддерживает PWA.");
  };
 
- const onInstallClickForIOS = () => isThisDeviceRunningiOS() && setIosInstPWA(true);
+ const onInstallClickForIOS = () => isThisDeviceRunningiOS && setIosInstPWA(true);
+ console.log("isThisDeviceRunningiOS", isThisDeviceRunningiOS);
 
  return (
   <>
-   {(supportsPWA || isThisDeviceRunningiOS()) && (
+   {(supportsPWA || isThisDeviceRunningiOS) && (
     <div
      className={s.buttonAction}
      onClick={supportsPWA ? onInstallClickForAndroid : onInstallClickForIOS}

@@ -18,8 +18,6 @@ import { ReactComponent as InfoIcon } from "../assets/icons/infoIcon.svg";
 import { ReactComponent as LogOutIcon } from "../assets/icons/logOutIcon.svg";
 import { ReactComponent as Moon } from "../assets/icons/moon.svg";
 import { PWAinstall } from "../modules/pwa/PWAinstall";
-import { isThisDeviceRunningiOS } from "../modules/pwa/isThisDeviceRunningiOS";
-import { PwaInstall } from "../contextProvider/PwaInstallContext";
 
 export const Settings = () => {
  const dispatch = useAppDispatch();
@@ -27,32 +25,12 @@ export const Settings = () => {
 
  const { temeState, changeTheme }: any = useContext(ContextTheme);
  const { mode, toggleColorMode } = useContext(ColorModeContext);
-
- // const { supportsPWA, promptInstall, setSupportsPWA, setPromptInstall, Pwa, notHaveForms }: any =
- //  useContext(PwaInstall);
-
- // const [open, setOpen] = useState(false);
- // const handleClickOpen = () => setOpen(true);
- // const handleClose = () => setOpen(false);
-
  const { data, isSuccess } = usePwaVersionAppQuery();
 
  function changeTemeFu() {
   changeTheme(temeState === "light" ? "dark" : "light");
   toggleColorMode();
  }
-
- // const [iosInstPWA, setIosInstPWA] = useState(false);
-
- // const onInstallClick = () => {
- //  if (!supportsPWA) {
- //   alert("Either you have already installed the app or your browser does not support PWA :(");
- //   return;
- //  } else if (isThisDeviceRunningiOS()) {
- //   // setIosInstPWA((prev) => !prev);
- //   return;
- //  } else promptInstall.prompt();
- // };
 
  return (
   <StylesFullScreen>
@@ -86,21 +64,6 @@ export const Settings = () => {
       </div>
      </a>
 
-     {/*{(supportsPWA || isThisDeviceRunningiOS()) && (
-      <div className={s.buttonAction} onClick={onInstallClick}>
-       <div className={s.buttonAction}>
-        <div className={s.title}>
-         <LogOutIcon className={cn({ [s.forDarkIcons]: mode === "dark" })} />
-         <p> Установить как приложение 2</p>
-        </div>
-       </div>
-      </div>
-     )}*/}
-
-     {/*{iosInstPWA && <p>IOS instructions</p>}*/}
-
-     {/*<p>{` ios devise =  ${isThisDeviceRunningiOS()}`}</p>*/}
-
      <PWAinstall />
 
      <div className={s.buttonAction} onClick={logoutHandle}>
@@ -124,10 +87,3 @@ export const Settings = () => {
   </StylesFullScreen>
  );
 };
-
-//return (
-//  <>
-//      <ButtonInstallPwa />//
-//    <PopUpNavigateGradient />
-//  </>
-//);

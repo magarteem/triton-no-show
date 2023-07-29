@@ -1,10 +1,11 @@
 import { createContext, ReactNode, useEffect, useState } from "react";
 import { IBeforeInstallPromptEvent } from "../modules/pwa/type";
+import { isThisDeviceRunningiOS } from "../modules/pwa/pwaInstall/pwaInstall";
 
 export interface PWAinstallContextType {
  supportsPWA: boolean;
  promptInstall: IBeforeInstallPromptEvent | null;
- isThisDeviceRunningiOS: () => any;
+ isThisDeviceRunningiOS: boolean;
  setSupportsPWA: (supp: boolean) => void;
 }
 
@@ -15,7 +16,7 @@ interface Props {
 export const PwaInstall = createContext<PWAinstallContextType>({
  supportsPWA: false,
  promptInstall: null,
- isThisDeviceRunningiOS: () => {},
+ isThisDeviceRunningiOS: false,
  setSupportsPWA: () => false,
 });
 
@@ -37,20 +38,20 @@ export const PwaInstallContext = ({ children, ...props }: Props) => {
   };
  }, []);
 
- const isThisDeviceRunningiOS = () => {
-  if (
-   ["iPad Simulator", "iPhone Simulator", "iPod Simulator", "iPad", "iPhone", "iPod"].includes(
-    navigator.platform
-   )
-  )
-   return true;
-  // iPad on iOS 13
-  else if (navigator.userAgent.includes("Mac") && "ontouchend" in document) {
-   return true;
-  } else {
-   return false;
-  }
- };
+ // const isThisDeviceRunningiOS = () => {
+ //  if (
+ //   ["iPad Simulator", "iPhone Simulator", "iPod Simulator", "iPad", "iPhone", "iPod"].includes(
+ //    navigator.platform
+ //   )
+ //  )
+ //   return true;
+ //  // iPad on iOS 13
+ //  else if (navigator.userAgent.includes("Mac") && "ontouchend" in document) {
+ //   return true;
+ //  } else {
+ //   return false;
+ //  }
+ // };
 
  return (
   <PwaInstall.Provider
