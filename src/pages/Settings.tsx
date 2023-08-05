@@ -1,11 +1,9 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import { Link } from "react-router-dom";
 import { ReactComponent as ArrowCanselImgIcon } from "../assets/icons/clearIcon.svg";
 import { useAppDispatch } from "../core/redux/app/hooks";
 import { logout } from "../modules/authorization/authSlice";
-import { InButton } from "../common/ui-elements/button/InButton";
 import { RouteNames } from "../core/router/RouteNames";
-import { PopUpNavigateGradient } from "../common/components/navigateButton/PopUpNavigateGradient";
 import cn from "classnames";
 import s from "./styles/settings.module.scss";
 import { StylesFullScreen } from "../common/layout/stylesFullScreen/StylesFullScreen";

@@ -10,7 +10,7 @@ const userAgentCheckIos = navigator.userAgent.includes("Mac") && "ontouchend" in
 const isInStandaloneMode = () =>
  "standalone" in (window as any).navigator && (window as any).navigator.standalone;
 
-export const isThisDeviceRunningiOS = (isIos() || userAgentCheckIos) && !isInStandaloneMode(); //&& !iosInstallModalShown;
+export const isThisDeviceRunningiOS = (isIos() || userAgentCheckIos) && !isInStandaloneMode();
 
 // pre test = dell code
 //export const isThisDeviceRunningiOS = (): boolean => {

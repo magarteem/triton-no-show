@@ -66,6 +66,7 @@ export const getMyProfileQuery = createApi({
      ageStart: arg?.ageStart ?? undefined,
      ageEnd: arg?.ageEnd ?? undefined,
      teamType: arg?.teamTypes ?? undefined,
+     master: arg?.master, //пока не реализовано на бэке
     };
 
     return {

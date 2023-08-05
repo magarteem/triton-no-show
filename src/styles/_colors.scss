@@ -21,6 +21,10 @@ $primary-scale: linear-gradient(270.95deg, #bcf373 0%, #467326 100%);
 $backgroundFonts: linear-gradient(347.98deg, #ba0000 -54.41%, #ff864c 92.25%);
 
 // ? ----------
+//color: var(#{--reverse-color-whihe-default});
+$reverse-color-whihe-dark: #000000;
+$reverse-color-whihe-light: #ffffff;
+
 //color: var(#{--green-color-text-default});
 $green-color-text-dark: #43a303;
 $green-color-text-light: #2b6c00;
@@ -46,27 +50,31 @@ $body-text-color-second-dark: #c7cac4;
 $body-text-color-second-light: #1a1c18;
 
 :root {
- --green-color-text-dark: #{$green-color-text-dark};
- --green-color-text-light: #{$green-color-text-light};
- --green-color-text-default: var(#{--green-color-text-dark});
+  --reverse-color-whihe-dark: #{$reverse-color-whihe-dark};
+  --reverse-color-whihe-light: #{$reverse-color-whihe-light};
+  --reverse-color-whihe-default: var(#{--reverse-color-whihe-dark});
 
- --name-profile-color-dark: #{$name-profile-color-dark};
- --name-profile-color-light: #{$name-profile-color-light};
- --name-profile-color-default: var(#{--name-profile-color-dark});
+  --green-color-text-dark: #{$green-color-text-dark};
+  --green-color-text-light: #{$green-color-text-light};
+  --green-color-text-default: var(#{--green-color-text-dark});
 
- --title-color-dark: #{$title-color-dark};
- --title-color-light: #{$title-color-light};
- --title-color-default: var(#{--title-color-dark});
+  --name-profile-color-dark: #{$name-profile-color-dark};
+  --name-profile-color-light: #{$name-profile-color-light};
+  --name-profile-color-default: var(#{--name-profile-color-dark});
 
- --body-background-dark: #{$body-background-dark};
- --body-background-light: #{$body-background-light};
- --body-background-default: var(#{--body-background-dark});
+  --title-color-dark: #{$title-color-dark};
+  --title-color-light: #{$title-color-light};
+  --title-color-default: var(#{--title-color-dark});
 
- --body-text-color-dark: #{$body-text-color-dark};
- --body-text-color-light: #{$body-text-color-light};
- --body-text-color-default: var(#{--body-text-color-dark});
+  --body-background-dark: #{$body-background-dark};
+  --body-background-light: #{$body-background-light};
+  --body-background-default: var(#{--body-background-dark});
 
- --body-text-color-second-dark: #{$body-text-color-second-dark};
- --body-text-color-second-light: #{$body-text-color-second-light};
- --body-text-color-second-default: var(#{--body-text-color-second-dark});
+  --body-text-color-dark: #{$body-text-color-dark};
+  --body-text-color-light: #{$body-text-color-light};
+  --body-text-color-default: var(#{--body-text-color-dark});
+
+  --body-text-color-second-dark: #{$body-text-color-second-dark};
+  --body-text-color-second-light: #{$body-text-color-second-light};
+  --body-text-color-second-default: var(#{--body-text-color-second-dark});
 }

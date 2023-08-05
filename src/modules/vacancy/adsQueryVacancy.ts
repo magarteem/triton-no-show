@@ -18,7 +18,7 @@ export const adsQueryVacancy = createApi({
  endpoints: (build) => ({
   listVacancy: build.query<ResponseAdsType, VacancyFilterParamsRequestType | void | null>({
    query: (arg) => {
-    //console.log("listAds arg = ", arg);
+    console.log("listAds V arg = ", arg);
     const params = {
      page: arg?.page ?? 0,
      pageSize: 10,
@@ -29,6 +29,11 @@ export const adsQueryVacancy = createApi({
      institutionTypeId: arg?.institutionTypeId,
      cityIds: arg?.cityIds ?? undefined,
      genreIds: arg?.genreIds,
+     gender: arg?.gender,
+     ageStart: arg?.fromAge ?? undefined,
+     ageEnd: arg?.toAge ?? undefined,
+     teamType: arg?.teamTypes ?? undefined,
+     master: arg?.master, //пока не реализовано на бэке
      instrumentIds: arg?.instrumentIds,
      currentUserFormId:
       JSON.parse(getJsonParseLocalStorage()).id ?? "00000000-0000-0000-0000-000000000000",

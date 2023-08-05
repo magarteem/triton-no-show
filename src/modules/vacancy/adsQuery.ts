@@ -30,6 +30,11 @@ export const adsQuery = createApi({
      formId: arg?.formId,
      formTypes: arg?.formTypes,
      teamTypes: arg?.teamTypes,
+
+     gender: arg?.gender,
+     ageStart: arg?.fromAge ?? undefined,
+     ageEnd: arg?.toAge ?? undefined,
+     master: arg?.master, //пока не реализовано на бэке
      institutionTypeIds: arg?.institutionTypeIds,
      neededEmployeeTypes: arg?.neededEmployeeTypes,
      musicianTypes: arg?.musicianTypes,

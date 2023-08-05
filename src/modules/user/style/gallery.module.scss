@@ -1,92 +1,88 @@
 @import "src/styles/variable";
 
 .swiper {
- // padding: 12px 0;
- overflow: auto;
-
- & > div {
-  //padding: 0 10px;
+  overflow: auto;
 
   & > div {
-   display: flex;
-   // justify-content: space-between;
-  }
- }
-
- .swiper-wrapper {
-  align-items: center !important;
-  background-color: red !important;
- }
-
- h2 {
-  font-weight: 700;
-  font-size: 18px;
-  color: var(#{--title-color-default});
-  margin-bottom: 12px;
- }
-
- .swiperCard {
-  display: flex;
-  justify-content: center;
-  cursor: pointer;
-  overflow: hidden;
-  width: 124px;
-  height: 124px;
-  border-radius: 4px;
-  transition: all 0.3s;
-
-  &:hover {
-   transition: all 0.3s;
-   transform: translateY(-5px) scale(1.02);
-   box-shadow: 0px 14px 30px rgba(104, 73, 73, 0.05);
+    & > div {
+      display: flex;
+    }
   }
 
-  img {
-   height: 124px;
-   object-fit: cover;
-
-   &:before {
-    content: "";
-    display: block;
-    position: absolute;
-    top: -10px;
-    left: -10px;
-    height: 140%;
-    width: 140%;
-    background-color: rgb(230, 230, 230);
-    border: 2px dotted rgb(200, 200, 200);
-    border-radius: 5px;
-   }
-
-   &:after {
-    content: "Не верный URL";
-    display: block;
-    font-size: 16px;
-    font-style: normal;
-    font-family: FontAwesome;
-    color: rgb(100, 100, 100);
-    position: absolute;
-    top: 50px;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    text-align: center;
-   }
+  .swiper-wrapper {
+    align-items: center !important;
+    background-color: red !important;
   }
- }
+
+  h2 {
+    font-weight: 700;
+    font-size: 18px;
+    color: var(#{--title-color-default});
+    margin-bottom: 12px;
+  }
+
+  .swiperCard {
+    display: flex;
+    justify-content: center;
+    cursor: pointer;
+    overflow: hidden;
+    width: 124px;
+    height: 124px;
+    border-radius: 4px;
+    transition: all 0.3s;
+
+    &:hover {
+      transition: all 0.3s;
+      transform: translateY(-5px) scale(1.02);
+      box-shadow: 0px 14px 30px rgba(104, 73, 73, 0.05);
+    }
+
+    img {
+      height: 124px;
+      object-fit: cover;
+
+      &:before {
+        content: "";
+        display: block;
+        position: absolute;
+        top: -10px;
+        left: -10px;
+        height: 140%;
+        width: 140%;
+        background-color: rgb(230, 230, 230);
+        border: 2px dotted rgb(200, 200, 200);
+        border-radius: 5px;
+      }
+
+      &:after {
+        content: "Не верный URL";
+        display: block;
+        font-size: 16px;
+        font-style: normal;
+        font-family: FontAwesome;
+        color: rgb(100, 100, 100);
+        position: absolute;
+        top: 50px;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        text-align: center;
+      }
+    }
+  }
 }
 
 .styleAbout {
- font-size: 16px;
- line-height: 24px;
- color: var(#{--body-text-color-default});
- margin-top: 8px;
+  font-size: 16px;
+  line-height: 24px;
+  color: var(#{--body-text-color-default});
+  margin-top: 8px;
 
- .titleSpan {
-  cursor: pointer;
-  white-space: nowrap;
-  font-weight: 600;
-  color: var(#{--body-text-color-second-default});
-  padding-right: 8px;
- }
+  .titleSpan {
+    cursor: pointer;
+    white-space: nowrap;
+    font-weight: 600;
+    color: var(#{--body-text-color-second-default});
+    padding-right: 8px;
+  }
 }

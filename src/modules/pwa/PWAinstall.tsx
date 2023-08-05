@@ -7,7 +7,7 @@ import { PWAinstallContextType, PwaInstall } from "../../contextProvider/PwaInst
 import iosAddToHomeScreen from "../../assets/icons/iosAddToHomeScreen.webp";
 import pwaIconMaskable from "../../assets/icons/pwaIconMaskable.webp";
 import cn from "classnames";
-import s from "./pwa.module.scss";
+import s from "./pwaInstall/pwa.module.scss";
 
 export const PWAinstall = () => {
  const { mode } = useContext(ColorModeContext);
@@ -27,7 +27,6 @@ export const PWAinstall = () => {
  };
 
  const onInstallClickForIOS = () => isThisDeviceRunningiOS && setIosInstPWA(true);
- console.log("isThisDeviceRunningiOS", isThisDeviceRunningiOS);
 
  return (
   <>
@@ -67,10 +66,11 @@ export const PWAinstall = () => {
         Нет магазина приложений. Нет загрузки. Никаких хлопот
        </h3>
        <p className={cn(s.pwaInstructions, s.positionImg)}>
-        1) нажать: <img src={iosAddToHomeScreen} alt="iosAddToHomeScreen" />
+        1) В браузере <span> Safari </span> нажмите:
+        <img src={iosAddToHomeScreen} alt="iosAddToHomeScreen" />
        </p>
        <p className={s.pwaInstructions}>
-        2) выберите <span>добавить на главный экран</span>:
+        2) Выберите: <span>На экран «Домой»</span>
        </p>
       </div>
      </div>

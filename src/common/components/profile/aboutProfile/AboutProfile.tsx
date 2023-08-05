@@ -97,6 +97,7 @@ export const AboutProfile = ({ userDataProfile, notHaveForms }: AboutProfileType
         ? RouteNames.OTHER_USER_POSTS
         : `${RouteNames.OTHER_PROFILE_USER}/${parseJsonId}/${RouteNames.OTHER_USER_POSTS}`
       }
+      state={{ from: pathname }}
      >
       {contactRequestStatus === EnumContactRequestStatusResponse.MY_FORM || !id_user ? (
        !notHaveForms ? (

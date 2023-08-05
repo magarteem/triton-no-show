@@ -4,6 +4,7 @@ import { filterTranslateVacancy } from "../service/filterTranslate";
 import { FormsFilterType } from "../types/formsFilterType";
 
 export const filterSubmit = (data: FormsFilterType, token: "vacancy" | "ads" | "account") => {
+ console.log("data", data);
  const mainObjFilter = {
   query: data.query,
   pageSize: 10,
@@ -14,14 +15,35 @@ export const filterSubmit = (data: FormsFilterType, token: "vacancy" | "ads" | "
   instrumentIds: data.tool.map((x) => x.id),
  };
 
- // Для vacancy бэк не принимает teamTypes (тип коллектива)
- const paramsQueryVacancy = {
-  ...mainObjFilter,
-  vacancyOwnerFormType: data.who_is_looking_vacancy?.id,
-  searchVacancyDocumentType: data.who_is_looking_vacancy_partner
-   ? filterTranslateVacancy[data.who_is_looking_vacancy_partner.id]
-   : undefined,
-  institutionTypeId: data.typeOfInstitution?.id,
+ const paramsQueryVacancyFu = () => {
+  const paramsQueryVacancy = {
+   ...mainObjFilter,
+   vacancyOwnerFormType: data.who_is_looking_vacancy?.id,
+   searchVacancyDocumentType: data.who_is_looking_vacancy_partner
+    ? filterTranslateVacancy[data.who_is_looking_vacancy_partner.id]
+    : undefined,
+   institutionTypeId:
+    data.who_is_looking_vacancy?.id === EnumTypeAccount.INSTITUTION
+     ? data.typeOfInstitution?.id
+     : undefined,
+  };
+
+  if (data.who_is_looking_vacancy_partner?.id === EnumTypeDocumentType.MUSICIAN) {
+   return {
+    ...paramsQueryVacancy,
+    gender: data.gender?.id,
+    fromAge: data.fromAge,
+    toAge: data.toAge,
+    master: data.master?.id, //пока не реализовано на бэке
+   };
+  } else if (data.who_is_looking_vacancy_partner?.id === EnumTypeDocumentType.TEAM) {
+   return {
+    ...paramsQueryVacancy,
+    teamTypes: data.teamType?.id,
+   };
+  } else {
+   return paramsQueryVacancy;
+  }
  };
 
  const paramsQueryAdsFu = () => {
@@ -61,7 +83,13 @@ export const filterSubmit = (data: FormsFilterType, token: "vacancy" | "ads" | "
      };
    }
   } else if (data.who_is_looking_ads?.id === EnumTypeDocumentType.MUSICIAN) {
-   return paramsQueryAds;
+   return {
+    ...paramsQueryAds,
+    gender: data.gender?.id,
+    fromAge: data.fromAge,
+    toAge: data.toAge,
+    master: data.master?.id, //пока не реализовано на бэке
+   };
   } else {
    return {
     ...paramsQueryAds,
@@ -90,6 +118,7 @@ export const filterSubmit = (data: FormsFilterType, token: "vacancy" | "ads" | "
      gender: data.gender?.id,
      ageStart: data.fromAge,
      ageEnd: data.toAge,
+     master: data.master?.id, //пока не реализовано на бэке
     };
    case EnumTypeAccount.INSTITUTION:
     return {
@@ -106,7 +135,7 @@ export const filterSubmit = (data: FormsFilterType, token: "vacancy" | "ads" | "
   }
  };
 
- if (token === "vacancy") return paramsQueryVacancy;
+ if (token === "vacancy") return paramsQueryVacancyFu();
  else if (token === "ads") {
   return paramsQueryAdsFu();
  } else return paramsQueryAccountFu();

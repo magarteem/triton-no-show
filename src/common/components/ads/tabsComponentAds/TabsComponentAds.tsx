@@ -1,28 +1,44 @@
-import React, { memo, useEffect } from "react";
+import React, { memo, useEffect, useLayoutEffect } from "react";
 import { Tab, Tabs } from "@mui/material";
-import { Link, useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { styleSxTabsComponent } from "./styleSxTabsComponent";
 import { RouteNames } from "../../../../core/router/RouteNames";
 import {
  routeAccount,
  routeAnonnsemend,
 } from "../../../../modules/ads/service/routesVariableForAds";
+//import { useHandleEventBrowserGoToBack } from "../../../../hook/useHandleEventBrowserGoToBack";
+import { TabLinkElement } from "../../tabLinkElement/TabLinkElement";
 
 export const TabsComponentAds = memo(() => {
  const [value, setValue] = React.useState("");
- let location = useLocation();
+ let { pathname, state } = useLocation();
+ const navigate = useNavigate();
+ // useHandleEventBrowserGoToBack(); // go to back (addEventListener) no tab
 
  useEffect(() => {
-  location.pathname === routeAnonnsemend
+  pathname === routeAnonnsemend
    ? setValue(RouteNames.ADS_LIST)
-   : location.pathname === routeAccount
+   : pathname === routeAccount
    ? setValue(RouteNames.ADS_QUESTIONNAIRE_LIST)
    : setValue("");
- }, [location]);
+ }, [pathname]);
 
- const handleChange = (event: React.SyntheticEvent, newValue: string) => {
-  setValue(newValue);
+ const handleChange = (event: React.SyntheticEvent, newValue: string) => setValue(newValue);
+
+ const handlePopstate = (e: any) => {
+  e.preventDefault();
+
+  if (state) navigate(state.from);
+  else navigate(RouteNames.HOME);
  };
+
+ useEffect(() => {
+  window.addEventListener("popstate", handlePopstate);
+  return () => {
+   window.removeEventListener("popstate", handlePopstate);
+  };
+ }, []);
 
  return (
   <Tabs
@@ -33,30 +49,36 @@ export const TabsComponentAds = memo(() => {
    aria-label="secondary tabs example"
    sx={styleSxTabsComponent.tabs}
   >
-   <Tab
-    to=""
-    value=""
-    component={Link}
-    label="Вакансии"
-    sx={styleSxTabsComponent.tab}
-    onClick={() => setValue("")}
-   />
-   <Tab
-    to={RouteNames.ADS_LIST}
-    value={RouteNames.ADS_LIST}
-    component={Link}
-    label="Объявления"
-    sx={styleSxTabsComponent.tab}
-    onClick={() => setValue(RouteNames.ADS_LIST)}
-   />
-   <Tab
-    to={RouteNames.ADS_QUESTIONNAIRE_LIST}
-    value={RouteNames.ADS_QUESTIONNAIRE_LIST}
-    component={Link}
-    label="Анкеты"
-    sx={styleSxTabsComponent.tab}
-    onClick={() => setValue(RouteNames.ADS_QUESTIONNAIRE_LIST)}
-   />
+   {tabLinkElement.map((x) => (
+    <Tab
+     key={x.to}
+     value={x.to}
+     label={x.label}
+     sx={styleSxTabsComponent.tab}
+     onClick={() => setValue(x.to)}
+     component={TabLinkElement({ href: x.to })}
+    />
+   ))}
   </Tabs>
  );
 });
+
+interface TabLinkElementType {
+ to: string;
+ label: string;
+}
+
+const tabLinkElement: TabLinkElementType[] = [
+ {
+  to: "",
+  label: "Вакансии",
+ },
+ {
+  to: RouteNames.ADS_LIST,
+  label: "Объявления",
+ },
+ {
+  to: RouteNames.ADS_QUESTIONNAIRE_LIST,
+  label: "Анкеты",
+ },
+];

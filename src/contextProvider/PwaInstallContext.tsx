@@ -1,6 +1,6 @@
 import { createContext, ReactNode, useEffect, useState } from "react";
-import { IBeforeInstallPromptEvent } from "../modules/pwa/type";
 import { isThisDeviceRunningiOS } from "../modules/pwa/pwaInstall/pwaInstall";
+import { IBeforeInstallPromptEvent } from "../modules/pwa/pwaInstall/type";
 
 export interface PWAinstallContextType {
  supportsPWA: boolean;
@@ -37,21 +37,6 @@ export const PwaInstallContext = ({ children, ...props }: Props) => {
    window.removeEventListener("beforeinstallprompt", handler);
   };
  }, []);
-
- // const isThisDeviceRunningiOS = () => {
- //  if (
- //   ["iPad Simulator", "iPhone Simulator", "iPod Simulator", "iPad", "iPhone", "iPod"].includes(
- //    navigator.platform
- //   )
- //  )
- //   return true;
- //  // iPad on iOS 13
- //  else if (navigator.userAgent.includes("Mac") && "ontouchend" in document) {
- //   return true;
- //  } else {
- //   return false;
- //  }
- // };
 
  return (
   <PwaInstall.Provider

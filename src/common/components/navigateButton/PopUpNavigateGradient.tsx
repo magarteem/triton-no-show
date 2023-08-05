@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import { RouteNames } from "../../../core/router/RouteNames";
 import { ReactComponent as Home } from "../../../assets/icons/Home.svg";
 import { ReactComponent as Notification } from "../../../assets/icons/Notification.svg";
@@ -18,12 +18,11 @@ interface LinkActiveType {
 
 export const PopUpNavigateGradient = () => {
  const { checkThemeDark } = useContext(ColorModeContext);
+ const { pathname } = useLocation();
+
  const { notHaveForms, handleOpen }: any = useContext(CheckMyHaveAccountContext);
  const setActive = ({ isActive }: LinkActiveType) => cn({ [s.active]: isActive });
-
- const openModalNotFoundAccount = () => {
-  notHaveForms && handleOpen();
- };
+ const openModalNotFoundAccount = () => notHaveForms && handleOpen();
 
  return (
   <div className={s.popUpNavigateGradient}>
@@ -32,7 +31,7 @@ export const PopUpNavigateGradient = () => {
      <Home className={checkThemeDark ? s.iconDark : s.icon} />
     </NavLink>
 
-    <NavLink className={setActive} to={RouteNames.ADS} aria-label="ads">
+    <NavLink className={setActive} to={RouteNames.ADS} aria-label="ads" state={{ from: pathname }}>
      <Ads className={cn(checkThemeDark ? s.iconDark : s.icon, s.specifiedFill)} />
     </NavLink>
    </div>
@@ -65,6 +64,7 @@ export const PopUpNavigateGradient = () => {
      to={notHaveForms ? "" : RouteNames.NOTIFICATION}
      aria-label="notification"
      onClick={openModalNotFoundAccount}
+     state={{ from: pathname }}
     >
      <Notification className={checkThemeDark ? s.iconDark : s.icon} />
     </NavLink>

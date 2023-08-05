@@ -1,4 +1,3 @@
-import { TeamAnnouncementType } from "../../../types/PROFILE/accountMainGlobalType";
 import { FormsFilterType } from "../../ads/types/formsFilterType";
 
 export interface MainFilterParamsType {
@@ -9,6 +8,11 @@ export interface MainFilterParamsType {
  cityIds?: number | null;
  genreIds?: string[];
  instrumentIds?: string[];
+ gender?: string;
+ fromAge?: number | null;
+ toAge?: number | null;
+ teamTypes?: string;
+ master?: string; //пока не реализовано на бэке
 }
 
 export interface VacancyFilterParamsRequestType extends MainFilterParamsType {
@@ -19,11 +23,10 @@ export interface VacancyFilterParamsRequestType extends MainFilterParamsType {
 
 export interface AdsFilterParamsRequestType extends MainFilterParamsType {
  searchAnnouncementDocumentType?: string;
- formTypes?: string;
- teamTypes?: TeamAnnouncementType;
  institutionTypeIds?: string;
  neededEmployeeTypes?: string;
  musicianTypes?: string[];
+ formTypes?: string;
 }
 
 export interface OutletAdsType {

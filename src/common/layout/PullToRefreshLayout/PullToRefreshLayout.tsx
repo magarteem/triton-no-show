@@ -18,6 +18,7 @@ export const PullToRefreshLayout = ({ children }: PullToRefreshLayoutType) => {
   pathname.includes(RouteNames.ADD_NEW_NEWS);
 
  const pathHiddenPopUpNavigate =
+  pathname === RouteNames.HOME ||
   pathname.includes(RouteNames.ADD_NEW_ACCOUNT) ||
   pathname.includes(RouteNames.CHANGE_PROFILE) ||
   pathname.includes(RouteNames.ADD_NEW_NEWS) ||

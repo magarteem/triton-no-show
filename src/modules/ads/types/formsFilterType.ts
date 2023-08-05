@@ -15,6 +15,6 @@ export interface FormsFilterType {
  working_width_musician: InterfaceGlobalSelectType | null;
  fromAge: null;
  toAge: null;
- master: null;
+ master: InterfaceGlobalSelectType | null;
  query?: string;
 }

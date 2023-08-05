@@ -36,11 +36,11 @@
 
     .wrapperPhoto {
       position: relative;
-      background-color: white;
+      background-color: #ffffff;
       cursor: pointer;
       width: 80px;
       height: 80px;
-      border: 4px solid rgb(255, 255, 255);
+      border: 4px solid var(#{--reverse-color-whihe-default});
       border-radius: 50%;
       overflow: hidden;
       display: flex;
