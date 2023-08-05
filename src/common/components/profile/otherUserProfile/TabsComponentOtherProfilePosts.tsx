@@ -27,26 +27,17 @@ export const TabsComponentOtherProfilePosts = () => {
   setValue(newValue);
  };
 
- useLayoutEffect(() => {
-  window.addEventListener(
-   "popstate",
-   (e) => {
-    e.preventDefault();
-    if (state) navigate(state.from);
-    else navigate(RouteNames.HOME);
-   },
-   { capture: true }
-  );
+ const handlePopstate = (e: any) => {
+  e.preventDefault();
+
+  if (state) navigate(state.from);
+  else navigate(RouteNames.HOME);
+ };
+
+ useEffect(() => {
+  window.addEventListener("popstate", handlePopstate);
   return () => {
-   window.removeEventListener(
-    "popstate",
-    (e) => {
-     e.preventDefault();
-     if (state) navigate(state.from);
-     else navigate(RouteNames.HOME);
-    },
-    { capture: true }
-   );
+   window.removeEventListener("popstate", handlePopstate);
   };
  }, []);
 
