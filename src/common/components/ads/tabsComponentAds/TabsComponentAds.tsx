@@ -9,12 +9,14 @@ import {
 } from "../../../../modules/ads/service/routesVariableForAds";
 //import { useHandleEventBrowserGoToBack } from "../../../../hook/useHandleEventBrowserGoToBack";
 import { TabLinkElement } from "../../tabLinkElement/TabLinkElement";
+import { useCheckSwipeDevises } from "../../../../hook/checkSwipeDevises";
 
 export const TabsComponentAds = memo(() => {
  const [value, setValue] = React.useState("");
  let { pathname, state } = useLocation();
  const navigate = useNavigate();
  // useHandleEventBrowserGoToBack(); // go to back (addEventListener) no tab
+ console.log(useCheckSwipeDevises());
 
  useEffect(() => {
   pathname === routeAnonnsemend
@@ -26,19 +28,26 @@ export const TabsComponentAds = memo(() => {
 
  const handleChange = (event: React.SyntheticEvent, newValue: string) => setValue(newValue);
 
- const handlePopstate = (e: any) => {
-  e.preventDefault();
+ // const handlePopstate = (e: PopStateEvent) => {
+ //  console.log("222222222", e);
+ //  e.preventDefault();
 
-  if (state) navigate(state.from);
-  else navigate(RouteNames.HOME);
- };
+ //  if (state) navigate(state.from);
+ //  else navigate(RouteNames.HOME);
+ // };
 
- useEffect(() => {
-  window.addEventListener("popstate", handlePopstate);
-  return () => {
-   window.removeEventListener("popstate", handlePopstate);
-  };
- }, []);
+ window.onpopstate = (e: PopStateEvent) =>
+  setTimeout(() => {
+   if (state) navigate(state.from);
+   else navigate(RouteNames.HOME);
+  }, 0);
+
+ // useEffect(() => {
+ //  window.addEventListener("popstate", handlePopstate);
+ //  return () => {
+ //   window.removeEventListener("popstate", handlePopstate);
+ //  };
+ // }, []);
 
  return (
   <Tabs
