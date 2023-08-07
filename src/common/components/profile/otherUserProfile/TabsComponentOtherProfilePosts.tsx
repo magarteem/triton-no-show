@@ -4,12 +4,15 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { styleSxTabsComponent } from "./styleSxTabsComponent";
 import { RouteNames } from "../../../../core/router/RouteNames";
 import { TabLinkElement } from "../../tabLinkElement/TabLinkElement";
+import { useCheckSwipeDevises } from "../../../../hook/useCheckSwipeDevises";
+import { isIos } from "../../../../modules/pwa/pwaInstall/pwaInstall";
 //import { useHandleEventBrowserGoToBack } from "../../../../hook/useHandleEventBrowserGoToBack";
 
 export const TabsComponentOtherProfilePosts = () => {
  const [value, setValue] = React.useState("");
  let { pathname, state } = useLocation();
  const navigate = useNavigate();
+ const ifGoToBackSwiperForIos = useCheckSwipeDevises();
 
  // useHandleEventBrowserGoToBack(); // go to back (addEventListener) no tab
 
@@ -35,10 +38,12 @@ export const TabsComponentOtherProfilePosts = () => {
  };
 
  useEffect(() => {
-  window.addEventListener("popstate", handlePopstate);
-  return () => {
-   window.removeEventListener("popstate", handlePopstate);
-  };
+  if (!isIos() && ifGoToBackSwiperForIos) {
+   window.addEventListener("popstate", handlePopstate);
+   return () => {
+    window.removeEventListener("popstate", handlePopstate);
+   };
+  }
  }, []);
 
  return (

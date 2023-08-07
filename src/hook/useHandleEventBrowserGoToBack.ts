@@ -7,7 +7,7 @@ import { isIos } from "../modules/pwa/pwaInstall/pwaInstall";
 export const useHandleEventBrowserGoToBack = () => {
  const ifGoToBackSwiperForIos = useCheckSwipeDevises();
  const navigate = useNavigate();
- const { pathname, state } = useLocation();
+ const { state } = useLocation();
 
  const handlePopstate = (e: any) => {
   e.preventDefault();
@@ -17,7 +17,6 @@ export const useHandleEventBrowserGoToBack = () => {
  };
 
  useEffect(() => {
-  console.log("ifGoToBackSwiperForIos", ifGoToBackSwiperForIos);
   if (isIos() && ifGoToBackSwiperForIos) {
    navigate(RouteNames.HOME);
   } else {
