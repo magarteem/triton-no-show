@@ -10,22 +10,20 @@ export const useHandleEventBrowserGoToBack = () => {
  const { state } = useLocation();
 
  const handlePopstate = (e: any) => {
-  e.preventDefault();
-
-  if (state) navigate(state.from);
-  else navigate(RouteNames.HOME);
- };
-
- useEffect(() => {
   if (isIos() && ifGoToBackSwiperForIos) {
    navigate(RouteNames.HOME);
   } else {
-   window.addEventListener("popstate", handlePopstate);
-
-   return () => {
-    window.removeEventListener("popstate", handlePopstate);
-   };
+   e.preventDefault();
+   if (state) navigate(state.from);
+   else navigate(RouteNames.HOME);
   }
+ };
+
+ useEffect(() => {
+  window.addEventListener("popstate", handlePopstate);
+  return () => {
+   window.removeEventListener("popstate", handlePopstate);
+  };
  }, []);
 
  return null;

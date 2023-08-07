@@ -31,19 +31,22 @@ export const TabsComponentOtherProfilePosts = () => {
  };
 
  const handlePopstate = (e: any) => {
-  e.preventDefault();
+  if (isIos() && ifGoToBackSwiperForIos) {
+   console.log("this swipe ios", ifGoToBackSwiperForIos);
+  } else {
+   console.log("111this swipe ios");
+   e.preventDefault();
 
-  if (state) navigate(state.from);
-  else navigate(RouteNames.HOME);
+   if (state) navigate(state.from);
+   else navigate(RouteNames.HOME);
+  }
  };
 
  useEffect(() => {
-  if (!isIos() && ifGoToBackSwiperForIos) {
-   window.addEventListener("popstate", handlePopstate);
-   return () => {
-    window.removeEventListener("popstate", handlePopstate);
-   };
-  }
+  window.addEventListener("popstate", handlePopstate);
+  return () => {
+   window.removeEventListener("popstate", handlePopstate);
+  };
  }, []);
 
  return (
