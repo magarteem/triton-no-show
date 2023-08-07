@@ -7,6 +7,7 @@ export const useCheckSwipeDevises = () => {
 
  useEffect(() => {
   let timer: ReturnType<typeof setTimeout>;
+
   const handleTouchStart = (e: TouchEvent) => {
    if (
     e.touches[0].pageX > IOS_EDGE_DRAG_NAVIGATION_THRESHOLD &&
@@ -17,6 +18,7 @@ export const useCheckSwipeDevises = () => {
    setIsEdgeDragNavigationVar(true);
    if (timer) clearTimeout(timer);
   };
+
   const handleTouchEnd = () => {
    timer = setTimeout(() => setIsEdgeDragNavigationVar(false), 200);
   };
