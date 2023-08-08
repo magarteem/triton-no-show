@@ -1,6 +1,6 @@
-import React, { memo, useEffect, useLayoutEffect } from "react";
+import React, { memo, useEffect } from "react";
 import { Tab, Tabs } from "@mui/material";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { styleSxTabsComponent } from "./styleSxTabsComponent";
 import { RouteNames } from "../../../../core/router/RouteNames";
 import {
@@ -8,13 +8,12 @@ import {
  routeAnonnsemend,
 } from "../../../../modules/ads/service/routesVariableForAds";
 import { TabLinkElement } from "../../tabLinkElement/TabLinkElement";
-import { useCheckSwipeDevises } from "../../../../hook/useCheckSwipeDevises";
+import { useHandleEventBrowserGoToBack } from "../../../../hook/useHandleEventBrowserGoToBack";
 
 export const TabsComponentAds = memo(() => {
  const [value, setValue] = React.useState("");
- let { pathname, state } = useLocation();
- const navigate = useNavigate();
- // useHandleEventBrowserGoToBack(); // go to back (addEventListener) no tab
+ let { pathname } = useLocation();
+ useHandleEventBrowserGoToBack(); // go to back (addEventListener) no tab
 
  useEffect(() => {
   pathname === routeAnonnsemend
@@ -25,22 +24,6 @@ export const TabsComponentAds = memo(() => {
  }, [pathname]);
 
  const handleChange = (event: React.SyntheticEvent, newValue: string) => setValue(newValue);
- const ifGoToBackSwiperForIos = useCheckSwipeDevises();
-
- const handlePopstate = (e: any) => {
-  if (!ifGoToBackSwiperForIos) {
-   e.preventDefault();
-   if (state) navigate(state.from);
-   else navigate(RouteNames.HOME);
-  } else console.log("ifGoToBackSwiperForIos = true");
- };
-
- useEffect(() => {
-  window.addEventListener("popstate", handlePopstate);
-  return () => {
-   window.removeEventListener("popstate", handlePopstate);
-  };
- }, []);
 
  return (
   <Tabs
