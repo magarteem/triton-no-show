@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect } from "react";
+import React, { useEffect } from "react";
 import { Tab, Tabs } from "@mui/material";
 import { useLocation, useNavigate } from "react-router-dom";
 import { styleSxTabsComponent } from "./styleSxTabsComponent";
@@ -32,11 +32,11 @@ export const TabsComponentOtherProfilePosts = () => {
 
  const handlePopstate = (e: any) => {
   if (isIos() && ifGoToBackSwiperForIos) {
-   console.log("this swipe ios", ifGoToBackSwiperForIos);
+   navigate(RouteNames.ADD_NEW_ACCOUNT);
+  } else if (isIos()) {
+   navigate(RouteNames.CREATE_ADS);
   } else {
-   console.log("111this swipe ios");
    e.preventDefault();
-
    if (state) navigate(state.from);
    else navigate(RouteNames.HOME);
   }
@@ -49,6 +49,7 @@ export const TabsComponentOtherProfilePosts = () => {
   };
  }, []);
 
+ console.log("6666666666");
  return (
   <Tabs
    value={value}
