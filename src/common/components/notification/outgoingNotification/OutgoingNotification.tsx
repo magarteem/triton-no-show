@@ -4,21 +4,21 @@ import { InButton } from "../../../ui-elements/button/InButton";
 import { OutgoingNotificationCards } from "./OutgoingNotificationCards";
 import s from "../incomingNotification/incomingNotification.module.scss";
 
-interface OutletType {
-  dataOutgoing: ResponseOutgoingType;
+interface OutgoingNotificationType {
+ dataOutgoing: ResponseOutgoingType | undefined;
 }
 
-export const OutgoingNotification = () => {
-  const { dataOutgoing }: OutletType = useOutletContext();
+export const OutgoingNotification = ({ dataOutgoing }: OutgoingNotificationType) => {
+ //const { dataOutgoing }: OutletType = useOutletContext();
 
-  return (
-    <div className={s.hiddenAnimationLeft}>
-      {dataOutgoing?.results.length === 0 && (
-        <InButton textButton="Вы ещё не откликались" isValidInButton={false} />
-      )}
-      {dataOutgoing?.results?.map((x) => {
-        return <OutgoingNotificationCards x={x} key={x.id} />;
-      })}
-    </div>
-  );
+ return (
+  <div className={s.hiddenAnimationLeft}>
+   {dataOutgoing?.results.length === 0 && (
+    <InButton textButton="Вы ещё не откликались" isValidInButton={false} />
+   )}
+   {dataOutgoing?.results?.map((x) => {
+    return <OutgoingNotificationCards x={x} key={x.id} />;
+   })}
+  </div>
+ );
 };
