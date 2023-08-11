@@ -18,6 +18,7 @@ export const adsQueryVacancy = createApi({
  endpoints: (build) => ({
   listVacancy: build.query<ResponseAdsType, VacancyFilterParamsRequestType | void | null>({
    query: (arg) => {
+    console.log("listAds V arg = ", arg);
     const params = {
      page: arg?.page ?? 0,
      pageSize: 10,

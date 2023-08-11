@@ -7,12 +7,14 @@ import {
  routeAccount,
  routeAnonnsemend,
 } from "../../../../modules/ads/service/routesVariableForAds";
-import { TabLinkElement } from "../../tabLinkElement/TabLinkElement";
 import { useHandleEventBrowserGoToBack } from "../../../../hook/useHandleEventBrowserGoToBack";
+import { TabLinkElement } from "../../tabLinkElement/TabLinkElement";
+import { useLocalStorage } from "../../../../hook/useLocalStorage";
 
 export const TabsComponentAds = memo(() => {
  const [value, setValue] = React.useState("");
- let { pathname } = useLocation();
+ let { pathname, state } = useLocation();
+ const [goToBack, setGoToBack] = useLocalStorage("go-to-back", state ?? "");
  useHandleEventBrowserGoToBack(); // go to back (addEventListener) no tab
 
  useEffect(() => {
@@ -23,7 +25,15 @@ export const TabsComponentAds = memo(() => {
    : setValue("");
  }, [pathname]);
 
- const handleChange = (event: React.SyntheticEvent, newValue: string) => setValue(newValue);
+ useEffect(() => {
+  return () => {
+   setGoToBack(state ? state.from : pathname);
+  };
+ }, [state]);
+
+ const handleChange = (event: React.SyntheticEvent, newValue: string) => {
+  setValue(newValue);
+ };
 
  return (
   <Tabs

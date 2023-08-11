@@ -1,18 +1,18 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { RouteNames } from "../core/router/RouteNames";
-import { useEffect } from "react";
-import { isIos } from "../modules/pwa/pwaInstall/pwaInstall";
+import { useEffect, useLayoutEffect } from "react";
+import { useLocalStorage } from "./useLocalStorage";
 
 export const useHandleEventBrowserGoToBack = () => {
+ const [goToBack, setGoToBack] = useLocalStorage("go-to-back", "");
  const navigate = useNavigate();
  const { state } = useLocation();
 
  const handlePopstate = (e: any) => {
-  if (!isIos()) {
-   e.preventDefault();
-   if (state) navigate(state.from);
-   else navigate(RouteNames.HOME);
-  }
+  e.preventDefault();
+  if (state) navigate(state.from);
+  else if (!!goToBack) navigate(goToBack);
+  else navigate(RouteNames.HOME);
  };
 
  useEffect(() => {

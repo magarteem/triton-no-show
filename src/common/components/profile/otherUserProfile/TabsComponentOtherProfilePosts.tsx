@@ -1,20 +1,17 @@
 import React, { useEffect } from "react";
 import { Tab, Tabs } from "@mui/material";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { styleSxTabsComponent } from "./styleSxTabsComponent";
 import { RouteNames } from "../../../../core/router/RouteNames";
 import { TabLinkElement } from "../../tabLinkElement/TabLinkElement";
-import { useCheckSwipeDevises } from "../../../../hook/useCheckSwipeDevises";
-import { isIos } from "../../../../modules/pwa/pwaInstall/pwaInstall";
-//import { useHandleEventBrowserGoToBack } from "../../../../hook/useHandleEventBrowserGoToBack";
+import { useHandleEventBrowserGoToBack } from "../../../../hook/useHandleEventBrowserGoToBack";
+import { useLocalStorage } from "../../../../hook/useLocalStorage";
 
 export const TabsComponentOtherProfilePosts = () => {
  const [value, setValue] = React.useState("");
- let { pathname, state } = useLocation();
- const navigate = useNavigate();
- const ifGoToBackSwiperForIos = useCheckSwipeDevises();
-
- // useHandleEventBrowserGoToBack(); // go to back (addEventListener) no tab
+ let { state, pathname } = useLocation();
+ const [goToBack, setGoToBack] = useLocalStorage("go-to-back", state ?? "");
+ useHandleEventBrowserGoToBack(); // go to back (addEventListener) no tab
 
  useEffect(() => {
   pathname.includes(RouteNames.OTHER_USER_VACANCY)
@@ -26,30 +23,16 @@ export const TabsComponentOtherProfilePosts = () => {
    : setValue("");
  }, [pathname]);
 
+ useEffect(() => {
+  return () => {
+   setGoToBack(state ? state.from : pathname);
+  };
+ }, [state]);
+
  const handleChange = (event: React.SyntheticEvent, newValue: string) => {
   setValue(newValue);
  };
 
- const handlePopstate = (e: any) => {
-  if (isIos() && ifGoToBackSwiperForIos) {
-   navigate(RouteNames.ADD_NEW_ACCOUNT);
-  } else if (isIos()) {
-   navigate(RouteNames.CREATE_ADS);
-  } else {
-   e.preventDefault();
-   if (state) navigate(state.from);
-   else navigate(RouteNames.HOME);
-  }
- };
-
- useEffect(() => {
-  window.addEventListener("popstate", handlePopstate);
-  return () => {
-   window.removeEventListener("popstate", handlePopstate);
-  };
- }, []);
-
- console.log("6666666666");
  return (
   <Tabs
    value={value}

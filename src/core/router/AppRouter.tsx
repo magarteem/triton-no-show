@@ -137,10 +137,10 @@ export const AppRouter = () => {
      </Route>
 
      <Route path={RouteNames.NOTIFICATION} element={<Notification />}>
-      <Route index element={<NotificationSwitchTabs />} />
-      {/*<Route index element={<OutgoingNotification />} />
-       <Route path={RouteNames.IN_COMING_NOTIFICATION} element={<IncomingNotification />} />*/}
-      {/*</Route>*/}
+      <Route element={<NotificationSwitchTabs />}>
+       <Route index element={<OutgoingNotification />} />
+       <Route path={RouteNames.IN_COMING_NOTIFICATION} element={<IncomingNotification />} />
+      </Route>
       <Route
        path={`${RouteNames.ONE_VACANCY}/:id_inComingNotification`}
        element={<OutgoingNotificationPageOne />}

@@ -4,12 +4,12 @@ import { InButton } from "../../../ui-elements/button/InButton";
 import { OutgoingNotificationCards } from "./OutgoingNotificationCards";
 import s from "../incomingNotification/incomingNotification.module.scss";
 
-interface OutgoingNotificationType {
- dataOutgoing: ResponseOutgoingType | undefined;
+interface OutletType {
+ dataOutgoing: ResponseOutgoingType;
 }
 
-export const OutgoingNotification = ({ dataOutgoing }: OutgoingNotificationType) => {
- //const { dataOutgoing }: OutletType = useOutletContext();
+export const OutgoingNotification = () => {
+ const { dataOutgoing }: OutletType = useOutletContext();
 
  return (
   <div className={s.hiddenAnimationLeft}>

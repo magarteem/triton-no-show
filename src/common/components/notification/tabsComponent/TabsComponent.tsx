@@ -1,45 +1,41 @@
+import React, { useEffect } from "react";
 import { Tab, Tabs } from "@mui/material";
-<<<<<<< HEAD
 import { useLocation } from "react-router-dom";
 import { styleSxTabsComponent } from "./styleSxTabsComponent";
 import { RouteNames } from "../../../../core/router/RouteNames";
 import { useHandleEventBrowserGoToBack } from "../../../../hook/useHandleEventBrowserGoToBack";
 import { TabLinkElement } from "../../tabLinkElement/TabLinkElement";
-=======
-import { styleSxTabsComponent } from "./styleSxTabsComponent";
->>>>>>> new-tabs-1
+import { useLocalStorage } from "../../../../hook/useLocalStorage";
 
-interface TabsComponentType {
- activeNotifiPage: number;
- setActiveNotifiPage: (a: any) => any;
-}
+const incoming = `${RouteNames.NOTIFICATION}/${RouteNames.IN_COMING_NOTIFICATION}`;
 
-<<<<<<< HEAD
 export const TabsComponent = () => {
  const [value, setValue] = React.useState("");
- let { pathname } = useLocation();
+ let { pathname, state } = useLocation();
+ const [goToBack, setGoToBack] = useLocalStorage("go-to-back", state ?? "");
  useHandleEventBrowserGoToBack(); // go to back (addEventListener) no tab
 
  useEffect(() => {
   pathname === incoming ? setValue("incoming") : setValue("");
  }, [pathname]);
 
+ useEffect(() => {
+  return () => {
+   setGoToBack(state ? state.from : pathname);
+  };
+ }, [state]);
+
  const handleChange = (event: React.SyntheticEvent, newValue: string) => setValue(newValue);
-=======
-export const TabsComponent = ({ activeNotifiPage, setActiveNotifiPage }: TabsComponentType) => {
- const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-  setActiveNotifiPage(newValue);
- };
->>>>>>> new-tabs-1
 
  return (
   <Tabs
-   value={activeNotifiPage}
+   value={value}
    onChange={handleChange}
+   textColor="primary"
+   indicatorColor="secondary"
    aria-label="secondary tabs example"
    sx={styleSxTabsComponent.tabs}
   >
-<<<<<<< HEAD
    {tabLinkElement.map((x) => (
     <Tab
      key={x.to}
@@ -50,10 +46,6 @@ export const TabsComponent = ({ activeNotifiPage, setActiveNotifiPage }: TabsCom
      component={TabLinkElement({ href: x.to })}
     />
    ))}
-=======
-   <Tab label="Отправленные" sx={styleSxTabsComponent.tab} />
-   <Tab label="Входящие" sx={styleSxTabsComponent.tab} />
->>>>>>> new-tabs-1
   </Tabs>
  );
 };
