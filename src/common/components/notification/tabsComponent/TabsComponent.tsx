@@ -1,13 +1,20 @@
-import React, { useEffect } from "react";
 import { Tab, Tabs } from "@mui/material";
+<<<<<<< HEAD
 import { useLocation } from "react-router-dom";
 import { styleSxTabsComponent } from "./styleSxTabsComponent";
 import { RouteNames } from "../../../../core/router/RouteNames";
 import { useHandleEventBrowserGoToBack } from "../../../../hook/useHandleEventBrowserGoToBack";
 import { TabLinkElement } from "../../tabLinkElement/TabLinkElement";
+=======
+import { styleSxTabsComponent } from "./styleSxTabsComponent";
+>>>>>>> new-tabs-1
 
-const incoming = `${RouteNames.NOTIFICATION}/${RouteNames.IN_COMING_NOTIFICATION}`;
+interface TabsComponentType {
+ activeNotifiPage: number;
+ setActiveNotifiPage: (a: any) => any;
+}
 
+<<<<<<< HEAD
 export const TabsComponent = () => {
  const [value, setValue] = React.useState("");
  let { pathname } = useLocation();
@@ -18,16 +25,21 @@ export const TabsComponent = () => {
  }, [pathname]);
 
  const handleChange = (event: React.SyntheticEvent, newValue: string) => setValue(newValue);
+=======
+export const TabsComponent = ({ activeNotifiPage, setActiveNotifiPage }: TabsComponentType) => {
+ const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+  setActiveNotifiPage(newValue);
+ };
+>>>>>>> new-tabs-1
 
  return (
   <Tabs
-   value={value}
+   value={activeNotifiPage}
    onChange={handleChange}
-   textColor="primary"
-   indicatorColor="secondary"
    aria-label="secondary tabs example"
    sx={styleSxTabsComponent.tabs}
   >
+<<<<<<< HEAD
    {tabLinkElement.map((x) => (
     <Tab
      key={x.to}
@@ -38,6 +50,10 @@ export const TabsComponent = () => {
      component={TabLinkElement({ href: x.to })}
     />
    ))}
+=======
+   <Tab label="Отправленные" sx={styleSxTabsComponent.tab} />
+   <Tab label="Входящие" sx={styleSxTabsComponent.tab} />
+>>>>>>> new-tabs-1
   </Tabs>
  );
 };

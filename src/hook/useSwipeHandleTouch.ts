@@ -1,8 +1,13 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-export const useSwipeHandleTouch = (refs: any, linkL: string, linkR: string) => {
- const navigate = useNavigate();
+export const useSwipeHandleTouch = (
+ refs: any,
+ linkL: string,
+ linkR: string,
+ setActiveNotifiPage?: any
+) => {
+ // const navigate = useNavigate();
 
  useEffect(() => {
   if (refs.current) {
@@ -43,9 +48,11 @@ export const useSwipeHandleTouch = (refs: any, linkL: string, linkR: string) => 
 
   if (Math.abs(xDiff) > Math.abs(yDiff)) {
    if (xDiff > 0) {
-    navigate(linkR);
+    setActiveNotifiPage(1);
+    //navigate(linkR);
    } else {
-    navigate(linkL);
+    setActiveNotifiPage(0);
+    //navigate(linkL);
    }
   }
   //else {

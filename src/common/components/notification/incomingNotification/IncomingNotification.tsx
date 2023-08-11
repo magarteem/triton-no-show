@@ -5,19 +5,19 @@ import { memo } from "react";
 import { IncomingNotificationCards } from "./IncomingNotificationCards";
 import s from "./incomingNotification.module.scss";
 
-interface OutletType {
- dataIncoming: ResponseIncomingType;
+interface IncomingNotificationType {
+ dataIncoming: ResponseIncomingType | undefined;
 }
 
-export const IncomingNotification = memo(() => {
- const { dataIncoming }: OutletType = useOutletContext();
+export const IncomingNotification = memo(({ dataIncoming }: IncomingNotificationType) => {
+ // const { dataIncoming }: OutletType = useOutletContext();
 
  return (
   <div className={s.hiddenAnimationRight}>
-   {dataIncoming.results.length === 0 && (
+   {dataIncoming?.results.length === 0 && (
     <InButton textButton="Нет подписчиков" isValidInButton={false} />
    )}
-   {dataIncoming.results.map((x) => (
+   {dataIncoming?.results.map((x) => (
     <IncomingNotificationCards x={x} key={x.id} />
    ))}
   </div>
